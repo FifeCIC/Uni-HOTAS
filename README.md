@@ -60,14 +60,49 @@ The non-HOTAS surfaces inherited from OmniCore — ship database, game settings,
 - **Source**: [github.com/FifeCIC/Uni-HOTAS](https://github.com/FifeCIC/Uni-HOTAS)
 - **Issues**: [github.com/FifeCIC/Uni-HOTAS/issues](https://github.com/FifeCIC/Uni-HOTAS/issues)
 
-### Getting started
+### Requirements
 
-Uni-HOTAS runs in your browser and installs as a PWA.
+| Need it for | Requirement |
+|---|---|
+| Real binding edits | Windows 10/11, with Star Citizen or Squadron 42 installed |
+| The hosted app | Any modern browser (Chrome, Edge, Firefox) |
+| Running it from source | Node.js 20+ |
 
-1. Open the hosted app, or run it locally (below).
-2. For local file access, start the companion server — the browser build cannot read your game folder alone.
-3. Open **HOTAS Config**, pick your profile, right-click a binding, and press the input you want.
-4. Export back to XML, and keep the backup the app writes for you.
+### Option A — Hosted app (no install)
+
+Open **https://fifecic.github.io/Uni-HOTAS/**. It installs as a PWA (browser menu → *Install app*).
+
+The hosted build is **demo mode**: it can browse the interface, but it cannot read your game folder. File access needs the local companion server (Option B), so today the hosted build is for exploring and for the feature library.
+
+### Option B — Run locally
+
+```powershell
+npm install
+npm run server   # companion API on http://localhost:3001
+npm run dev      # UI on http://localhost:4242 (proxies /api to :3001)
+```
+
+Then open `http://localhost:4242`, go to **HOTAS Config**, pick a profile, right-click a binding and press the input you want.
+
+### Option C — A packaged Windows app (planned)
+
+A one-click Windows build is the next installation milestone — see [Why installation is manual today](#why-installation-is-manual-today) and [issue #5](https://github.com/FifeCIC/Uni-HOTAS/issues/5).
+
+### Why installation is manual today
+
+Three things make a double-click install harder than it looks, and each is a real change rather than a packaging step:
+
+| Limit | What happens | What packaging needs |
+|---|---|---|
+| **The mappings folder is a fixed path** | The server reads `C:\Program Files\Roberts Space Industries\StarCitizen\LIVE\user\client\0\controls\mappings` — a custom install or a different game channel will not be found | Auto-detect the channel, then let the user pick the folder on first run |
+| **Overlay data is written inside the app folder** | Saved overlay positions live in `app/data/hotas/overlays/`, which is read-only under `Program Files` | Move user data to `%APPDATA%\Uni-HOTAS` |
+| **The hosted page cannot call the local server** | The server's CORS allowlist only trusts `localhost:4242`, so `fifecic.github.io` is refused | Ship the UI *from* the local server (same origin), or run it in a desktop shell |
+
+### Getting started with the editor
+
+1. Start the companion server (Option B) so the app can see your profiles.
+2. Open **HOTAS Config**, pick your profile, right-click a binding, and press the input you want.
+3. Export back to XML, and keep the backup the app writes for you.
 
 ---
 
@@ -85,10 +120,10 @@ Uni-HOTAS runs in your browser and installs as a PWA.
 ```bash
 npm install
 npm run dev      # Vite app on http://localhost:4242
-npm run server   # Express API on http://localhost:3101
+npm run server   # Express API on http://localhost:3001
 ```
 
-The dev server proxies `/api` to `http://127.0.0.1:3101`.
+The dev server proxies `/api` to `http://127.0.0.1:3001`.
 
 ### Quality commands
 

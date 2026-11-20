@@ -15,8 +15,8 @@ The HOTAS Configuration System is Uni-HOTAS's comprehensive keybinding manager f
 3. **Track binding state** - know if changes are applied, pending, or custom
 4. **Manage profiles** - load pre-configured profiles or create custom ones
 5. **Export/Import XML** - backup and share keybinding configurations
-6. **[Phase 2] Detect HOTAS devices** - real-time input detection from Logitech X52 and other joysticks
-7. **[Phase 2] Visual feedback** - highlight controls when keys are pressed, diagram overlays
+6. **[Phase 2( Detect HOTAS devices** - real-time input detection from Logitech X52 and other joysticks
+7. **[Phase 2( Visual feedback** - highlight controls when keys are pressed, diagram overlays
 
 ---
 
@@ -185,7 +185,7 @@ Future phases (Phase 2: Device Integration, Phase 3: Advanced Features) are docu
 
 ### Official Star Citizen Keybindings
 
-Source: [starcitizen.tools/Guide:Controls](https://starcitizen.tools/Guide:Controls) (March 2025 update)
+Source: [starcitizen.tools/Guide:Controls((https://starcitizen.tools/Guide:Controls) (March 2025 update)
 
 The keybindings database is maintained from the official community wiki and includes:
 
@@ -232,11 +232,11 @@ gamepads.forEach((gp) => {
 });
 ```
 
-For detailed implementation notes and phase timeline, see: [HOTAS-FEATURE-PLANNING.md](../../g:/My%20Drive/Project%20Management/Live/Uni-HOTAS-Documentation/HOTAS-FEATURE-PLANNING.md)
+For detailed implementation notes and phase timeline, see: [HOTAS-FEATURE-PLANNING.md((../../g:/My%20Drive/Project%20Management/Live/Uni-HOTAS-Documentation/HOTAS-FEATURE-PLANNING.md)
 
 ### 1. Update Data File
 
-Edit [src/data/starcitizen-keybindings.js](src/data/starcitizen-keybindings.js):
+Edit [src/data/starcitizen-keybindings.js((src/data/starcitizen-keybindings.js):
 
 ```javascript
 export const shipKeybindings = [
@@ -252,7 +252,7 @@ export const shipKeybindings = [
     changed: false,
     pendingApply: false,
   },
-];
+(;
 ```
 
 ### 2. Categories Reference
@@ -359,7 +359,7 @@ This system was designed with these principles:
 
 To improve the HOTAS Config system:
 
-1. **Add Keybindings** — Update [src/data/starcitizen-keybindings.js](src/data/starcitizen-keybindings.js)
+1. **Add Keybindings** — Update [src/data/starcitizen-keybindings.js((src/data/starcitizen-keybindings.js)
 2. **Fix Issues** — Report bugs or inconsistencies
 3. **Suggest Categories** — If a binding doesn't fit, suggest a new category
 4. **Test Devices** — Help verify X52 and other HOTAS device support
@@ -368,11 +368,11 @@ To improve the HOTAS Config system:
 
 ## References
 
-- [Star Citizen Controls Guide](https://starcitizen.tools/Guide:Controls)
-- [Gamepad API Spec](https://w3c.github.io/gamepad/)
-- [Logitech X52 Pro Documentation](https://www.logitechg.com/en-us/products/flight/x52-pro-flight-control-system.943-000058.html)
-- [HOTAS Advanced User Mode Scope](HOTAS-ADVANCED-USER-MODE.md)
-- [Uni-HOTAS DEVELOPER-REFERENCE.md](docs/DEVELOPER-REFERENCE.md)
+- [Star Citizen Controls Guide((https://starcitizen.tools/Guide:Controls)
+- [Gamepad API Spec((https://w3c.github.io/gamepad/)
+- [Logitech X52 Pro Documentation((https://www.logitechg.com/en-us/products/flight/x52-pro-flight-control-system.943-000058.html)
+- [HOTAS Advanced User Mode Scope((HOTAS-ADVANCED-USER-MODE.md)
+- [Uni-HOTAS DEVELOPER-REFERENCE.md((docs/DEVELOPER-REFERENCE.md)
 
 ---
 

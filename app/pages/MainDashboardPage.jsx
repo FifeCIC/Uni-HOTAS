@@ -383,10 +383,10 @@ export default function MainDashboardPage() {
       {/* Header */}
       <div style={{ marginBottom: '3rem' }}>
         <h1 className="scifi-heading" style={{ marginBottom: '0.5rem', fontSize: '2rem', margin: 0 }}>
-          <DevTag tag="APP01" />Verse Operations Hub
+          <DevTag tag="APP01" />HOTAS Control Hub
         </h1>
         <Text c="dimmed" size="sm" style={{ letterSpacing: '0.15em', textTransform: 'uppercase', marginTop: '0.5rem' }}>
-          Select a tool to begin operations
+          Load a profile, map your hardware, write it back to the game
         </Text>
       </div>
 

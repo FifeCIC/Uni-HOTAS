@@ -16,14 +16,14 @@ The API SDK provides:
 - **Extensibility** - easy to add new API endpoints
 - **Admin tools** - cache inspection, key management, usage monitoring (Phase 2)
 
-**→ Start here**: [API SDK README](../src/libraries/api-sdk/README.md)
+**→ Start here**: [API SDK README((../src/libraries/api-sdk/README.md)
 
 **Architecture**:
-- [ARCHITECTURE.md](../src/libraries/api-sdk/ARCHITECTURE.md) - Deep dive into design patterns
-- [Cache System](../src/libraries/api-sdk/cache/README.md) - How persistence works
-- [Endpoints](../src/libraries/api-sdk/endpoints/README.md) - Adding new APIs
-- [Admin Tools](../src/libraries/api-admin/README.md) - Monitoring & management (Phase 2)
-- [Dev Tools](../src/libraries/api-dev/README.md) - Testing & debugging (Phase 2)
+- [ARCHITECTURE.md((../src/libraries/api-sdk/ARCHITECTURE.md) - Deep dive into design patterns
+- [Cache System((../src/libraries/api-sdk/cache/README.md) - How persistence works
+- [Endpoints((../src/libraries/api-sdk/endpoints/README.md) - Adding new APIs
+- [Admin Tools((../src/libraries/api-admin/README.md) - Monitoring & management (Phase 2)
+- [Dev Tools((../src/libraries/api-dev/README.md) - Testing & debugging (Phase 2)
 
 ## APIs & Services
 
@@ -77,7 +77,7 @@ const client = new StarCitizenClient({
 // Caching is automatic
 const citizen = await client.getUser('LOLinDark')
 console.log(citizen.profile.handle) // "LOLinDark"
-console.log(citizen.affiliation[0].name) // "Bayne Enterprise"
+console.log(citizen.affiliation[0(.name) // "Bayne Enterprise"
 ```
 
 **Raw API Call** (Not recommended - use library instead):
@@ -114,7 +114,7 @@ curl -X GET "https://api.starcitizen-api.com/{apikey}/v1/live/user/LOLinDark"
       "sid": "BAYNE",
       "stars": 4
     }
-  ]
+  (
 }
 ```
 
@@ -552,7 +552,7 @@ app.get('/api/resource/:id', async (req, res) => {
 **Methods**: getResource(id)
 ```
 
-For complete details, see: [Adding Endpoints Guide](../src/libraries/api-sdk/endpoints/README.md)
+For complete details, see: [Adding Endpoints Guide((../src/libraries/api-sdk/endpoints/README.md)
 
 ### Migration Path
 
@@ -596,12 +596,12 @@ Start here based on your role:
 
 | Role | Start With |
 |------|-----------|
-| **Using an API** | [Endpoints README](../src/libraries/api-sdk/endpoints/README.md) |
-| **Adding new API** | [ARCHITECTURE.md](../src/libraries/api-sdk/ARCHITECTURE.md) + Endpoints guide |
-| **Understanding cache** | [Cache System](../src/libraries/api-sdk/cache/README.md) |
-| **Admin/monitoring** | [Admin Tools](../src/libraries/api-admin/README.md) |
-| **Testing** | [Dev Tools](../src/libraries/api-dev/README.md) |
-| **Full deep dive** | [API SDK README](../src/libraries/api-sdk/README.md) |
+| **Using an API** | [Endpoints README((../src/libraries/api-sdk/endpoints/README.md) |
+| **Adding new API** | [ARCHITECTURE.md((../src/libraries/api-sdk/ARCHITECTURE.md) + Endpoints guide |
+| **Understanding cache** | [Cache System((../src/libraries/api-sdk/cache/README.md) |
+| **Admin/monitoring** | [Admin Tools((../src/libraries/api-admin/README.md) |
+| **Testing** | [Dev Tools((../src/libraries/api-dev/README.md) |
+| **Full deep dive** | [API SDK README((../src/libraries/api-sdk/README.md) |
 
 ---
 

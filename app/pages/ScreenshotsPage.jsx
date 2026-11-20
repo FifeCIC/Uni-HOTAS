@@ -6,9 +6,9 @@ export default function ScreenshotsPage() {
   const screenshots = [
     {
       src: `${import.meta.env.BASE_URL}screenshots/verse-operations-hub.png`,
-      title: 'Verse Operations Hub',
-      description: 'Main dashboard with operational overview',
-      alt: 'Verse Operations Hub',
+      title: 'HOTAS Control Hub',
+      description: 'Main dashboard with the HOTAS tools',
+      alt: 'HOTAS Control Hub',
     },
     {
       src: `${import.meta.env.BASE_URL}screenshots/login.png`,
