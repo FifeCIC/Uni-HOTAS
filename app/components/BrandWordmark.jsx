@@ -14,7 +14,7 @@ export default function BrandWordmark({ onClick, size = '1.5rem', color = '#00d9
         cursor: onClick ? 'pointer' : 'default',
       }}
     >
-      <span style={{ fontSize: '1.22em' }}>O</span>MNI<span style={{ fontSize: '1.22em' }}>C</span>ORE
+      <span style={{ fontSize: '1.22em' }}>U</span>NI-<span style={{ fontSize: '1.22em' }}>H</span>OTAS
     </Text>
   );
 }
