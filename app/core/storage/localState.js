@@ -65,11 +65,11 @@ export function clearStorageKeys(keys = []) {
   });
 }
 
-export function clearOmniCoreStorage() {
+export function clearUniHotasStorage() {
   clearStorageKeys([
-    'omni-core-app',
-    'omni-core-settings',
-    'omnicore.analytics.queue.v1',
+    'uni-hotas-app',
+    'uni-hotas-settings',
+    'unihotas.analytics.queue.v1',
     'errorLog',
     'aiRules',
     'aiConfig',

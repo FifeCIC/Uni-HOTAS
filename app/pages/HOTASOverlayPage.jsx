@@ -10,7 +10,7 @@ import { useHotasInput, LogitechX52Device } from '../libraries/hotas';
 
 // Path to the HOTAS image (place in public/assets or adjust as needed)
 import { getImagePath } from '../utils/pathUtils';
-const HOTAS_IMAGE = getImagePath('/assets/hotas/x52-hotas-transparent-background-omnicore-starcitizen.png');
+const HOTAS_IMAGE = getImagePath('/assets/hotas/x52-hotas-transparent-background-unihotas-starcitizen.png');
 
 // All overlays are now circles (width = height, borderRadius = 50%)
 const initialOverlays = parseJsonc(overlaysDataRaw) ?? [];

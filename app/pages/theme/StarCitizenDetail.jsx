@@ -288,7 +288,7 @@ export default function StarCitizenDetail() {
       }}>
         <Container size="lg">
           <Text size="xs" c="dimmed">
-            Star Citizen is a trademark of Cloud Imperium Games • OmniCore is a community fan project
+            Star Citizen is a trademark of Cloud Imperium Games • Uni-HOTAS is a community fan project
           </Text>
         </Container>
       </div>

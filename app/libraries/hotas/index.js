@@ -1,5 +1,5 @@
 /**
- * OmniCore HOTAS Library – Main Entry Point
+ * Uni-HOTAS HOTAS Library – Main Entry Point
  *
  * A PWA-first HOTAS support library with optional game integration extensions.
  *

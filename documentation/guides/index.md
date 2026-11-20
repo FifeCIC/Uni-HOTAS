@@ -1,6 +1,6 @@
 ---
 layout: default
-title: "OmniCore"
+title: "Uni-HOTAS"
 url: /
 ---
 
@@ -30,7 +30,7 @@ url: /
   <a class="card" href="{{ '/user-guide' | relative_url }}">
     <span class="card-icon">📖</span>
     <h3>User Guide</h3>
-    <p>Get started with OmniCore — ship database, HOTAS configuration, VerseMail, and more.</p>
+    <p>Get started with Uni-HOTAS — ship database, HOTAS configuration, VerseMail, and more.</p>
     <span class="card-link">Read Guide →</span>
   </a>
 

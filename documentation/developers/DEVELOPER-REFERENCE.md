@@ -1,4 +1,4 @@
-# OMNI-CORE Developer Reference
+# UNI-HOTAS Developer Reference
 
 ## Quick Navigation
 
@@ -139,7 +139,7 @@ Wraps `@arwes/react-text` (animated typewriter/glitch text).
 ```jsx
 import { SciFiText } from '../components/ui';
 
-<SciFiText as="h1" blink>OMNI-CORE</SciFiText>
+<SciFiText as="h1" blink>UNI-HOTAS</SciFiText>
 ```
 
 **Props**: `as`, `blink`, `fixed`, `manager`

@@ -484,7 +484,7 @@ export default function VerseMail({ opened, onClose, defaultTab = 'contact' }) {
         }}
       >
         <Text size="xs" c="dimmed" style={{ fontFamily: 'monospace' }}>
-          OmniCore VerseMail v1.0 — Secure Citizen Relay Network
+          Uni-HOTAS VerseMail v1.0 — Secure Citizen Relay Network
         </Text>
         <Text size="xs" c="dimmed" style={{ fontFamily: 'monospace' }}>
           UEE-2954

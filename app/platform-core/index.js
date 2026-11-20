@@ -1,7 +1,7 @@
 export { env } from '../core/config/env';
 export { apiFetch, apiGet, apiPost, apiRequest, apiUrl } from '../core/api/client';
 export {
-  clearOmniCoreStorage,
+  clearUniHotasStorage,
   clearStorageKeys,
   getStorageKeysByPrefix,
   readJsonStorage,

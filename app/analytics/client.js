@@ -92,7 +92,7 @@ export function createAnalyticsClient({
   endpoint,
   enabled,
   flushIntervalMs,
-  storageKey = 'omnicore.analytics.queue.v1'
+  storageKey = 'unihotas.analytics.queue.v1'
 }) {
   const storage = createStorage(storageKey);
   const sessionId = createSessionId();

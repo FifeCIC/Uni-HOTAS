@@ -445,7 +445,7 @@ export default function AerobookPage() {
                     <Badge color="blue" variant="light">Auto-monitoring</Badge>
                   </Group>
                   <Text size="sm" c="dimmed">
-                    Phase 1 alerting is active: when the official channel changes from offline to live, OmniCore posts a LIVE notification.
+                    Phase 1 alerting is active: when the official channel changes from offline to live, Uni-HOTAS posts a LIVE notification.
                   </Text>
                   {officialChannels.length > 0 ? (
                     <SimpleGrid cols={{ base: 1, md: 2 }} spacing="sm">

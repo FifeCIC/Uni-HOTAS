@@ -1,5 +1,5 @@
 /**
- * OMNI-CORE Backend API Server
+ * UNI-HOTAS Backend API Server
  *
  * SECURITY STANDARDS (OWASP Top 10 compliance):
  * - A01 Broken Access Control: CORS restricted to frontend origin, shutdown endpoint removed
@@ -188,7 +188,7 @@ app.use(express.json({ limit: '1mb' }));
 // --- Public endpoints ---
 app.get('/', (req, res) => {
   res.json({
-    message: 'OMNI-CORE Backend API Server',
+    message: 'UNI-HOTAS Backend API Server',
     version: SERVER_VERSION,
     status: 'running',
     endpoints: '/api/version, /api/gemini, /api/chat, /api/hotas/profiles'
@@ -224,7 +224,7 @@ app.get('/api/citizen/:handle', async (req, res) => {
       `https://api.starcitizen-api.com/${apiKey}/v1/live/user/${encodeURIComponent(handle)}`,
       {
         headers: {
-          'User-Agent': 'OmniCore/0.1.0'
+          'User-Agent': 'Uni-HOTAS/0.1.0'
         },
         timeout: 10000
       }
@@ -277,7 +277,7 @@ async function fetchRsiStarmap(path) {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'User-Agent': 'OmniCore/0.1.0',
+      'User-Agent': 'Uni-HOTAS/0.1.0',
       Accept: 'application/json',
     },
     body: '{}',
@@ -530,7 +530,7 @@ app.post('/api/gemini', async (req, res) => {
 
     const model = genAI.getGenerativeModel({
       model: modelName,
-      systemInstruction: 'You are a helpful assistant for OMNI-CORE, a Star Citizen companion dashboard. Be concise and informative.'
+      systemInstruction: 'You are a helpful assistant for UNI-HOTAS, a Star Citizen companion dashboard. Be concise and informative.'
     });
     const result = await model.generateContent(message);
     const response = await result.response;
@@ -782,7 +782,7 @@ function normalizeModeHotasOverrides(input) {
 }
 
 function getProfileModeOverridesPath(profileName) {
-  return join(STAR_CITIZEN_MAPPINGS_PATH, `${profileName}.omnicore.modes.json`);
+  return join(STAR_CITIZEN_MAPPINGS_PATH, `${profileName}.unihotas.modes.json`);
 }
 
 function readProfileModeOverrides(profileName) {
@@ -835,7 +835,7 @@ app.get('/api/hotas/profiles', (req, res) => {
         const name = file.replace('.xml', '');
         let meta = {};
         try {
-          const metaPath = join(STAR_CITIZEN_MAPPINGS_PATH, `${name}.omnicore.json`);
+          const metaPath = join(STAR_CITIZEN_MAPPINGS_PATH, `${name}.unihotas.json`);
           const metaRaw = readFileSync(metaPath, 'utf-8');
           try {
             meta = JSON.parse(metaRaw);
@@ -859,7 +859,7 @@ app.get('/api/hotas/profile/:profileName/meta', (req, res) => {
   try {
     const profileName = validateProfileName(req.params.profileName);
     if (!profileName) return res.status(400).json({ error: 'Invalid profile name' });
-    const metaPath = join(STAR_CITIZEN_MAPPINGS_PATH, `${profileName}.omnicore.json`);
+    const metaPath = join(STAR_CITIZEN_MAPPINGS_PATH, `${profileName}.unihotas.json`);
     if (!metaPath.startsWith(STAR_CITIZEN_MAPPINGS_PATH)) return res.status(403).json({ error: 'Access denied' });
     try {
       const meta = JSON.parse(readFileSync(metaPath, 'utf-8'));
@@ -876,7 +876,7 @@ app.post('/api/hotas/profile/:profileName/meta', (req, res) => {
   try {
     const profileName = validateProfileName(req.params.profileName);
     if (!profileName) return res.status(400).json({ error: 'Invalid profile name' });
-    const metaPath = join(STAR_CITIZEN_MAPPINGS_PATH, `${profileName}.omnicore.json`);
+    const metaPath = join(STAR_CITIZEN_MAPPINGS_PATH, `${profileName}.unihotas.json`);
     if (!metaPath.startsWith(STAR_CITIZEN_MAPPINGS_PATH)) return res.status(403).json({ error: 'Access denied' });
     const meta = req.body || {};
     writeFileSync(metaPath, JSON.stringify(meta, null, 2), 'utf-8');

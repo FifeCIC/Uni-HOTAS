@@ -94,7 +94,7 @@ Currently supported:
 - Creator attribution and engagement metrics
 - Category-based content organization (Star Citizen | Squadron 42 | Community Highlights)
 
-For YouTube setup and caching strategy, refer to: [AEROBOOK-FEATURE-PLANNING.md](../../g:/My%20Drive/Project%20Management/Live/OmniCore-Documentation/AEROBOOK-FEATURE-PLANNING.md)
+For YouTube setup and caching strategy, refer to: [AEROBOOK-FEATURE-PLANNING.md](../../g:/My%20Drive/Project%20Management/Live/Uni-HOTAS-Documentation/AEROBOOK-FEATURE-PLANNING.md)
 
 ---
 

@@ -32,7 +32,7 @@ export function createRemoteImageCache({
   proxyPath,
   queryParam = 'src',
   allowedHosts = [],
-  userAgent = 'Mozilla/5.0 OmniCore/1.0',
+  userAgent = 'Mozilla/5.0 Uni-HOTAS/1.0',
   timeoutMs = 20000,
 }) {
   if (!cacheDir || !proxyPath) {

@@ -170,7 +170,7 @@ export default function DeveloperHotasCoverageReportPage() {
       <div>
         <Title order={2}><DevTag tag="HC11" /> HOTAS Coverage Report</Title>
         <Text c="dimmed" size="sm">
-          Compare source actions (profile XML and pasted game action dumps) against OmniCore action mapping and feature coverage.
+          Compare source actions (profile XML and pasted game action dumps) against Uni-HOTAS action mapping and feature coverage.
         </Text>
       </div>
 
@@ -270,7 +270,7 @@ export default function DeveloperHotasCoverageReportPage() {
 
       <SimpleGrid cols={{ base: 1, md: 2 }} spacing="md">
         <Box>
-          <Text fw={600} mb="xs">Source Actions Missing OmniCore Mapping (Top 80)</Text>
+          <Text fw={600} mb="xs">Source Actions Missing Uni-HOTAS Mapping (Top 80)</Text>
           <Box p="sm" style={{ border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8, maxHeight: 320, overflowY: 'auto' }}>
             {actionsMissingMapping.slice(0, 80).map((actionName) => (
               <Code key={actionName} block style={{ marginBottom: 6 }}>

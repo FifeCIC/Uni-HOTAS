@@ -1,6 +1,6 @@
 import { apiGet, apiPost } from '../../client';
 
-const SHIPS_CACHE_KEY = 'omnicore.ships.cache.v1';
+const SHIPS_CACHE_KEY = 'unihotas.ships.cache.v1';
 const CACHE_TTL_MS = 10 * 60 * 1000; // 10 minutes
 
 function readCache() {

@@ -15,7 +15,7 @@ const EnvSchema = z.object({
   VITE_API_BASE_URL: z.string().url().default('http://localhost:3001'),
   VITE_ANALYTICS_ENABLED: z.enum(['true', 'false']).default('true'),
   VITE_ANALYTICS_ENDPOINT: z.string().default('http://localhost:3001/api/analytics/events'),
-  VITE_ANALYTICS_APP_ID: z.string().default('omni-core'),
+  VITE_ANALYTICS_APP_ID: z.string().default('uni-hotas'),
   VITE_ANALYTICS_FLUSH_INTERVAL_MS: FlushIntervalSchema.default(30000),
   VITE_PERF_MONITORING_ENABLED: z.enum(['true', 'false']).default('true')
 });

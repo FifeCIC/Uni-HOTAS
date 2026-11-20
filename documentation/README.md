@@ -1,13 +1,13 @@
-# OmniCore Documentation Hub
+# Uni-HOTAS Documentation Hub
 
-Welcome! This directory contains all documentation for the OmniCore project—from API integration guides to architectural decisions and user guides.
+Welcome! This directory contains all documentation for the Uni-HOTAS project—from API integration guides to architectural decisions and user guides.
 
 ---
 
 ## Quick Navigation
 
 ### 🚀 **Getting Started**
-- **New to OmniCore?** Start with [User Guide](guides/user-guide.md)
+- **New to Uni-HOTAS?** Start with [User Guide](guides/user-guide.md)
 - **Developer?** Check [Developer Reference](developers/DEVELOPER-REFERENCE.md)
 - **Want to contribute?** See [About](guides/about.md)
 
@@ -15,8 +15,8 @@ Welcome! This directory contains all documentation for the OmniCore project—fr
 
 #### **Guides** (`/guides/`)
 User-facing documentation and getting started materials:
-- [User Guide](guides/user-guide.md) — How to use OmniCore features
-- [About OmniCore](guides/about.md) — Project overview and philosophy
+- [User Guide](guides/user-guide.md) — How to use Uni-HOTAS features
+- [About Uni-HOTAS](guides/about.md) — Project overview and philosophy
 - [Support Resources](guides/support.md) — Troubleshooting and help
 
 #### **Developer Docs** (`/developers/`)
@@ -48,7 +48,7 @@ Detailed API endpoint documentation:
 ## Project Structure
 
 ```
-OmniCore/
+Uni-HOTAS/
 ├── /app                      ← React PWA (Vite)
 │   ├── /src                  ← React components, pages, utilities
 │   ├── /public               ← Static assets (manifest, service worker)
@@ -69,7 +69,7 @@ OmniCore/
 
 ## Common Tasks
 
-### 📖 I want to understand how OmniCore works
+### 📖 I want to understand how Uni-HOTAS works
 → Read [Developer Reference](developers/DEVELOPER-REFERENCE.md)
 
 ### 🔌 I need to integrate with the API

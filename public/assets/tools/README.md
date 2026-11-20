@@ -1,6 +1,6 @@
-# OmniCore Tools - Image Assets
+# Uni-HOTAS Tools - Image Assets
 
-This directory contains images for the OmniCore dashboard tool containers.
+This directory contains images for the Uni-HOTAS dashboard tool containers.
 
 ## Current Status
 
@@ -53,4 +53,4 @@ All images should be generated using the detailed prompts in the repository root
 
 ---
 
-Created as part of Phase 1 OmniCore MVP implementation.
+Created as part of Phase 1 Uni-HOTAS MVP implementation.

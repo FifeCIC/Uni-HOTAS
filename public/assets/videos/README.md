@@ -1,4 +1,4 @@
-# Video Assets for OmniCore
+# Video Assets for Uni-HOTAS
 
 Store MP4 video clips here. They will be served from `/assets/videos/` in the app.
 

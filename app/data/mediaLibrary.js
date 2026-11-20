@@ -1,4 +1,4 @@
-// OmniCore Media Library
+// Uni-HOTAS Media Library
 // Centralized collection of videos, images, and assets
 // Organized by use case and easily expandable
 

@@ -1,6 +1,6 @@
 # Content Markers Guide
 
-A visual system for tracking placeholder content, work-in-progress items, and missing assets during OmniCore development.
+A visual system for tracking placeholder content, work-in-progress items, and missing assets during Uni-HOTAS development.
 
 ---
 

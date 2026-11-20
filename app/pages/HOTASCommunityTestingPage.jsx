@@ -24,7 +24,7 @@ const TEST_STEPS = [
     title: 'Start Clean and Connect HOTAS',
     objective: 'Begin from a clean state so results are reproducible for any new user.',
     checks: [
-      'Open OmniCore and navigate to Peripheral Config.',
+      'Open Uni-HOTAS and navigate to Peripheral Config.',
       'Confirm your HOTAS is detected in the live input panel.',
       'Load a known profile (or default baseline profile).',
       'Confirm no browser console errors before binding changes.',

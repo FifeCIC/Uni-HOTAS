@@ -65,10 +65,10 @@ export default function ScreenshotsPage() {
       <Stack gap="lg">
         <Box>
           <Title order={1} mb="sm">
-            OmniCore Screenshots
+            Uni-HOTAS Screenshots
           </Title>
           <Text c="dimmed">
-            Explore the features and interface of OmniCore
+            Explore the features and interface of Uni-HOTAS
           </Text>
         </Box>
 

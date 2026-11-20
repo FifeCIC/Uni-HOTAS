@@ -31,7 +31,7 @@ const useAppStore = create(
       })),
     }),
     {
-      name: 'omni-core-app',
+      name: 'uni-hotas-app',
       // Only persist these keys — activities are ephemeral
       partialize: (state) => ({
         colorScheme: state.colorScheme,

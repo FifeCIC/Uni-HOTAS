@@ -310,7 +310,7 @@ export default function Squadron42Detail() {
       }}>
         <Container size="lg">
           <Text size="xs" c="dimmed">
-            Squadron 42 is a trademark of Cloud Imperium Games • OmniCore is a community fan project
+            Squadron 42 is a trademark of Cloud Imperium Games • Uni-HOTAS is a community fan project
           </Text>
         </Container>
       </div>

@@ -7,7 +7,7 @@
  *
  * Detection strategies (in order of availability):
  *
- *   1. Native Helper WebSocket  – If OmniCore Desktop Helper is running, query it
+ *   1. Native Helper WebSocket  – If Uni-HOTAS Desktop Helper is running, query it
  *      for process list. Gives accurate real-time process state.
  *
  *   2. Focus heuristic          – `document.hasFocus()` combined with the page
@@ -35,7 +35,7 @@ const SESSION_KEY = 'hotas:game-running-override';
 export class GameProcessMonitorExtension extends HotasExtension {
   /**
    * @param {object}  [options]
-   * @param {number}  [options.helperPort=29876] – Port for OmniCore Desktop Helper WS
+   * @param {number}  [options.helperPort=29876] – Port for Uni-HOTAS Desktop Helper WS
    * @param {string}  [options.processName='StarCitizen.exe'] – Process name to watch
    * @param {number}  [options.pollIntervalMs=5000] – How often to poll (ms)
    */

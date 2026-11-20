@@ -854,13 +854,13 @@ src/libraries/api-sdk/
 ### Final State (Phase 4)
 
 ```
-node_modules/@omnicore/api-sdk/
+node_modules/@unihotas/api-sdk/
 ├── Full package with docs, types, tests
 ├── Used by multiple projects
 └── Independently versioned
 
 Projects using it:
-├── OmniCore (v2.0.0)
+├── Uni-HOTAS (v2.0.0)
 ├── FifeCIC (v2.0.0)
 └── Future projects
 ```

@@ -7,7 +7,7 @@ const TWITCH_PUBLIC_CLIENT_ID = 'kimne78kx3ncx6brgo4mv6wki5h1ko';
 const DEFAULT_CHANNEL_LOGIN = 'starcitizen';
 
 const TWITCH_VIDEOS_QUERY = `
-  query OmniCoreChannelVideos($login: String!, $limit: Int!) {
+  query UniHotasChannelVideos($login: String!, $limit: Int!) {
     user(login: $login) {
       videos(first: $limit, type: ARCHIVE, sort: TIME) {
         edges {
@@ -31,7 +31,7 @@ const TWITCH_VIDEOS_QUERY = `
 `;
 
 const TWITCH_LIVE_QUERY = `
-  query OmniCoreChannelLive($login: String!) {
+  query UniHotasChannelLive($login: String!) {
     user(login: $login) {
       id
       login

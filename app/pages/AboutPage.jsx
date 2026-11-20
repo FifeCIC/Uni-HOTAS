@@ -18,7 +18,7 @@ export default function AboutPage() {
       {/* Header */}
       <div style={{ marginBottom: '3rem' }}>
         <h1 className="scifi-heading" style={{ marginBottom: '0.5rem', fontSize: '2.5rem' }}>
-          <DevTag tag="ADM05" />About OMNI-CORE
+          <DevTag tag="ADM05" />About UNI-HOTAS
         </h1>
         <Text c="dimmed" size="sm" style={{ letterSpacing: '0.15em', textTransform: 'uppercase' }}>
           Citizen Operations & Intelligence Network
@@ -32,16 +32,16 @@ export default function AboutPage() {
               Project
             </h2>
             <Text size="sm" mb="xs">
-              OMNI-CORE — Citizen Operations & Intelligence Network
+              UNI-HOTAS — Universal HOTAS App
             </Text>
             <Text size="sm" c="dimmed" mb="md" style={{ fontStyle: 'italic' }}>
-              "Take the helm. Own your success."
+              "One setup. Every stick."
             </Text>
             <Text size="sm" mb="md">
-              A comprehensive Star Citizen companion dashboard providing tools, guides, and resources for citizens of the verse.
+              A Universal HOTAS Setup for Star Citizen and Squadron 42: visual binding editor, live input capture, mode profiles and device-aware XML write-back.
             </Text>
             <Text size="sm">
-              Source: <Anchor href="https://github.com/FifeCIC/StarCitizen-OmniCore" target="_blank" rel="noreferrer">github.com/FifeCIC/StarCitizen-OmniCore</Anchor>
+              Source: <Anchor href="https://github.com/FifeCIC/Uni-HOTAS" target="_blank" rel="noreferrer">github.com/FifeCIC/Uni-HOTAS</Anchor>
             </Text>
           </div>
         </SciFiFrame>
@@ -58,7 +58,7 @@ export default function AboutPage() {
               After taking a break from the game and returning to master flying mechanics, I found HOTAS configuration tedious. Most games struggle here. Rather than accept those limitations, I built a tool to directly edit the game's XML configuration files, backup to GitHub or Google Drive, and manage profiles effortlessly.
             </Text>
             <Text size="sm" mb="md">
-              From there, the vision expanded: <strong style={{ color: '#22d17b' }}>What if OmniCore could become an operating system for how I play Star Citizen?</strong>
+              From there, the vision expanded: <strong style={{ color: '#22d17b' }}>What if Uni-HOTAS could become an operating system for how I play Star Citizen?</strong>
             </Text>
             <Text size="sm" style={{ color: '#aaa' }} mb="md">
               <strong>Planned Features:</strong>
@@ -82,7 +82,7 @@ export default function AboutPage() {
             </h2>
             <Text size="sm" mb="md">For feedback, suggestions, or bug reports:</Text>
             <Text size="sm">
-              GitHub: <Anchor href="https://github.com/FifeCIC/StarCitizen-OmniCore/issues" target="_blank" rel="noreferrer">Open an issue</Anchor>
+              GitHub: <Anchor href="https://github.com/FifeCIC/Uni-HOTAS/issues" target="_blank" rel="noreferrer">Open an issue</Anchor>
             </Text>
           </div>
         </SciFiFrame>
@@ -93,7 +93,7 @@ export default function AboutPage() {
               Open Source Credits
             </h2>
             <Text size="sm" c="dimmed" mb="md">
-              OMNI-CORE is built on the shoulders of these open-source projects.
+              UNI-HOTAS is built on the shoulders of these open-source projects.
             </Text>
             <div style={{ overflowX: 'auto' }}>
               <Table striped highlightOnHover style={{ fontSize: '0.85rem' }}>
@@ -126,7 +126,7 @@ export default function AboutPage() {
               Map Data Confidence & Fog
             </h2>
             <Text size="sm" c="dimmed" mb="md">
-              Some map overlays are based on incomplete or stale data. OmniCore uses confidence scoring to show how trustworthy each point is.
+              Some map overlays are based on incomplete or stale data. Uni-HOTAS uses confidence scoring to show how trustworthy each point is.
             </Text>
             <Text size="sm">
               <strong style={{ color: '#00d9ff' }}>Confidence Fog</strong> is a visual uncertainty layer: low-confidence points appear hazier, while high-confidence points remain clear.
@@ -141,7 +141,7 @@ export default function AboutPage() {
               Disclaimer
             </h2>
             <Text size="sm" c="dimmed">
-              OMNI-CORE is a fan-made project and is not affiliated with or endorsed by Cloud Imperium Games. Star Citizen® is a registered trademark of Cloud Imperium Rights LLC.
+              UNI-HOTAS is a fan-made project and is not affiliated with or endorsed by Cloud Imperium Games. Star Citizen® is a registered trademark of Cloud Imperium Rights LLC.
             </Text>
           </div>
         </SciFiFrame>

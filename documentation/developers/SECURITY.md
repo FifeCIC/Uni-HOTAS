@@ -1,4 +1,4 @@
-# OMNI-CORE Security Standards
+# UNI-HOTAS Security Standards
 
 ## Applicable Standards
 

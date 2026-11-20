@@ -1,7 +1,7 @@
 # API SDK Library - Implementation Plan & Status
 
 **Created**: April 17, 2026  
-**Purpose**: Shared, reusable API consumption library for OmniCore, FifeCIC, and future projects
+**Purpose**: Shared, reusable API consumption library for Uni-HOTAS, FifeCIC, and future projects
 
 ## 📋 Quick Status
 
@@ -21,7 +21,7 @@ Create a **professional, reusable API management library** that:
 
 1. **Eliminates duplication** across projects
 2. **Provides consistency** in error handling, caching, retry logic
-3. **Enables reuse** in OmniCore, FifeCIC, and future ventures
+3. **Enables reuse** in Uni-HOTAS, FifeCIC, and future ventures
 4. **Scales from monolith to distribution** (npm package)
 5. **Supports permanent fallback storage** (cache when APIs fail)
 
@@ -149,7 +149,7 @@ docs/
 
 **Estimated effort**: 4-6 hours
 
-**Outcome**: OmniCore continues working, but now built on top of reusable library
+**Outcome**: Uni-HOTAS continues working, but now built on top of reusable library
 
 ---
 
@@ -193,7 +193,7 @@ docs/
 **Goal**: Extract as standalone npm package
 
 **Deliverables**:
-- Standalone npm package: `@omnicore/api-sdk`
+- Standalone npm package: `@unihotas/api-sdk`
 - TypeScript definitions
 - Full API documentation website
 - Example projects
@@ -201,7 +201,7 @@ docs/
 
 **Estimated effort**: 10-15 hours
 
-**Outcome**: FifeCIC and other projects can use: `npm install @omnicore/api-sdk`
+**Outcome**: FifeCIC and other projects can use: `npm install @unihotas/api-sdk`
 
 ---
 
@@ -344,6 +344,6 @@ This library is successful when:
 
 ---
 
-**Owner**: OmniCore Team  
+**Owner**: Uni-HOTAS Team  
 **Last Updated**: April 17, 2026  
 **Version**: 0.1.0 (Pre-Implementation)

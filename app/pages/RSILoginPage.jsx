@@ -95,7 +95,7 @@ export default function RSILoginPage({ onComplete }) {
           <SciFiFrame variant="corners" cornerLength={24} strokeWidth={1} padding={6}>
             <Stack align="center" gap="lg" py="xl" px="md">
               <h1 className="scifi-heading" style={{ fontSize: '2.5rem', margin: 0 }}>
-                OMNI-CORE
+                UNI-HOTAS
               </h1>
               <Text
                 size="xs"
@@ -163,7 +163,7 @@ export default function RSILoginPage({ onComplete }) {
                 No backer yet?
               </Text>
               <Text size="sm" style={{ color: 'var(--oc-text-dim)', lineHeight: 1.6 }}>
-                You can still browse OmniCore in guest mode — no handle required.
+                You can still browse Uni-HOTAS in guest mode — no handle required.
               </Text>
               <Button
                 fullWidth

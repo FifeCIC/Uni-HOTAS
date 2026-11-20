@@ -6,7 +6,7 @@ import { X52_BUTTONS, X52_AXES } from '../libraries/hotas';
 
 // Path to the HOTAS image (place in public/assets or adjust as needed)
 import { getImagePath } from '../utils/pathUtils';
-const HOTAS_IMAGE = getImagePath('/assets/hotas/x52-hotas-transparent-background-omnicore-starcitizen.png');
+const HOTAS_IMAGE = getImagePath('/assets/hotas/x52-hotas-transparent-background-unihotas-starcitizen.png');
 
 const OVERLAY_AXIS_MAP = {
   throttle: 2,

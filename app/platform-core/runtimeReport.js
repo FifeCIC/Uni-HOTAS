@@ -83,7 +83,7 @@ export function buildRuntimeReport({
   const readiness = assessRuntimeReadiness({ usage, pricing, telemetry, performance, analyticsSummary });
 
   return createReportEnvelope({
-    appId: 'omni-core',
+    appId: 'uni-hotas',
     context: { route },
     readiness,
     telemetry: {
@@ -120,7 +120,7 @@ export function buildSupportBundle({ runtimeReport, errors = [] }) {
   };
 }
 
-export function downloadRuntimeReport(report, name = 'omni-core-runtime-report') {
+export function downloadRuntimeReport(report, name = 'uni-hotas-runtime-report') {
   const payload = JSON.stringify(report, null, 2);
   const blob = new Blob([payload], { type: 'application/json' });
   const url = window.URL.createObjectURL(blob);

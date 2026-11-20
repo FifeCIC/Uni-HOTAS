@@ -1,10 +1,10 @@
-# OmniCore API Integration Guide
+# Uni-HOTAS API Integration Guide
 
 ## Overview
 
-OmniCore integrates with multiple external APIs to enhance the user experience with real Star Citizen universe data, character information, and community resources.
+Uni-HOTAS integrates with multiple external APIs to enhance the user experience with real Star Citizen universe data, character information, and community resources.
 
-All APIs are consumed through the **API SDK Library** (`src/libraries/api-sdk/`), a reusable, well-structured system designed to be shared across OmniCore, FifeCIC, and future projects.
+All APIs are consumed through the **API SDK Library** (`src/libraries/api-sdk/`), a reusable, well-structured system designed to be shared across Uni-HOTAS, FifeCIC, and future projects.
 
 ## 📚 API SDK Library (Recommended Reading)
 
@@ -498,7 +498,7 @@ function setCached(key, data) {
 
 ## 🏗️ API SDK Library Ecosystem
 
-To support the vision of a **shared, versioned core** for OmniCore and future projects (FifeCIC, etc.), all API consumption is built through a reusable library system.
+To support the vision of a **shared, versioned core** for Uni-HOTAS and future projects (FifeCIC, etc.), all API consumption is built through a reusable library system.
 
 ### Why a Library?
 
@@ -602,7 +602,7 @@ const citizen = await client.getUser('LOLinDark')
 **Goal**: Extract as standalone npm package
 
 **Deliverables**:
-- Published: `@omnicore/api-sdk` on npm
+- Published: `@unihotas/api-sdk` on npm
 - TypeScript definitions
 - Full API documentation
 - Example projects
@@ -610,7 +610,7 @@ const citizen = await client.getUser('LOLinDark')
 
 **Usage in future projects**:
 ```javascript
-import { createStarCitizenClient } from '@omnicore/api-sdk/star-citizen'
+import { createStarCitizenClient } from '@unihotas/api-sdk/star-citizen'
 
 const client = createStarCitizenClient({ apiKey: '...' })
 ```
@@ -670,7 +670,7 @@ Current state (monolithic)
     ↓
     Extract API logic into library
     ↓
-    Use library in OmniCore
+    Use library in Uni-HOTAS
     ↓
     Add admin tools (Phase 2)
     ↓
@@ -686,16 +686,16 @@ Current state (monolithic)
 Once published as npm package, integrating becomes trivial:
 
 ```bash
-npm install @omnicore/api-sdk
+npm install @unihotas/api-sdk
 ```
 
 ```javascript
-import { createStarCitizenClient, createGeminiClient } from '@omnicore/api-sdk'
+import { createStarCitizenClient, createGeminiClient } from '@unihotas/api-sdk'
 
 const sc = createStarCitizenClient({ apiKey: '...' })
 const gemini = createGeminiClient({ apiKey: '...' })
 
-// Use exactly same way as in OmniCore
+// Use exactly same way as in Uni-HOTAS
 const citizen = await sc.getUser('LOLinDark')
 ```
 

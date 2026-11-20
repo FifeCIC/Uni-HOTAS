@@ -5,7 +5,7 @@ import { readJsonStorage, writeJsonStorage } from '../platform-core';
 import DevTag from '../components/DevTag';
 
 const DEFAULT_RULES = {
-  general: `You are an assistant for OMNI-CORE, a Star Citizen companion dashboard. Be concise, informative, and use in-verse terminology where appropriate.`,
+  general: `You are an assistant for UNI-HOTAS, a Star Citizen companion dashboard. Be concise, informative, and use in-verse terminology where appropriate.`,
   guides: `When generating guide content:\n- Use clear step-by-step instructions\n- Reference in-game locations and mechanics accurately\n- Include tips for new players`,
   formatting: `Format responses with:\n- Markdown headings for sections\n- Bullet points for lists\n- Bold for key terms`
 };
@@ -31,7 +31,7 @@ export default function AIRulesPage() {
     <Container size="lg">
       <Title mb="md"><DevTag tag="ADM03" />AI Rules Configuration</Title>
       <Text size="sm" c="dimmed" mb="lg">
-        Configure the system instructions sent to AI models across OMNI-CORE.
+        Configure the system instructions sent to AI models across UNI-HOTAS.
       </Text>
       <Stack gap="lg">
         <Card withBorder p="lg">

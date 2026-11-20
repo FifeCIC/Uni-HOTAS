@@ -17,7 +17,7 @@ export default function WelcomePage({ onComplete }) {
         <SciFiFrame variant="corners" cornerLength={24} strokeWidth={1} padding={6}>
           <Stack align="center" gap="lg" py="xl">
             <h1 className="scifi-heading" style={{ fontSize: '2.5rem', margin: 0 }}>
-              OMNI-CORE
+              UNI-HOTAS
             </h1>
             <p style={{ color: 'var(--oc-text-dim)', letterSpacing: '0.3em', textTransform: 'uppercase', fontSize: '0.75rem', margin: 0 }}>
               Citizen Operations &amp; Intelligence Network

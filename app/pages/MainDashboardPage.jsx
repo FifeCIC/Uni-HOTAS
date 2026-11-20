@@ -425,7 +425,7 @@ const ToolCard = ({ tool }) => {
 };
 
 export default function MainDashboardPage() {
-  console.log('[OmniCore] MainDashboardPage rendered');
+  console.log('[Uni-HOTAS] MainDashboardPage rendered');
   // Evaluate TOOLS array at component render time (not module scope)
   const TOOLS = useMemo(() => getToolsArray(), []);
   

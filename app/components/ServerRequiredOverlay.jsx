@@ -1,7 +1,7 @@
 import { Anchor, Badge, Box, Group, Stack, Text, Title } from '@mantine/core';
 
 /**
- * Full-page overlay shown on feature pages that require the local OmniCore server.
+ * Full-page overlay shown on feature pages that require the local Uni-HOTAS server.
  * Renders in place of (or above) the page content when no backend is available.
  *
  * Props:
@@ -38,7 +38,7 @@ export default function ServerRequiredOverlay({ featureName = 'This feature', re
             {reason || (
               <>
                 This tool reads and writes files on your machine — your Star Citizen game profile XMLs,
-                HOTAS binding data, and local settings. That requires the OmniCore desktop server running
+                HOTAS binding data, and local settings. That requires the Uni-HOTAS desktop server running
                 on localhost alongside your game.
               </>
             )}
@@ -52,12 +52,12 @@ export default function ServerRequiredOverlay({ featureName = 'This feature', re
           <Text size="xs" c="dimmed" style={{ lineHeight: 1.6 }}>
             1. Download the project from{' '}
             <Anchor
-              href="https://github.com/FifeCIC/StarCitizen-OmniCore"
+              href="https://github.com/FifeCIC/Uni-HOTAS"
               target="_blank"
               rel="noopener noreferrer"
               style={{ color: '#00d9ff' }}
             >
-              github.com/FifeCIC/StarCitizen-OmniCore
+              github.com/FifeCIC/Uni-HOTAS
             </Anchor>
             {' '}and follow the README setup guide.
           </Text>

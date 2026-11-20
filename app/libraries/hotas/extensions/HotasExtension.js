@@ -7,7 +7,7 @@
  * Built-in extensions:
  *   FileSystemAccessExtension  – Read/write Star Citizen XML profiles from disk
  *   GameProcessMonitorExtension – Detect if Star Citizen is running (native helper)
- *   NativeHelperExtension      – Full desktop integration via OmniCore Helper
+ *   NativeHelperExtension      – Full desktop integration via Uni-HOTAS Helper
  *
  * Usage:
  *   const ext = new FileSystemAccessExtension();

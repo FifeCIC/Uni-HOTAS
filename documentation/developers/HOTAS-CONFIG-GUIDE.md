@@ -8,7 +8,7 @@
 
 ## Overview
 
-The HOTAS Configuration System is OmniCore's comprehensive keybinding manager for Star Citizen. It enables players to:
+The HOTAS Configuration System is Uni-HOTAS's comprehensive keybinding manager for Star Citizen. It enables players to:
 
 1. **Browse keybindings** organized by control category (Flight, Weapons, Shields, Power, etc.)
 2. **Search and filter** to reduce noise and find specific controls quickly
@@ -232,7 +232,7 @@ gamepads.forEach((gp) => {
 });
 ```
 
-For detailed implementation notes and phase timeline, see: [HOTAS-FEATURE-PLANNING.md](../../g:/My%20Drive/Project%20Management/Live/OmniCore-Documentation/HOTAS-FEATURE-PLANNING.md)
+For detailed implementation notes and phase timeline, see: [HOTAS-FEATURE-PLANNING.md](../../g:/My%20Drive/Project%20Management/Live/Uni-HOTAS-Documentation/HOTAS-FEATURE-PLANNING.md)
 
 ### 1. Update Data File
 
@@ -372,10 +372,10 @@ To improve the HOTAS Config system:
 - [Gamepad API Spec](https://w3c.github.io/gamepad/)
 - [Logitech X52 Pro Documentation](https://www.logitechg.com/en-us/products/flight/x52-pro-flight-control-system.943-000058.html)
 - [HOTAS Advanced User Mode Scope](HOTAS-ADVANCED-USER-MODE.md)
-- [OmniCore DEVELOPER-REFERENCE.md](docs/DEVELOPER-REFERENCE.md)
+- [Uni-HOTAS DEVELOPER-REFERENCE.md](docs/DEVELOPER-REFERENCE.md)
 
 ---
 
 **Last Updated**: April 16, 2026  
-**Maintained By**: OmniCore Development Team  
+**Maintained By**: Uni-HOTAS Development Team  
 **License**: Project license (see LICENSE file)

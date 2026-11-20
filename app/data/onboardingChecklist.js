@@ -27,7 +27,7 @@ export const onboardingChecklist = [
         title: 'Learn About HOTAS Configuration',
         badge: 'Recommended',
         badgeColor: 'orange',
-        description: 'Star Citizen supports advanced flight controls including HOTAS (Hands-On Throttle-And-Stick) systems. We have a dedicated HOTAS configuration tool available in OmniCore to help you set up your controls perfectly. Check it out when you\'re ready to customize your keybindings.',
+        description: 'Star Citizen supports advanced flight controls including HOTAS (Hands-On Throttle-And-Stick) systems. We have a dedicated HOTAS configuration tool available in Uni-HOTAS to help you set up your controls perfectly. Check it out when you\'re ready to customize your keybindings.',
         cta: {
           label: 'View HOTAS Tool (Coming Soon)',
           action: () => console.log('HOTAS tool not yet available'),

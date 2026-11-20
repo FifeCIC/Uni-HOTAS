@@ -19,7 +19,7 @@ const useSettingsStore = create(
       resetCustomTheme: () => set({ customTheme: null }),
       resetSettings: () => set({ costThreshold: 10.0, defaultAI: 'gemini', customTheme: null }),
     }),
-    { name: 'omni-core-settings' }
+    { name: 'uni-hotas-settings' }
   )
 );
 

@@ -51,10 +51,10 @@ import { useServerStatus } from '../hooks/useServerStatus';
 import { getAssetUrl } from '../utils/pathUtils';
 
 const HOTAS_MODE_KEYS = ['green', 'orange', 'red'];
-const HOTAS_BAR_EVENT = 'omnicore:hotas-bookmark-status';
+const HOTAS_BAR_EVENT = 'unihotas:hotas-bookmark-status';
 const PAGE_DEV_TAG = 'HC05';
 const PAGE_LOG_SCOPE = `[${PAGE_DEV_TAG}]`;
-const PAGE_STORAGE_KEY = 'omnicore.hc05.state';
+const PAGE_STORAGE_KEY = 'unihotas.hc05.state';
 const CATEGORY_FILTER_PREFIX = 'category:';
 const ASSIGNMENT_MENU_HIDE_STICK_FEATURES = true;
 const TEMP_ACTIVITY_FILTER_BYPASS = false;
@@ -584,7 +584,7 @@ export default function HOTASConfigMainPage() {
           [bindingId]: formatted,
         },
       }));
-      setCaptureWarning('Mode-column HOTAS bindings are stored in OmniCore and not yet written to XML profiles.');
+      setCaptureWarning('Mode-column HOTAS bindings are stored in Uni-HOTAS and not yet written to XML profiles.');
     } else {
       setHotasOverrides((prev) => ({
         ...prev,

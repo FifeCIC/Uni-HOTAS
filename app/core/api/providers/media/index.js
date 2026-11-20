@@ -1,6 +1,6 @@
 import { apiGet, apiPost } from '../../client';
 
-const FEED_CACHE_KEY = 'omnicore.aerobook.feed-cache.v1';
+const FEED_CACHE_KEY = 'unihotas.aerobook.feed-cache.v1';
 
 function readCache() {
   try {

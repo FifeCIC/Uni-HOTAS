@@ -30,7 +30,7 @@ export default function DeveloperHotasProfileMatrixLabPage() {
   const [activeMode, setActiveMode] = useState('green');
 
   const generatedProfileName = useMemo(() => {
-    return `omnicore_${role}_${shipClass}_${activeMode}.xml`;
+    return `unihotas_${role}_${shipClass}_${activeMode}.xml`;
   }, [role, shipClass, activeMode]);
 
   return (

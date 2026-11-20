@@ -1,7 +1,7 @@
 import { Container, Stack, Text, Tabs, Card, NumberInput, Button, Alert, Select, TextInput } from '@mantine/core';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { apiGet, apiPost, appendErrorLog, clearOmniCoreStorage, useSettingsStore } from '../platform-core';
+import { apiGet, apiPost, appendErrorLog, clearUniHotasStorage, useSettingsStore } from '../platform-core';
 import { SciFiFrame } from '../components/ui';
 import DevTag from '../components/DevTag';
 
@@ -62,7 +62,7 @@ export default function SettingsPage() {
           <DevTag tag="ADM01" />Settings
         </h1>
         <Text c="dimmed" size="sm" style={{ letterSpacing: '0.15em', textTransform: 'uppercase' }}>
-          Configure your OMNI-CORE experience
+          Configure your UNI-HOTAS experience
         </Text>
       </div>
 
@@ -81,7 +81,7 @@ export default function SettingsPage() {
                   AI Provider
                 </h2>
                 <Text size="sm" c="dimmed" mb="md">
-                  Select the default AI provider for OMNI-CORE
+                  Select the default AI provider for UNI-HOTAS
                 </Text>
                 <Select
                   label="Provider"
@@ -125,7 +125,7 @@ export default function SettingsPage() {
                   onClick={() => {
                     if (confirm('Clear all local data? This cannot be undone.')) {
                       resetSettings();
-                      clearOmniCoreStorage();
+                      clearUniHotasStorage();
                       window.location.reload();
                     }
                   }}
@@ -145,13 +145,13 @@ export default function SettingsPage() {
                   Cloud Backup Folder
                 </h2>
                 <Text size="sm" c="dimmed" mb="md">
-                  Set a folder path where OmniCore will sync your HOTAS profiles, game settings, and configuration files.
+                  Set a folder path where Uni-HOTAS will sync your HOTAS profiles, game settings, and configuration files.
                   Point this to a Google Drive, OneDrive, or Dropbox sync folder for automatic cloud backup.
                 </Text>
                 <Stack gap="md">
                   <TextInput
                     label="Backup Folder Path"
-                    placeholder="e.g. G:\My Drive\OmniCore-Backup"
+                    placeholder="e.g. G:\My Drive\Uni-HOTAS-Backup"
                     value={backupPath}
                     onChange={(e) => setBackupPath(e.currentTarget.value)}
                   />

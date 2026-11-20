@@ -126,7 +126,7 @@ const ToolCard = ({ tool }) => {
       {/* Header */}
       <div style={{ marginBottom: '3rem' }}>
         <h1 className="scifi-heading" style={{ marginBottom: '0.5rem', fontSize: '2.5rem' }}>
-          OMNI-CORE
+          UNI-HOTAS
         </h1>
         <Text c="dimmed" size="sm" style={{ letterSpacing: '0.15em', textTransform: 'uppercase' }}>
           Citizen Operations &amp; Intelligence Network

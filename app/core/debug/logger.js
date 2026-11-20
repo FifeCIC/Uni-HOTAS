@@ -16,7 +16,7 @@ function shouldEnableDebug(scope) {
   }
 
   try {
-    const raw = window.localStorage.getItem('omnicore.debug.scopes') || '';
+    const raw = window.localStorage.getItem('unihotas.debug.scopes') || '';
     const scopes = raw.split(',').map((v) => v.trim().toLowerCase()).filter(Boolean);
     const normalizedScope = String(scope || '').toLowerCase();
     return scopes.includes('*') || scopes.includes(normalizedScope);

@@ -4,8 +4,8 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { fetchLatestMediaMeta } from '../core/api/providers/media';
 import VerseMail from './VerseMail';
 
-const STORAGE_KEY = 'omnicore.aerobook.latest-seen';
-const HOTAS_BAR_EVENT = 'omnicore:hotas-bookmark-status';
+const STORAGE_KEY = 'unihotas.aerobook.latest-seen';
+const HOTAS_BAR_EVENT = 'unihotas:hotas-bookmark-status';
 
 const OFFICIAL_BOOKMARKS = [
   { label: 'Star Map', url: 'https://robertsspaceindustries.com/en/starmap', icon: '🗺️' },

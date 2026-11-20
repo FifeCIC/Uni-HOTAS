@@ -7,7 +7,7 @@
 
 ## Why This Exists
 
-OmniCore currently presents short/long input rows in the HOTAS input views. Star Citizen behavior suggests press-duration handling may be feature-driven at runtime, not universally assignable per bind.
+Uni-HOTAS currently presents short/long input rows in the HOTAS input views. Star Citizen behavior suggests press-duration handling may be feature-driven at runtime, not universally assignable per bind.
 
 This document keeps UX and implementation aligned so standard users are not confused by advanced timing concepts.
 

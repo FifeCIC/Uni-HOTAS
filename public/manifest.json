@@ -1,7 +1,7 @@
 {
-  "name": "OMNI-CORE",
-  "short_name": "OMNI-CORE",
-  "description": "Citizen Operations & Intelligence Network — Star Citizen companion dashboard",
+  "name": "Uni-HOTAS",
+  "short_name": "Uni-HOTAS",
+  "description": "Universal HOTAS App - map and manage flight sim bindings",
   "start_url": "./",
   "display": "standalone",
   "background_color": "#0b1622",

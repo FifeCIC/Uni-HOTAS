@@ -75,7 +75,7 @@ function App() {
   const welcomeCompleted = useAppStore((s) => s.welcomeCompleted);
   const completeWelcome = useAppStore((s) => s.completeWelcome);
 
-  console.log('[OmniCore] App.jsx rendering, welcomeCompleted:', welcomeCompleted);
+  console.log('[Uni-HOTAS] App.jsx rendering, welcomeCompleted:', welcomeCompleted);
 
   return (
     <>

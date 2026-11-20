@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { useServerStatus } from '../hooks/useServerStatus';
 
 /**
- * Shown across the whole app when the local OmniCore server is not reachable.
+ * Shown across the whole app when the local Uni-HOTAS server is not reachable.
  * This is the normal state on GitHub Pages / any static host.
  */
 export default function DemoModeBanner() {
@@ -31,7 +31,7 @@ export default function DemoModeBanner() {
             DEMO MODE
           </Badge>
           <Text size="xs" style={{ color: 'rgba(255,210,100,0.9)' }}>
-            You're viewing OmniCore online. Most tools require the local desktop server to function.
+            You're viewing Uni-HOTAS online. Most tools require the local desktop server to function.
           </Text>
         </Group>
 
@@ -47,7 +47,7 @@ export default function DemoModeBanner() {
       <Collapse in={expanded}>
         <Stack gap="xs" mt="sm" style={{ maxWidth: 780 }}>
           <Text size="xs" c="dimmed" style={{ lineHeight: 1.6 }}>
-            OmniCore is built primarily as a <strong style={{ color: 'rgba(255,255,255,0.75)' }}>local desktop application</strong> — it runs
+            Uni-HOTAS is built primarily as a <strong style={{ color: 'rgba(255,255,255,0.75)' }}>local desktop application</strong> — it runs
             alongside Star Citizen on your own machine, where it can read and write your game profile XML files,
             manage HOTAS bindings, and sync data with your local drive. The GitHub Pages version is a
             live preview of the interface only; no data is loaded or saved while you're here.
@@ -56,7 +56,7 @@ export default function DemoModeBanner() {
             <strong style={{ color: 'rgba(255,255,255,0.75)' }}>Want to run it fully?</strong>{' '}
             Download the project from{' '}
             <Anchor
-              href="https://github.com/FifeCIC/StarCitizen-OmniCore"
+              href="https://github.com/FifeCIC/Uni-HOTAS"
               target="_blank"
               rel="noopener noreferrer"
               size="xs"

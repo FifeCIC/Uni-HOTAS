@@ -1,5 +1,5 @@
 /**
- * Route Configuration for OmniCore
+ * Route Configuration for Uni-HOTAS
  * Single source of truth for all app routes
  * Used by App.jsx and DevPanel to avoid duplication
  * 

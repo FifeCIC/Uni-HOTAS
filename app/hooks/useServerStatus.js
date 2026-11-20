@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 
 /**
- * Checks whether the OmniCore local server is reachable.
+ * Checks whether the Uni-HOTAS local server is reachable.
  * Returns { isChecking, serverAvailable }.
  *
  * - serverAvailable: true  → local Express server is up (full feature set)

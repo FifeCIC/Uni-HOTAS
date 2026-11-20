@@ -8,7 +8,7 @@ export default defineConfig(({ command }) => ({
   publicDir: '../public',
   // Use subdirectory base only for production builds (GitHub Pages)
   // Local dev server uses root path for easier testing
-  base: command === 'build' ? '/StarCitizen-OmniCore/' : '/',
+  base: command === 'build' ? '/Uni-HOTAS/' : '/',
   plugins: [react()],
   resolve: {
     alias: {

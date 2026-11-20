@@ -11,9 +11,9 @@ import '@mantine/notifications/styles.css'
 import './index.css'
 import './styles/scifi-theme.css'
 
-console.log('[OmniCore] 1. main.jsx loaded');
-console.log('[OmniCore] BASE_URL:', import.meta.env.BASE_URL);
-console.log('[OmniCore] MODE:', import.meta.env.MODE);
+console.log('[Uni-HOTAS] 1. main.jsx loaded');
+console.log('[Uni-HOTAS] BASE_URL:', import.meta.env.BASE_URL);
+console.log('[Uni-HOTAS] MODE:', import.meta.env.MODE);
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -53,11 +53,11 @@ function buildTheme(customTheme) {
 }
 
 function Root() {
-  console.log('[OmniCore] 2. Root component rendering');
+  console.log('[Uni-HOTAS] 2. Root component rendering');
   const colorScheme = useAppStore((s) => s.colorScheme);
   const customTheme = useSettingsStore((s) => s.customTheme);
   const theme = buildTheme(customTheme);
-  console.log('[OmniCore] 3. Stores loaded, colorScheme:', colorScheme);
+  console.log('[Uni-HOTAS] 3. Stores loaded, colorScheme:', colorScheme);
 
   return (
     <BrowserRouter basename={import.meta.env.BASE_URL}>
@@ -73,9 +73,9 @@ function Root() {
 
 const root = document.getElementById('root');
 if (!root) {
-  console.error('[OmniCore] ERROR: Root element not found!');
+  console.error('[Uni-HOTAS] ERROR: Root element not found!');
 } else {
-  console.log('[OmniCore] 0. DOM root element found, mounting React');
+  console.log('[Uni-HOTAS] 0. DOM root element found, mounting React');
   ReactDOM.createRoot(root).render(
     <React.StrictMode>
       <Root />

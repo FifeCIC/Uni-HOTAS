@@ -118,7 +118,7 @@ export default function DeveloperHotasDataFlowPage() {
       <div>
         <Title order={2}><DevTag tag="HC08" />HOTAS Data Flow Diagram</Title>
         <Text c="dimmed" mt={4}>
-          Interactive visualization of how data flows between the game's XML profile, OmniCore's internal mapping, and the two table views.
+          Interactive visualization of how data flows between the game's XML profile, Uni-HOTAS's internal mapping, and the two table views.
         </Text>
         <Text size="xs" c="dimmed" mt="xs">
           Select a feature below to trace its data path end-to-end. Mismatches between layers will be highlighted.
@@ -265,7 +265,7 @@ export default function DeveloperHotasDataFlowPage() {
             </Table.Tr>
             <Table.Tr>
               <Table.Td><Code>app/utils/starCitizenActionMap.js</Code></Table.Td>
-              <Table.Td>OmniCore feature ID → SC XML action name(s)</Table.Td>
+              <Table.Td>Uni-HOTAS feature ID → SC XML action name(s)</Table.Td>
               <Table.Td><Code>featureToStarCitizenAction</Code></Table.Td>
             </Table.Tr>
             <Table.Tr>

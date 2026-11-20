@@ -126,7 +126,7 @@ async function fetchShipMatrix() {
 
   const response = await fetch(RSI_SHIP_MATRIX_URL, {
     headers: {
-      'User-Agent': 'Mozilla/5.0 OmniCore/1.0',
+      'User-Agent': 'Mozilla/5.0 Uni-HOTAS/1.0',
       Accept: 'application/json',
     },
     signal: AbortSignal.timeout(20000),

@@ -1,11 +1,11 @@
 /**
  * Utility to construct correct image paths for different deployment environments
- * Handles GitHub Pages subdirectory deployments (/StarCitizen-OmniCore/)
+ * Handles GitHub Pages subdirectory deployments (/Uni-HOTAS/)
  * and local development (/assets/...)
  */
 
 export function getImagePath(relativePath) {
-  // On GitHub Pages, BASE_URL is set to '/StarCitizen-OmniCore/'
+  // On GitHub Pages, BASE_URL is set to '/Uni-HOTAS/'
   // On local dev, BASE_URL is '/'
   // Handle both undefined and empty string cases
   let baseUrl = import.meta.env.BASE_URL;

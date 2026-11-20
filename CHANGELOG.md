@@ -1,6 +1,21 @@
 # Changelog
 
-All notable changes to OmniCore will be documented in this file.
+All notable changes to Uni-HOTAS will be documented in this file.
+
+---
+
+## [Unreleased] — Uni-HOTAS fork
+
+### Changed
+
+- Forked from OmniCore (`FifeCIC/StarCitizen-OmniCore`) to become **Uni-HOTAS**, a HOTAS-focused tool for Star Citizen and Squadron 42.
+- Rebranded app shell, PWA manifest, service worker cache and GitHub Pages base path to `/Uni-HOTAS/`.
+- README rewritten around the Universal HOTAS App / Setup / Config / Mapping identity.
+- Application storage keys and event names migrated from `omnicore.*` to `unihotas.*`.
+
+### Notes
+
+- Non-HOTAS surfaces inherited from OmniCore (ship database, social feed) remain present and are scheduled for removal.
 
 ---
 

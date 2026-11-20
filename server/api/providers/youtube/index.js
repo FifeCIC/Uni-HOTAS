@@ -67,7 +67,7 @@ function parseFeed(xmlText, sourceLabel) {
 async function fetchFeed(url) {
   const response = await fetch(url, {
     headers: {
-      'User-Agent': 'OmniCore/0.1.0 (+https://localhost:4242)'
+      'User-Agent': 'Uni-HOTAS/0.1.0 (+https://localhost:4242)'
     }
   });
 
@@ -90,7 +90,7 @@ export async function resolveChannelIdByHandle(handle = CHANNEL_HANDLE) {
   try {
     const response = await fetch(`https://www.youtube.com/${handle}`, {
       headers: {
-        'User-Agent': 'OmniCore/0.1.0 (+https://localhost:4242)'
+        'User-Agent': 'Uni-HOTAS/0.1.0 (+https://localhost:4242)'
       }
     });
 

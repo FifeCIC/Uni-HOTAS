@@ -17,7 +17,7 @@
  *
  *   Tier 3 – Desktop only
  *     • Electron IPC            → detect if running inside Electron shell
- *     • Native helper socket    → detect if OmniCore Desktop Helper is running
+ *     • Native helper socket    → detect if Uni-HOTAS Desktop Helper is running
  */
 
 /**
@@ -28,7 +28,7 @@
  * @property {boolean} webHID             – WebHID API available
  * @property {boolean} webUSB             – WebUSB API available
  * @property {boolean} electron           – Running inside Electron shell
- * @property {boolean} nativeHelper       – OmniCore Desktop Helper detected (socket check)
+ * @property {boolean} nativeHelper       – Uni-HOTAS Desktop Helper detected (socket check)
  * @property {boolean} serviceWorker      – Service Worker / PWA support
  * @property {boolean} isSecureContext    – Running in HTTPS / localhost (required for many APIs)
  * @property {string}  tier              – 'core' | 'enhanced' | 'desktop'
@@ -77,7 +77,7 @@ export function detectCapabilities() {
  * The native helper check opens a short-lived WebSocket to the known helper port.
  * If nothing responds within the timeout it resolves as unavailable — never throws.
  *
- * @param {number} [helperPort=29876] – Port the OmniCore Desktop Helper listens on
+ * @param {number} [helperPort=29876] – Port the Uni-HOTAS Desktop Helper listens on
  * @param {number} [timeout=500]      – ms before giving up on native helper probe
  * @returns {Promise<HotasCapabilities>}
  */
@@ -91,7 +91,7 @@ export async function detectCapabilitiesAsync(helperPort = 29876, timeout = 500)
 }
 
 /**
- * Probe for OmniCore Desktop Helper via WebSocket.
+ * Probe for Uni-HOTAS Desktop Helper via WebSocket.
  * Resolves `true` if the socket opens, `false` on error/timeout.
  * @param {number} port
  * @param {number} timeout

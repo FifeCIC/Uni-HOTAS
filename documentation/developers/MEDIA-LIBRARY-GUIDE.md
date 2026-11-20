@@ -2,7 +2,7 @@
 
 ## Overview
 
-OmniCore uses a centralized **Media Library** (`src/data/mediaLibrary.js`) to manage all videos, images, and assets used throughout the application. This keeps content organized, reusable, and easy to update.
+Uni-HOTAS uses a centralized **Media Library** (`src/data/mediaLibrary.js`) to manage all videos, images, and assets used throughout the application. This keeps content organized, reusable, and easy to update.
 
 ---
 

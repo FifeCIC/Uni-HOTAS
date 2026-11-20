@@ -37,7 +37,7 @@ import { getShipArtwork } from '../data/shipArtwork';
 // ─── constants ────────────────────────────────────────────────────────────────
 
 const PAGE_SIZE = 20;
-const SHIP_IMAGE_WARM_KEY = 'omnicore.ships.image-warm.lastAt';
+const SHIP_IMAGE_WARM_KEY = 'unihotas.ships.image-warm.lastAt';
 const SHIP_IMAGE_WARM_TTL_MS = 12 * 60 * 60 * 1000;
 
 const STATUS_COLORS = {

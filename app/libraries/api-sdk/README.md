@@ -1,6 +1,6 @@
 # API SDK Library
 
-The API SDK is a reusable, well-structured library for consuming external APIs with built-in caching, error handling, and retry logic. It's designed to be extracted as an npm package and shared across OmniCore projects and other ventures (FifeCIC, etc.).
+The API SDK is a reusable, well-structured library for consuming external APIs with built-in caching, error handling, and retry logic. It's designed to be extracted as an npm package and shared across Uni-HOTAS projects and other ventures (FifeCIC, etc.).
 
 ## Overview
 
@@ -102,7 +102,7 @@ See [Backend Integration Guide](#backend-integration) below.
 - [ ] Test with existing APITestPage.jsx
 ```
 
-**Outcome**: Existing OmniCore functionality works exactly the same, but now built on top of the reusable library.
+**Outcome**: Existing Uni-HOTAS functionality works exactly the same, but now built on top of the reusable library.
 
 ---
 
@@ -155,7 +155,7 @@ See [Backend Integration Guide](#backend-integration) below.
 **Goal**: Extract as standalone npm package for FifeCIC and other projects.
 
 **Deliverables**:
-- Standalone npm package: `@omnicore/api-sdk`
+- Standalone npm package: `@unihotas/api-sdk`
 - Full TypeScript types (optional but recommended)
 - Comprehensive API documentation
 - Example projects
@@ -436,4 +436,4 @@ When adding a new API endpoint:
 
 **Last Updated**: April 17, 2026  
 **Library Version**: 0.1.0 (Foundation Phase)  
-**Maintained By**: OmniCore Team
+**Maintained By**: Uni-HOTAS Team

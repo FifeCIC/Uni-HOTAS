@@ -5,7 +5,7 @@
  * Falls back to plain text if Arwes is removed.
  * 
  * Usage:
- *   <SciFiText as="h1">OMNI-CORE</SciFiText>
+ *   <SciFiText as="h1">UNI-HOTAS</SciFiText>
  *   <SciFiText blink>Loading systems...</SciFiText>
  *   <SciFiText fixed>Static sci-fi styled text</SciFiText>
  */

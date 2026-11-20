@@ -10,7 +10,7 @@
  *   SMTP_PORT        e.g. 587
  *   SMTP_USER        SMTP login username
  *   SMTP_PASS        SMTP login password / app-password
- *   CONTACT_EMAIL    Destination address (defaults to omnicore@ryanbayne.uk)
+ *   CONTACT_EMAIL    Destination address (defaults to unihotas@ryanbayne.uk)
  *   GITHUB_TOKEN     Personal access token with repo:issues scope
  *
  * SECURITY: All user inputs are validated and length-capped before use.
@@ -21,8 +21,8 @@ import { createLogger } from '../../lib/logger.js';
 
 const logger = createLogger('api.versemail');
 
-const GITHUB_REPO   = 'FifeCIC/StarCitizen-OmniCore';
-const CONTACT_EMAIL = process.env.CONTACT_EMAIL || 'omnicore@ryanbayne.uk';
+const GITHUB_REPO   = 'FifeCIC/Uni-HOTAS';
+const CONTACT_EMAIL = process.env.CONTACT_EMAIL || 'unihotas@ryanbayne.uk';
 
 // Input length caps
 const MAX_NAME    = 80;
@@ -90,7 +90,7 @@ async function createGitHubIssue({ title, body, labels }) {
       Accept: 'application/vnd.github+json',
       'Content-Type': 'application/json',
       'X-GitHub-Api-Version': '2022-11-28',
-      'User-Agent': 'OmniCore-VerseMail/1.0',
+      'User-Agent': 'Uni-HOTAS-VerseMail/1.0',
     },
     body: JSON.stringify({ title, body, labels }),
   });
@@ -148,7 +148,7 @@ async function handleContact(req, res) {
   `;
 
   await transporter.sendMail({
-    from: `"OmniCore VerseMail" <${process.env.SMTP_USER}>`,
+    from: `"Uni-HOTAS VerseMail" <${process.env.SMTP_USER}>`,
     to: CONTACT_EMAIL,
     replyTo: senderEmail || undefined,
     subject: `[VerseMail] ${subject}`,
@@ -187,7 +187,7 @@ async function handleBugReport(req, res) {
     steps ? `\n## Steps to Reproduce\n${steps}` : '',
     '',
     `---`,
-    `*Auto-filed by OmniCore VerseMail*`,
+    `*Auto-filed by Uni-HOTAS VerseMail*`,
   ].filter((l) => l !== null).join('\n');
 
   const labels = ['bug', `severity:${severity}`];

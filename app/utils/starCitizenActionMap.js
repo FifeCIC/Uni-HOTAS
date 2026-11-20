@@ -1,5 +1,5 @@
 /**
- * Star Citizen Action Names to OmniCore Feature ID Mapping
+ * Star Citizen Action Names to Uni-HOTAS Feature ID Mapping
  * 
  * Maps Star Citizen's internal v_* action names found in XML exports
  * to our standardized feature IDs for keybinding display and management

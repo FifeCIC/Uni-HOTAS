@@ -22,7 +22,7 @@ const BUTTON_INFOS = Object.keys(X52_BUTTONS)
 
 const HAT_DIRS = ['9-hat-n','9-hat-ne','9-hat-e','9-hat-se','9-hat-s','9-hat-sw','9-hat-w','9-hat-nw'];
 const HAT_ARROWS = { n:'↑', ne:'↗', e:'→', se:'↘', s:'↓', sw:'↙', w:'←', nw:'↖' };
-const MODE_STORAGE_KEY = 'omnicore.liveInput.mode';
+const MODE_STORAGE_KEY = 'unihotas.liveInput.mode';
 
 async function copyTextToClipboard(text) {
   try {
@@ -102,7 +102,7 @@ export function KeyPressIndicator({
 
     const popup = window.open(
       '',
-      'omnicore-live-input',
+      'unihotas-live-input',
       'popup=yes,width=600,height=820,resizable=yes,scrollbars=yes'
     );
 

@@ -393,7 +393,7 @@ For browser-based apps that need persistence.
 
 ```javascript
 export class IndexedDBCacheStore {
-  constructor(dbName = 'omnicore-cache') {
+  constructor(dbName = 'unihotas-cache') {
     this.dbName = dbName
     this.db = null
     this.ready = this.init()

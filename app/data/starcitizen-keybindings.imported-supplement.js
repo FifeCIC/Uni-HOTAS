@@ -1,7 +1,7 @@
 /**
  * Auto-generated imported supplemental keybindings.
  * Source: local extracted data in tmp_sc_extract.
- * Generated for append-only expansion of OmniCore feature coverage.
+ * Generated for append-only expansion of Uni-HOTAS feature coverage.
  */
 
 export const importedSupplementalKeybindings = [

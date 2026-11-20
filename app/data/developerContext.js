@@ -14,7 +14,7 @@ export const developerContext = {
     status: '✅ WIP - Feature Cards Implemented',
     docs: [
       { title: 'Project Overview', path: 'docs/DEVELOPER-REFERENCE.md' },
-      { title: 'OmniCore Roadmap', path: 'g:\\My Drive\\Project Management\\Live\\OmniCore-Documentation\\OmniCore-ROADMAP.md' },
+      { title: 'Uni-HOTAS Roadmap', path: 'g:\\My Drive\\Project Management\\Live\\OmniCore-Documentation\\OmniCore-ROADMAP.md' },
     ],
     tasks: [
       '✅ Post-login flow implemented',

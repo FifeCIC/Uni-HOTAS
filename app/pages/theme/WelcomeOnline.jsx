@@ -36,7 +36,7 @@ const ContentMarker = ({ status, type }) => {
 export default function WelcomeOnline() {
   const navigate = useNavigate();
 
-  const referralCode = 'OMNICORE2026'; // TODO: Replace with your actual code
+  const referralCode = 'UNIHOTAS2026'; // TODO: Replace with your actual code
 
   return (
     <div style={{ position: 'relative', minHeight: '100vh', background: 'var(--oc-space-deep)', overflow: 'hidden' }}>
@@ -62,7 +62,7 @@ export default function WelcomeOnline() {
         {/* Header */}
         <div style={{ marginBottom: '3rem', textAlign: 'center' }}>
           <h1 className="scifi-heading" style={{ fontSize: '3rem', margin: '0 0 1rem 0' }}>
-            OMNI-CORE
+            UNI-HOTAS
           </h1>
           <Text c="dimmed" size="lg" style={{ letterSpacing: '0.1em', marginBottom: '2rem' }}>
             Citizen Operations &amp; Intelligence Network
