@@ -23,7 +23,6 @@ Tags are short IDs shown in page/section headers when **Dev Mode** is enabled. T
 | DEV03 | API Test Suite | /developer/api-test | pages/APITestPage.jsx |
 | DEV04 | Error Log | /developer/errors | pages/ErrorLogPage.jsx |
 | DEV05 | Changes | /developer/changes | pages/ChangesPage.jsx |
-| DEV06 | Nav Charts Lab | /developer/nav-charts-lab | pages/DeveloperNavChartsLabPage.jsx |
 | ADM01 | Settings | /settings | pages/SettingsPage.jsx |
 | ADM02 | Gemini Chat | /admin/chat/gemini | pages/GeminiPage.jsx |
 | ADM03 | AI Rules | /admin/ai-rules | pages/AIRulesPage.jsx |
@@ -33,11 +32,7 @@ Tags are short IDs shown in page/section headers when **Dev Mode** is enabled. T
 | APP02 | Aerobook | /aerobook | pages/AerobookPage.jsx |
 | APP03 | Onboarding Checklist | /onboarding | pages/OnboardingChecklistPage.jsx |
 | APP04 | RSI Login | /login | pages/RSILoginPage.jsx |
-| GT01 | New Player Guide | /new-player-guide | pages/NewPlayerGuidePage.jsx |
 | GT02 | Loadout Builder | /loadout-builder | pages/LoadoutBuilderPage.jsx |
-| GT03 | Economy Tracker | /economy-tracker | pages/EconomyTrackerPage.jsx |
-| GT04 | Location Guide | /location-guide | pages/LocationGuidePage.jsx |
-| GT05 | Ship Database | /ship-database | pages/ShipDatabasePage.jsx |
 | HC01 | HOTAS Config (Light) | /theme/hotas-config | pages/theme/HOTASConfigPage.jsx |
 | HC03 | HOTAS Config (Dark) | /theme/hotas-config-dark | pages/theme/HOTASConfigPageDark.jsx |
 | HC04 | HOTAS Config (Toggle) | /theme/hotas-config-toggle | pages/theme/HOTASConfigPageToggle.jsx |
@@ -215,11 +210,6 @@ Base URL: `http://localhost:3001`
 | `/api/chat` | POST | General chat (Gemini or Bedrock) |
 | `/api/log-error` | POST | Log frontend error to file |
 | `/api/server/restart` | POST | Graceful server shutdown |
-| `/api/ships` | GET | Ship database (all ships or filtered) |
-| `/api/ships/:id` | GET | Single ship details |
-| `/api/ships/meta/manufacturers` | GET | List of manufacturers |
-| `/api/ships/image` | GET | Proxy for ship images (cached) |
-| `/api/ships/cache/warm` | POST | Pre-cache ship images |
 
 ---
 

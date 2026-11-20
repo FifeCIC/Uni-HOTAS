@@ -106,7 +106,7 @@ Each tool has a path to a JPG image:
 ```javascript
 newPlayerGuide: {
   id: 'tool-npg',
-  image: '/assets/tools/new-player-guide.jpg',  // ← Local file
+  image: '/assets/tools/hotas-config.png',  // ← Local file
   alt: 'New Player Guide - Learn the basics...',
 },
 ```
@@ -142,7 +142,7 @@ const starCitizenData = getHeroContainer('starCitizen');
 import { getToolImage } from '@/data/mediaLibrary';
 
 const imageUrl = getToolImage('newPlayerGuide');
-// Returns: '/assets/tools/new-player-guide.jpg'
+// Returns: '/assets/tools/hotas-config.png'
 ```
 
 ### Preload Images

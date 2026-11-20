@@ -3,7 +3,6 @@ import React, { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { SciFiFrame } from '../components/ui';
 import DevTag from '../components/DevTag';
-import { getAssetUrl } from '../utils/pathUtils';
 
 // ═══════════════════════════════════════════════════════════════
 // WIREFRAME COMPONENTS
@@ -226,62 +225,12 @@ const getToolsArray = () => [
     path: '/settings/hotas',
     enabled: true,
   },
-  {
-    id: 'ship-database',
-    title: 'Ship Database',
-    desc: 'Explore specifications, pricing, and loadouts for every ship in the verse',
-    image: getAssetUrl('tools/ship-database.jpg'),
-    alt: 'Ship Database - Star Citizen spacecraft database',
-    color: '#00d9ff',
-    path: '/ship-database',
-    enabled: false,
-  },
-  {
-    id: 'game-settings',
-    title: 'Game Settings',
-    desc: 'Browse and search Star Citizen in-game settings — the search the game forgot to add',
-    image: null,
-    alt: 'Game Settings - Star Citizen attributes and configuration',
-    color: '#22d17b',
-    path: '/game-settings',
-    enabled: false,
-  },
-  {
-    id: 'new-player-guide',
-    title: 'Training Academy',
-    desc: 'Structured courses and field briefings for recruits entering the verse',
-    image: getAssetUrl('tools/new-player-guide.jpg'),
-    alt: 'Training Academy - Citizen recruit training and course modules',
-    color: '#00d9ff',
-    path: '/academy',
-    enabled: true,
-  },
-  {
-    id: 'economy-tracker',
-    title: 'Economy Tracker',
-    desc: 'Monitor commodity prices and identify profitable trading routes',
-    image: null,
-    alt: 'Economy Tracker - Trading and commodity price data',
-    color: '#b300ff',
-    path: '/economy-tracker',
-    enabled: false,
-  },
-  {
-    id: 'location-guide',
-    title: 'Nav Charts',
-    desc: 'Charted systems, stations, and points of interest across known space',
-    image: null,
-    alt: 'Nav Charts - Verse navigation, systems and locations',
-    color: '#00ff88',
-    path: '/location-guide',
-    enabled: false,
-  },
 ];
 
 // Fallback image placeholder for missing assets
 const PlaceholderImage = ({ tool }) => {
-  // Use Hybrid design for enabled tech/ship tools
-  if (tool.enabled && (tool.id === 'hotas-config' || tool.id === 'ship-database')) {
+  // Use Hybrid design for enabled technical tools
+  if (tool.enabled && tool.id === 'hotas-config') {
     return <HybridPlaceholder tool={tool} />;
   }
 

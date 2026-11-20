@@ -56,35 +56,10 @@ export const mediaLibrary = {
 
   // Dashboard: Tool Container Images
   dashboardTools: {
-    newPlayerGuide: {
-      id: 'tool-npg',
-      image: '/assets/tools/new-player-guide.jpg',
-      alt: 'New Player Guide - Learn the basics of Star Citizen',
-    },
-    loadoutBuilder: {
-      id: 'tool-loadout',
-      image: '/assets/tools/loadout-builder.jpg',
-      alt: 'Loadout Builder - Customize your ship weapons and equipment',
-    },
-    economyTracker: {
-      id: 'tool-economy',
-      image: '/assets/tools/economy-tracker.jpg',
-      alt: 'Economy Tracker - Monitor trading routes and prices',
-    },
-    locationGuide: {
-      id: 'tool-locations',
-      image: '/assets/tools/location-guide.jpg',
-      alt: 'Location Guide - Explore every system and POI',
-    },
     hotasConfig: {
       id: 'tool-hotas',
       image: '/assets/tools/hotas-config.png',
       alt: 'HOTAS Configuration - Set up your flight controls',
-    },
-    shipDatabase: {
-      id: 'tool-ships',
-      image: '/assets/tools/ship-database.jpg',
-      alt: 'Ship Database - Browse all ships and specs',
     },
   },
 

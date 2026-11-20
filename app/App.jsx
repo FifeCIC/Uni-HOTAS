@@ -14,11 +14,6 @@ const MainDashboardPage = lazy(() => import('./pages/MainDashboardPage'));
 const AerobookPage = lazy(() => import('./pages/AerobookPage'));
 const OnboardingChecklistPage = lazy(() => import('./pages/OnboardingChecklistPage'));
 const LoadoutBuilderPage = lazy(() => import('./pages/LoadoutBuilderPage'));
-const EconomyTrackerPage = lazy(() => import('./pages/EconomyTrackerPage'));
-const LocationGuidePage = lazy(() => import('./pages/LocationGuidePage'));
-const ShipDatabasePage = lazy(() => import('./pages/ShipDatabasePage'));
-const GameSettingsPage = lazy(() => import('./pages/GameSettingsPage'));
-
 const SettingsPage = lazy(() => import('./pages/SettingsPage'));
 const ThemePage = lazy(() => import('./pages/ThemePage'));
 const DeveloperPage = lazy(() => import('./pages/DeveloperPage'));
@@ -28,11 +23,8 @@ const AboutPage = lazy(() => import('./pages/AboutPage'));
 const ScreenshotsPage = lazy(() => import('./pages/ScreenshotsPage'));
 const APITestPage = lazy(() => import('./pages/APITestPage'));
 const AcademyFeatureLibraryPage = lazy(() => import('./pages/AcademyFeatureLibraryPage'));
-const AcademyHubPage = lazy(() => import('./pages/AcademyHubPage'));
-const NewPlayerGuidePage = lazy(() => import('./pages/NewPlayerGuidePage'));
 const HOTASConfigMainPage = lazy(() => import('./pages/HOTASConfigMainPage'));
 const DeveloperContextIndexPage = lazy(() => import('./pages/DeveloperContextIndexPage'));
-const DeveloperNavChartsLabPage = lazy(() => import('./pages/DeveloperNavChartsLabPage'));
 const HOTASDiagramPage = lazy(() => import('./pages/HOTASDiagramPage'));
 const HOTASOverlayPage = lazy(() => import('./pages/HOTASOverlayPage'));
 const HOTASOverlaySaveTestPage = lazy(() => import('./pages/HOTASOverlaySaveTestPage'));
@@ -99,24 +91,26 @@ function App() {
         <Route element={<MainLayout />}>
           <Route index element={<Lazy Component={MainDashboardPage} />} />
           <Route path="aerobook" element={<Lazy Component={AerobookPage} />} />
-          <Route path="new-player-guide" element={<Lazy Component={NewPlayerGuidePage} />} />
-          <Route path="academy" element={<Lazy Component={AcademyHubPage} />} />
           <Route path="academy/feature-library" element={<Lazy Component={AcademyFeatureLibraryPage} />} />
-          <Route path="academy/:track" element={<Lazy Component={NewPlayerGuidePage} />} />
-          <Route path="academy/:track/:shipId" element={<Lazy Component={NewPlayerGuidePage} />} />
           <Route path="loadout-builder" element={<Lazy Component={LoadoutBuilderPage} />} />
-          <Route path="economy-tracker" element={<Lazy Component={EconomyTrackerPage} />} />
-          <Route path="location-guide" element={<Lazy Component={LocationGuidePage} />} />
           <Route path="hotas-config" element={<Lazy Component={HOTASConfigMainPage} />} />
           <Route path="hotas-testing-routine" element={<Lazy Component={HOTASCommunityTestingPage} />} />
-          <Route path="ship-database" element={<Lazy Component={ShipDatabasePage} />} />
-          <Route path="game-settings" element={<Lazy Component={GameSettingsPage} />} />
           <Route path="settings" element={<Lazy Component={SettingsPage} />} />
           <Route path="settings/hotas" element={<Lazy Component={HOTASTestPage} />} />
           <Route path="settings/theme" element={<Lazy Component={ThemePage} />} />
           <Route path="about" element={<Lazy Component={AboutPage} />} />
           <Route path="screenshots" element={<Lazy Component={ScreenshotsPage} />} />
           <Route path="hotas-diagram" element={<Lazy Component={HOTASDiagramPage} />} />
+
+          {/* Retired non-HOTAS surfaces - keep old links working */}
+          <Route path="ship-database" element={<Navigate to="/" replace />} />
+          <Route path="game-settings" element={<Navigate to="/" replace />} />
+          <Route path="economy-tracker" element={<Navigate to="/" replace />} />
+          <Route path="location-guide" element={<Navigate to="/" replace />} />
+          <Route path="new-player-guide" element={<Navigate to="/academy/feature-library" replace />} />
+          <Route path="academy" element={<Navigate to="/academy/feature-library" replace />} />
+          <Route path="academy/:track" element={<Navigate to="/academy/feature-library" replace />} />
+          <Route path="academy/:track/:shipId" element={<Navigate to="/academy/feature-library" replace />} />
         </Route>
 
         {/* Admin/Backend/Developer Area (with AdminLayout - Sidebar layout) */}
@@ -130,7 +124,6 @@ function App() {
           <Route path="developer/errors" element={<Lazy Component={ErrorLogPage} />} />
           <Route path="developer/changes" element={<Lazy Component={ChangesPage} />} />
           <Route path="developer/api-test" element={<Lazy Component={APITestPage} />} />
-          <Route path="developer/nav-charts-lab" element={<Lazy Component={DeveloperNavChartsLabPage} />} />
           <Route path="developer/hotas-overlay-save-test" element={<Lazy Component={HOTASOverlaySaveTestPage} />} />
           <Route path="developer/hotas-data-flow" element={<Lazy Component={DeveloperHotasDataFlowPage} />} />
         </Route>

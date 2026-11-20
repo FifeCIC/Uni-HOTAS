@@ -58,15 +58,14 @@ export default function AboutPage() {
               After taking a break from the game and returning to master flying mechanics, I found HOTAS configuration tedious. Most games struggle here. Rather than accept those limitations, I built a tool to directly edit the game's XML configuration files, backup to GitHub or Google Drive, and manage profiles effortlessly.
             </Text>
             <Text size="sm" mb="md">
-              From there, the vision expanded: <strong style={{ color: '#22d17b' }}>What if Uni-HOTAS could become an operating system for how I play Star Citizen?</strong>
+              From there, the idea grew: <strong style={{ color: '#22d17b' }}>why should every sim make you learn its binding file from scratch?</strong>
             </Text>
             <Text size="sm" style={{ color: '#aaa' }} mb="md">
               <strong>Planned Features:</strong>
             </Text>
             <div style={{ marginLeft: '1rem', marginBottom: '1rem' }}>
-              <Text size="sm" mb="xs" c="dimmed">• <strong>Fleet Management</strong> — Track your hangar, manage loadouts per ship, visualize your collection</Text>
-              <Text size="sm" mb="xs" c="dimmed">• <strong>Career Tracking</strong> — Monitor playtime, contract history, and progression</Text>
               <Text size="sm" mb="xs" c="dimmed">• <strong>Advanced HOTAS</strong> — Full support for multi-mode controllers like the X52's 3-position switch, with pre-built profiles and seamless XML sync</Text>
+              <Text size="sm" mb="xs" c="dimmed">• <strong>More sims</strong> — Adapters for DCS World, Elite Dangerous, Microsoft Flight Simulator and others</Text>
               <Text size="sm" mb="xs" c="dimmed">• <strong>Mobile App</strong> — PWA today, native Android app tomorrow</Text>
             </div>
             <Text size="sm" c="dimmed" style={{ fontStyle: 'italic' }}>
@@ -117,21 +116,6 @@ export default function AboutPage() {
                 </Table.Tbody>
               </Table>
             </div>
-          </div>
-        </SciFiFrame>
-
-        <SciFiFrame variant="corners" cornerLength={12} strokeWidth={1.5} padding={0}>
-          <div style={{ padding: '1.5rem' }}>
-            <h2 style={{ color: '#b300ff', marginTop: 0, marginBottom: '1rem', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-              Map Data Confidence & Fog
-            </h2>
-            <Text size="sm" c="dimmed" mb="md">
-              Some map overlays are based on incomplete or stale data. Uni-HOTAS uses confidence scoring to show how trustworthy each point is.
-            </Text>
-            <Text size="sm">
-              <strong style={{ color: '#00d9ff' }}>Confidence Fog</strong> is a visual uncertainty layer: low-confidence points appear hazier, while high-confidence points remain clear.
-              This helps you distinguish known topology from inferred operational signals.
-            </Text>
           </div>
         </SciFiFrame>
 

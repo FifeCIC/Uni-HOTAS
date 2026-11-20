@@ -14,12 +14,7 @@ Each tool should have a corresponding image:
 
 ```
 tools/
-├── ship-database.jpg          (800x400px) - Holographic ship scanner
-├── hotas-config.jpg           (800x400px) - Flight control setup
-├── location-guide.jpg         (800x400px) - Star map/navigation
-├── economy-tracker.jpg        (800x400px) - Trading dashboard
-├── loadout-builder.jpg        (800x400px) - Weapon/equipment workshop
-└── new-player-guide.jpg       (800x400px) - Tutorial/onboarding
+└── hotas-config.png           (800x400px) - Flight control setup
 ```
 
 ## How to Add Images

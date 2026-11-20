@@ -68,24 +68,6 @@ export const developerContext = {
   },
 
   // Developer Nav Charts Lab
-  '/developer/nav-charts-lab': {
-    title: 'Nav Charts Lab (Dual-Reality Mockup)',
-    status: '⏳ In Development',
-    docs: [
-      { title: 'Active Sprint', path: 'g:\\My Drive\\Project Management\\Live\\OmniCore-Documentation\\Active-Sprint.md' },
-      { title: 'API Integration Guide', path: 'docs/API-INTEGRATION.md' },
-    ],
-    tasks: [
-      '✅ Dual-reality blend slider mockup',
-      '✅ Command briefing mode UI mockup',
-      '✅ Confidence fog visualization toggle',
-      '⏳ Replace synthetic graph with cached RSI starmap data',
-      '⏳ Add route search based on real jump links',
-      '⏳ Wire mission/contract feed when API coverage is confirmed',
-    ],
-    reminder: 'Prototype uses synthetic topology for interaction testing only. Do not present operational risk values as live game truth until backed by a real source.',
-  },
-
   // Developer Page
   '/developer': {
     title: 'Developer Hub',
@@ -224,67 +206,9 @@ export const developerContext = {
   },
 
   // Economy Tracker
-  '/economy-tracker': {
-    title: 'Economy Tracker',
-    status: '⏳ Not Started',
-    docs: [],
-    tasks: [
-      '⏳ UEX API integration',
-      '⏳ Commodity price charts',
-      '⏳ Route optimization',
-      '⏳ Price alerts',
-      '⏳ Trading journal',
-    ],
-    reminder: 'Community-driven data via UEX API. Plan caching strategy to respect rate limits.',
-  },
-
   // Location Guide
-  '/location-guide': {
-    title: 'Location Guide',
-    status: '⏳ Not Started',
-    docs: [],
-    tasks: [
-      '⏳ Location database',
-      '⏳ Interactive map',
-      '⏳ POI filtering',
-      '⏳ Travel guides',
-      '⏳ Faction reputation',
-    ],
-    reminder: 'Comprehensive reference for verse locations. Requires manual data entry or API integration.',
-  },
-
   // Ship Database
-  '/ship-database': {
-    title: 'Ship Database',
-    status: '⏳ Not Started',
-    docs: [],
-    tasks: [
-      '⏳ Ship specs (speed, cargo, etc)',
-      '⏳ Pricing/availability',
-      '⏳ Comparison tool',
-      '⏳ Loadout integration',
-      '⏳ Flight ready status',
-    ],
-    reminder: 'Critical feature. Star Citizen ships change frequently - plan for data updates.',
-  },
-
   // New Player Guide
-  '/new-player-guide': {
-    title: 'New Player Guide',
-    status: '⏳ In Planning',
-    docs: [
-      { title: 'Onboarding Checklist', path: 'docs/CHECKLIST-TEMPLATE.md' },
-    ],
-    tasks: [
-      '✅ Placeholder page',
-      '⏳ Content structure',
-      '⏳ Interactive tutorials',
-      '⏳ Progress tracking',
-      '⏳ Tips & resources',
-    ],
-    reminder: 'Immersive onboarding experience. Define learning path from beginner to competent player.',
-  },
-
   // Developer -> Error Log
   '/developer/errors': {
     title: 'Error Log Viewer',

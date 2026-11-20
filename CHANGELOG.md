@@ -4,6 +4,19 @@ All notable changes to Uni-HOTAS will be documented in this file.
 
 ---
 
+## [Unreleased] — HOTAS-only strip
+
+### Removed
+
+- **Ship Database** — page, ship artwork/pricing/role data, `/api/ships` server routes, image caches (~20 MB of assets).
+- **Game Settings** — page and route.
+- **Economy Tracker** — page and route.
+- **Nav Charts** — location guide page, developer nav-charts lab, related screenshots.
+- **Training Academy** — academy hub and new-player guide tracks. The HOTAS **feature library** (`/academy/feature-library`) is retained as a bind reference.
+- Old routes redirect to `/` (or `/academy/feature-library`) so existing links do not 404.
+
+---
+
 ## [Unreleased] — Uni-HOTAS fork
 
 ### Changed

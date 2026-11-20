@@ -51,32 +51,8 @@ export const routeConfig = {
       color: 'cyan',
     },
     {
-      label: '/game-settings',
-      path: '/game-settings',
-      category: 'Main App',
-      color: 'cyan',
-    },
-    {
       label: '/hotas-testing-routine',
       path: '/hotas-testing-routine',
-      category: 'Main App',
-      color: 'cyan',
-    },
-    {
-      label: '/academy/combat',
-      path: '/academy/combat',
-      category: 'Main App',
-      color: 'cyan',
-    },
-    {
-      label: '/academy/mining',
-      path: '/academy/mining',
-      category: 'Main App',
-      color: 'cyan',
-    },
-    {
-      label: '/academy/trading',
-      path: '/academy/trading',
       category: 'Main App',
       color: 'cyan',
     },
@@ -134,12 +110,6 @@ export const routeConfig = {
     {
       label: '[DEV03] /developer/api-test',
       path: '/developer/api-test',
-      category: 'Test Pages',
-      color: 'teal',
-    },
-    {
-      label: '[DEV06] /developer/nav-charts-lab',
-      path: '/developer/nav-charts-lab',
       category: 'Test Pages',
       color: 'teal',
     },

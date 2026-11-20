@@ -36,7 +36,7 @@ These are the first two directly supported titles. The peripheral engine is game
 | **HOTAS overlay** | A visual stick/throttle diagram with hotspots you can arrange and map |
 | **Testing routine** | A guided pass through the controls so nothing is left unverified |
 | **Binding helpsheet** | A printable / wallpaper reference of your own binds |
-| **Academy** | Short flows and a feature library that explain mode vs action binds (NAV/SCM, missile mode vs launch, weapon groups) |
+| **Feature library** | Mode vs action bind explainers (NAV/SCM, missile mode vs launch, weapon groups) |
 
 ### Other sims
 
@@ -50,7 +50,7 @@ Supporting a new sim is real work — a profile-format adapter plus a per-sim da
 
 This repository began life as **OmniCore**, a broader Star Citizen companion app. It has been forked here to become **Uni-HOTAS**, a focused HOTAS tool.
 
-The app still contains non-HOTAS surfaces from that lineage (ship database, social feed). They are scheduled for removal; nothing about them is part of the Uni-HOTAS product promise.
+The non-HOTAS surfaces inherited from OmniCore — ship database, game settings, economy tracker, nav charts and the training academy — have been removed. The HOTAS feature library remains as the bind reference.
 
 ---
 

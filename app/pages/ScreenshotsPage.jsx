@@ -11,18 +11,6 @@ export default function ScreenshotsPage() {
       alt: 'Verse Operations Hub',
     },
     {
-      src: `${import.meta.env.BASE_URL}screenshots/ship-database.png`,
-      title: 'Ship Database',
-      description: 'Browse and search Star Citizen ships with detailed specs',
-      alt: 'Ship Database',
-    },
-    {
-      src: `${import.meta.env.BASE_URL}screenshots/dossier.png`,
-      title: 'Dossier',
-      description: 'Ship information and specifications dossier',
-      alt: 'Ship Dossier',
-    },
-    {
       src: `${import.meta.env.BASE_URL}screenshots/login.png`,
       title: 'Login',
       description: 'RSI account authentication interface',

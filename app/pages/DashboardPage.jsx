@@ -6,44 +6,12 @@ import { getAssetUrl } from '../utils/pathUtils';
 // Function to generate TOOLS array at runtime (not module scope)
 const getToolsArray = () => [
   {
-    id: 'new-player-guide',
-    title: 'Training Academy',
-    desc: 'Structured courses and field briefings for recruits entering the verse',
-    image: getAssetUrl('tools/new-player-guide.jpg'),
-    alt: 'Training Academy - Citizen recruit training and course modules',
-    color: '#00d9ff',
-  },
-  {
-    id: 'economy-tracker',
-    title: 'Economy Tracker',
-    desc: 'Monitor commodity prices and identify profitable trading routes',
-    image: getAssetUrl('tools/economy-tracker.jpg'),
-    alt: 'Economy Tracker - Trading and commodity price data',
-    color: '#b300ff',
-  },
-  {
-    id: 'location-guide',
-    title: 'Nav Charts',
-    desc: 'Charted systems, stations, and points of interest across known space',
-    image: getAssetUrl('tools/location-guide.jpg'),
-    alt: 'Nav Charts - Verse navigation, systems and locations',
-    color: '#00ff88',
-  },
-  {
     id: 'hotas-config',
     title: 'Peripheral Configuration',
     desc: 'Configure your flight stick, mouse, and keyboard for precision control',
     image: getAssetUrl('tools/hotas-config.png'),
     alt: 'Peripheral Configuration - Flight controls, HOTAS, mouse and keyboard setup',
     color: '#ff6b00',
-  },
-  {
-    id: 'ship-database',
-    title: 'Ship Database',
-    desc: 'Explore specifications, pricing, and loadouts for every ship in the verse',
-    image: getAssetUrl('tools/ship-database.jpg'),
-    alt: 'Ship Database - Star Citizen spacecraft database',
-    color: '#00d9ff',
   },
 ];
 
