@@ -29,7 +29,6 @@ Technical reference for developers and architects:
 
 #### **Feature Planning** (`/guides/`)
 Feature-specific implementation guides:
-- [Aerobook Guide](developers/AEROBOOK-GUIDE.md) — Aerobook feature design and usage
 - [HOTAS Configuration Guide](developers/HOTAS-CONFIG-GUIDE.md) — HOTAS setup and calibration
 - [HOTAS Advanced User Mode Scope](developers/HOTAS-ADVANCED-USER-MODE.md) — Scope boundaries for short/long press behavior and advanced workflows
 - [Media Library Guide](developers/MEDIA-LIBRARY-GUIDE.md) — Managing and organizing media assets
@@ -85,7 +84,6 @@ Uni-HOTAS/
 → Check [Support Resources](guides/support.md)
 
 ### 🎨 I'm working on features
-→ Read feature-specific guides (AEROBOOK-GUIDE.md, HOTAS-CONFIG-GUIDE.md, etc.)
 
 ---
 

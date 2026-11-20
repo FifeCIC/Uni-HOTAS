@@ -29,10 +29,8 @@ Tags are short IDs shown in page/section headers when **Dev Mode** is enabled. T
 | ADM04 | Analytics Dashboard | /admin/analytics | pages/AnalyticsPage.jsx |
 | ADM05 | About | /about | pages/AboutPage.jsx |
 | APP01 | Main Dashboard | / | pages/DashboardPage.jsx |
-| APP02 | Aerobook | /aerobook | pages/AerobookPage.jsx |
 | APP03 | Onboarding Checklist | /onboarding | pages/OnboardingChecklistPage.jsx |
 | APP04 | RSI Login | /login | pages/RSILoginPage.jsx |
-| GT02 | Loadout Builder | /loadout-builder | pages/LoadoutBuilderPage.jsx |
 | HC01 | HOTAS Config (Light) | /theme/hotas-config | pages/theme/HOTASConfigPage.jsx |
 | HC03 | HOTAS Config (Dark) | /theme/hotas-config-dark | pages/theme/HOTASConfigPageDark.jsx |
 | HC04 | HOTAS Config (Toggle) | /theme/hotas-config-toggle | pages/theme/HOTASConfigPageToggle.jsx |

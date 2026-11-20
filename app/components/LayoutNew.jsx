@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { Outlet, Link, useLocation, useNavigate } from 'react-router-dom';
 import { apiGet, useAppStore, useSettingsStore } from '../platform-core';
 import DevFooter from './DevFooter';
-import AerobookBar from './AerobookBar';
+import AppToolbar from './AppToolbar';
 import BrandWordmark from './BrandWordmark';
 
 const FRONTEND_VERSION = 'Alpha V0.1.0';
@@ -210,7 +210,7 @@ export default function Layout() {
       </AppShell.Aside>
 
       <AppShell.Main>
-        <AerobookBar />
+        <AppToolbar />
         <Container size="xl" py="md">
           <Outlet />
         </Container>

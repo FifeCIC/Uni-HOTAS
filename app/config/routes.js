@@ -21,12 +21,6 @@ export const routeConfig = {
       color: 'cyan',
     },
     {
-      label: '/aerobook',
-      path: '/aerobook',
-      category: 'Main App',
-      color: 'cyan',
-    },
-    {
       label: '/onboarding',
       path: '/onboarding',
       category: 'Main App',

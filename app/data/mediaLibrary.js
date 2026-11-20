@@ -63,9 +63,6 @@ export const mediaLibrary = {
     },
   },
 
-  // Aerobook: Gallery Videos (already defined there, reference here)
-  // See: src/data/aeroBookContent.js
-
   // Future: In-Game Screenshots
   screenshots: {
     // Organized by location/activity

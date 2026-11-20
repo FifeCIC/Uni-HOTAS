@@ -1,7 +1,7 @@
 import { Outlet, useLocation } from 'react-router-dom';
 import { useEffect } from 'react';
 import AppHeader from './AppHeader';
-import AerobookBar from './AerobookBar';
+import AppToolbar from './AppToolbar';
 import AppFooter from './AppFooter';
 import DemoModeBanner from './DemoModeBanner';
 import { trackAppView } from '../platform-core';
@@ -21,7 +21,7 @@ export default function MainLayout() {
       {/* Sticky Header + Bookmarks Bar */}
       <div style={{ position: 'sticky', top: 0, zIndex: 100 }}>
         <AppHeader />
-        <AerobookBar />
+        <AppToolbar />
         <DemoModeBanner />
       </div>
 

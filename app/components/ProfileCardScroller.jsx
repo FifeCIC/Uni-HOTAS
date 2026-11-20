@@ -93,22 +93,6 @@ export default function ProfileCardScroller({ profiles, selectedProfile, onSelec
             justifyContent: 'space-between',
           }}
         >
-          {activeCard && meta.shipImage && (
-            <img
-              src={meta.shipImage}
-              alt=""
-              style={{
-                position: 'absolute',
-                inset: 0,
-                width: '100%',
-                height: '100%',
-                objectFit: 'cover',
-                opacity: 0.15,
-                pointerEvents: 'none',
-              }}
-            />
-          )}
-
           <Group gap="xs" wrap="nowrap" justify="space-between" style={{ position: 'relative' }}>
             <Group gap="xs" wrap="nowrap">
               <div style={{ color, flexShrink: 0 }}>

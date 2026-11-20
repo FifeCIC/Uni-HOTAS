@@ -129,7 +129,7 @@ const FEEDBACK_TYPE_OPTIONS = [
 const CHANNEL_OPTIONS = [
   { value: 'auto', label: 'Auto (recommended)' },
   { value: 'github', label: 'GitHub issue' },
-  { value: 'email', label: 'Email (VerseMail)' },
+  { value: 'email', label: 'Email (Feedback)' },
 ];
 
 function isIssueType(type) {
@@ -219,7 +219,7 @@ export default function HOTASCommunityTestingPage() {
 
     try {
       if (route === 'github') {
-        const payload = await apiPost('/api/versemail/bug', {
+        const payload = await apiPost('/api/feedback/bug', {
           senderHandle,
           title: `Community Test ${step.id.toUpperCase()}: ${form.type} - ${step.title}`,
           description: commonSummary,
@@ -245,7 +245,7 @@ export default function HOTASCommunityTestingPage() {
           ? 'feature-request'
           : 'feedback';
 
-        const payload = await apiPost('/api/versemail/contact', {
+        const payload = await apiPost('/api/feedback/contact', {
           senderName: senderHandle,
           senderEmail,
           category,
@@ -270,7 +270,7 @@ export default function HOTASCommunityTestingPage() {
     } catch (error) {
       if (route === 'github') {
         try {
-          const fallbackPayload = await apiPost('/api/versemail/contact', {
+          const fallbackPayload = await apiPost('/api/feedback/contact', {
             senderName: senderHandle,
             senderEmail,
             category: 'feedback',

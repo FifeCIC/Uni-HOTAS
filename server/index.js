@@ -24,8 +24,7 @@ import { appendFileSync, existsSync, mkdirSync, readdirSync, readFileSync, statS
 import { dirname, join } from 'path';
 import { fileURLToPath } from 'url';
 import { execSync } from 'child_process';
-import { registerMediaRoutes } from './api/media/index.js';
-import { registerVersemailRoutes } from './api/versemail/index.js';
+import { registerFeedbackRoutes } from './api/feedback/index.js';
 import { registerDownloadRoutes } from './api/dev/download/index.js';
 import { registerHotasOverlayRoutes } from './api/hotasOverlayApi.js';
 import { upsertDeviceRebind, removeDeviceRebind } from './peripherals/hotas/xmlRebind.js';
@@ -1186,8 +1185,7 @@ app.post('/api/backup/sync', (req, res) => {
   }
 });
 
-registerMediaRoutes(app);
-registerVersemailRoutes(app);
+registerFeedbackRoutes(app);
 registerDownloadRoutes(app);
 registerHotasOverlayRoutes(app);
 

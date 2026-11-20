@@ -10,14 +10,6 @@ const roleOptions = [
   { value: 'salvage', label: 'Salvage Operator' },
 ];
 
-const shipClassOptions = [
-  { value: 'fighter', label: 'Fighter' },
-  { value: 'multicrew', label: 'Multi-crew' },
-  { value: 'industrial', label: 'Industrial' },
-  { value: 'hauler', label: 'Hauler' },
-  { value: 'explorer', label: 'Explorer' },
-];
-
 const modeOptions = [
   { value: 'green', label: 'Green' },
   { value: 'orange', label: 'Orange' },
@@ -26,19 +18,18 @@ const modeOptions = [
 
 export default function DeveloperHotasProfileMatrixLabPage() {
   const [role, setRole] = useState('pilot');
-  const [shipClass, setShipClass] = useState('fighter');
   const [activeMode, setActiveMode] = useState('green');
 
   const generatedProfileName = useMemo(() => {
-    return `unihotas_${role}_${shipClass}_${activeMode}.xml`;
-  }, [role, shipClass, activeMode]);
+    return `unihotas_${role}_${activeMode}.xml`;
+  }, [role, activeMode]);
 
   return (
     <Stack gap="lg">
       <div>
         <Title order={2}><DevTag tag="HC07" />Profile Matrix Lab (Phase 4)</Title>
         <Text c="dimmed" mt={4}>
-          Developer test surface for role + ship + mode profile generation and instant XML apply workflows.
+          Developer test surface for role + mode profile generation and instant XML apply workflows.
         </Text>
         <Group gap="xs" mt="xs">
           <Badge color="yellow" variant="light">Current device target: X52</Badge>
@@ -48,7 +39,6 @@ export default function DeveloperHotasProfileMatrixLabPage() {
 
       <SimpleGrid cols={{ base: 1, md: 3 }}>
         <Select label="Role" value={role} onChange={(value) => setRole(value || 'pilot')} data={roleOptions} />
-        <Select label="Ship Class" value={shipClass} onChange={(value) => setShipClass(value || 'fighter')} data={shipClassOptions} />
         <Select label="Mode" value={activeMode} onChange={(value) => setActiveMode(value || 'green')} data={modeOptions} />
       </SimpleGrid>
 

@@ -1,10 +1,16 @@
+/**
+ * AppToolbar — the sticky quick-action bar under the header.
+ *
+ * BEFORE: the previous toolbar was organised around a media feed (since removed).
+ * AFTER:  HOTAS-only actions — Feedback, HOTAS test guide, official links.
+ * NEXT:   MainLayout and LayoutNew both render this; it also hosts the
+ *         HOTAS config save-status badges emitted on the `unihotas:hotas-bookmark-status` event.
+ */
 import { Group, Button, Badge, Tooltip, Menu, Text } from '@mantine/core';
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { fetchLatestMediaMeta } from '../core/api/providers/media';
-import VerseMail from './VerseMail';
+import Feedback from './Feedback';
 
-const STORAGE_KEY = 'unihotas.aerobook.latest-seen';
 const HOTAS_BAR_EVENT = 'unihotas:hotas-bookmark-status';
 
 const OFFICIAL_BOOKMARKS = [
@@ -16,75 +22,11 @@ const OFFICIAL_BOOKMARKS = [
   { label: 'Organizations', url: 'https://robertsspaceindustries.com/en/community/orgs', icon: '🏢' },
 ];
 
-function readSeenTimestamp() {
-  try {
-    return localStorage.getItem(STORAGE_KEY) || null;
-  } catch {
-    return null;
-  }
-}
-
-function writeSeenTimestamp(value) {
-  try {
-    localStorage.setItem(STORAGE_KEY, value);
-  } catch {
-    // Ignore storage write failures.
-  }
-}
-
-export default function AerobookBar() {
+export default function AppToolbar() {
   const location = useLocation();
   const navigate = useNavigate();
-  const [hasNewVideo, setHasNewVideo] = useState(false);
-  const [verseMailOpen, setVerseMailOpen] = useState(false);
+  const [feedbackOpen, setFeedbackOpen] = useState(false);
   const [hotasBarStatus, setHotasBarStatus] = useState(null);
-
-  useEffect(() => {
-    let mounted = true;
-
-    async function checkLatest() {
-      try {
-        const latest = await fetchLatestMediaMeta();
-        const latestPublishedAt = latest?.latestPublishedAt || null;
-
-        if (!mounted || !latestPublishedAt) {
-          return;
-        }
-
-        if (location.pathname === '/aerobook') {
-          writeSeenTimestamp(latestPublishedAt);
-          setHasNewVideo(false);
-          return;
-        }
-
-        const seen = readSeenTimestamp();
-        setHasNewVideo(!seen || Date.parse(latestPublishedAt) > Date.parse(seen));
-      } catch {
-        if (mounted) {
-          setHasNewVideo(false);
-        }
-      }
-    }
-
-    checkLatest();
-
-    return () => {
-      mounted = false;
-    };
-  }, [location.pathname]);
-
-  useEffect(() => {
-    function onSeen(event) {
-      const value = event?.detail?.latestPublishedAt;
-      if (value) {
-        writeSeenTimestamp(value);
-      }
-      setHasNewVideo(false);
-    }
-
-    window.addEventListener('aerobook:seen-latest', onSeen);
-    return () => window.removeEventListener('aerobook:seen-latest', onSeen);
-  }, []);
 
   useEffect(() => {
     function onHotasStatus(event) {
@@ -121,84 +63,11 @@ export default function AerobookBar() {
       }}
     >
       <Group gap="xs" wrap="wrap" style={{ flex: 1, minWidth: 0 }}>
-        {/* Aerobook Navigation */}
-        <Tooltip label="Verse Media" position="bottom">
+        <Tooltip label="Report a bug or send a message" position="bottom">
           <Button
             variant="subtle"
             size="sm"
-            onClick={() => navigate('/aerobook')}
-            style={{
-              color: '#00d9ff',
-              fontSize: '0.85rem',
-              fontWeight: 600,
-              textTransform: 'uppercase',
-              letterSpacing: '0.05em',
-              padding: '0.5rem 0.75rem',
-              position: 'relative',
-            }}
-          >
-            📸 Aerobook
-            {hasNewVideo && (
-              <span
-                style={{
-                  position: 'absolute',
-                  top: '6px',
-                  right: '6px',
-                  width: '9px',
-                  height: '9px',
-                  borderRadius: '50%',
-                  backgroundColor: '#27d17c',
-                  boxShadow: '0 0 8px rgba(39, 209, 124, 0.8)',
-                }}
-              />
-            )}
-          </Button>
-        </Tooltip>
-
-        <div
-          style={{
-            width: '1px',
-            height: '20px',
-            backgroundColor: 'rgba(0, 217, 255, 0.2)',
-            margin: '0 0.5rem',
-          }}
-        />
-
-        <Tooltip label="Follow creators and see who is live" position="bottom">
-          <Button
-            variant="subtle"
-            size="sm"
-            onClick={() => navigate({ pathname: '/aerobook', search: '?tab=live' })}
-            style={{
-              color: '#ff9e44',
-              fontSize: '0.85rem',
-              fontWeight: 600,
-              textTransform: 'uppercase',
-              letterSpacing: '0.05em',
-              padding: '0.5rem 0.75rem',
-            }}
-          >
-            🎬 Live
-            <Badge size="xs" color="orange" variant="light" ml={4}>
-              Beta
-            </Badge>
-          </Button>
-        </Tooltip>
-
-        <div
-          style={{
-            width: '1px',
-            height: '20px',
-            backgroundColor: 'rgba(0, 217, 255, 0.2)',
-            margin: '0 0.5rem',
-          }}
-        />
-
-        <Tooltip label="VerseMail — Secure Quantum Transmission" position="bottom">
-          <Button
-            variant="subtle"
-            size="sm"
-            onClick={() => setVerseMailOpen(true)}
+            onClick={() => setFeedbackOpen(true)}
             style={{
               color: '#b8cfe0',
               fontSize: '0.85rem',
@@ -208,9 +77,18 @@ export default function AerobookBar() {
               padding: '0.5rem 0.75rem',
             }}
           >
-            ✉ VerseMail
+            ✉ Feedback
           </Button>
         </Tooltip>
+
+        <div
+          style={{
+            width: '1px',
+            height: '20px',
+            backgroundColor: 'rgba(0, 217, 255, 0.2)',
+            margin: '0 0.5rem',
+          }}
+        />
 
         <Tooltip label="Community HOTAS testing guide" position="bottom">
           <Button
@@ -302,8 +180,7 @@ export default function AerobookBar() {
         </Group>
       )}
 
-      {/* VerseMail modal */}
-      <VerseMail opened={verseMailOpen} onClose={() => setVerseMailOpen(false)} />
+      <Feedback opened={feedbackOpen} onClose={() => setFeedbackOpen(false)} />
     </Group>
   );
 }

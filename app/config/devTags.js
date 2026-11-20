@@ -32,12 +32,8 @@ const devTags = {
 
   // ── Main App ──────────────────────────────────
   APP01:     { label: 'Main Dashboard',          path: '/',                      file: 'pages/DashboardPage.jsx' },
-  APP02:     { label: 'Aerobook',                path: '/aerobook',              file: 'pages/AerobookPage.jsx' },
   APP03:     { label: 'Onboarding Checklist',    path: '/onboarding',            file: 'pages/OnboardingChecklistPage.jsx' },
   APP04:     { label: 'RSI Login',               path: '/login',                 file: 'pages/RSILoginPage.jsx' },
-
-  // ── Game Tools ────────────────────────────────
-  GT02:      { label: 'Loadout Builder',         path: '/loadout-builder',       file: 'pages/LoadoutBuilderPage.jsx' },
 
   // ── Admin Chat ─────────────────────────────────
   ADM06:     { label: 'Claude Chat',             path: '/admin/chat/claude',          file: 'pages/AmazonQPage.jsx' },

@@ -11,9 +11,7 @@ const HistoryPage = lazy(() => import('./pages/HistoryPage'));
 const RSILoginPage = lazy(() => import('./pages/RSILoginPage'));
 const DashboardPage = lazy(() => import('./pages/DashboardPage'));
 const MainDashboardPage = lazy(() => import('./pages/MainDashboardPage'));
-const AerobookPage = lazy(() => import('./pages/AerobookPage'));
 const OnboardingChecklistPage = lazy(() => import('./pages/OnboardingChecklistPage'));
-const LoadoutBuilderPage = lazy(() => import('./pages/LoadoutBuilderPage'));
 const SettingsPage = lazy(() => import('./pages/SettingsPage'));
 const ThemePage = lazy(() => import('./pages/ThemePage'));
 const DeveloperPage = lazy(() => import('./pages/DeveloperPage'));
@@ -90,9 +88,7 @@ function App() {
         {/* Main User-Facing Dashboard & Feature Pages (with MainLayout) */}
         <Route element={<MainLayout />}>
           <Route index element={<Lazy Component={MainDashboardPage} />} />
-          <Route path="aerobook" element={<Lazy Component={AerobookPage} />} />
           <Route path="academy/feature-library" element={<Lazy Component={AcademyFeatureLibraryPage} />} />
-          <Route path="loadout-builder" element={<Lazy Component={LoadoutBuilderPage} />} />
           <Route path="hotas-config" element={<Lazy Component={HOTASConfigMainPage} />} />
           <Route path="hotas-testing-routine" element={<Lazy Component={HOTASCommunityTestingPage} />} />
           <Route path="settings" element={<Lazy Component={SettingsPage} />} />
@@ -107,6 +103,8 @@ function App() {
           <Route path="game-settings" element={<Navigate to="/" replace />} />
           <Route path="economy-tracker" element={<Navigate to="/" replace />} />
           <Route path="location-guide" element={<Navigate to="/" replace />} />
+          <Route path="aerobook" element={<Navigate to="/" replace />} />
+          <Route path="loadout-builder" element={<Navigate to="/" replace />} />
           <Route path="new-player-guide" element={<Navigate to="/academy/feature-library" replace />} />
           <Route path="academy" element={<Navigate to="/academy/feature-library" replace />} />
           <Route path="academy/:track" element={<Navigate to="/academy/feature-library" replace />} />

@@ -1,9 +1,9 @@
 /**
- * VerseMail API
+ * Feedback API
  *
  * Two endpoints:
- *   POST /api/versemail/contact   — sends an email to the owner via SMTP
- *   POST /api/versemail/bug       — creates a GitHub issue on the project repo
+ *   POST /api/feedback/contact    — sends an email to the owner via SMTP
+ *   POST /api/feedback/bug        — creates a GitHub issue on the project repo
  *
  * Required env vars:
  *   SMTP_HOST        e.g. smtp.gmail.com
@@ -19,7 +19,7 @@
 import nodemailer from 'nodemailer';
 import { createLogger } from '../../lib/logger.js';
 
-const logger = createLogger('api.versemail');
+const logger = createLogger('api.feedback');
 
 const GITHUB_REPO   = 'FifeCIC/Uni-HOTAS';
 const CONTACT_EMAIL = process.env.CONTACT_EMAIL || 'unihotas@ryanbayne.uk';
@@ -90,7 +90,7 @@ async function createGitHubIssue({ title, body, labels }) {
       Accept: 'application/vnd.github+json',
       'Content-Type': 'application/json',
       'X-GitHub-Api-Version': '2022-11-28',
-      'User-Agent': 'Uni-HOTAS-VerseMail/1.0',
+      'User-Agent': 'Uni-HOTAS-Feedback/1.0',
     },
     body: JSON.stringify({ title, body, labels }),
   });
@@ -128,14 +128,14 @@ async function handleContact(req, res) {
   if (!transporter) {
     // SMTP not configured — log and return partial success so UX isn't broken in dev
     logger.warn('SMTP not configured — contact form submission logged only');
-    logger.info(`[VerseMail] Contact | From: ${senderName} <${senderEmail}> | Subject: ${subject}`);
+    logger.info(`[Feedback] Contact | From: ${senderName} <${senderEmail}> | Subject: ${subject}`);
     return res.json({ ok: true, delivered: false, reason: 'smtp_not_configured' });
   }
 
   const emailHtml = `
     <div style="font-family:monospace;background:#050a18;color:#c8dae8;padding:24px;border-radius:6px;border:1px solid #1a3a5c;">
       <h2 style="color:#22d17b;letter-spacing:0.1em;text-transform:uppercase;margin:0 0 16px">
-        VerseMail Transmission Received
+        Feedback Message Received
       </h2>
       <table style="width:100%;border-collapse:collapse;">
         <tr><td style="color:#7a9ab0;padding:4px 12px 4px 0;white-space:nowrap;">From</td><td>${senderName}${senderEmail ? ` &lt;${senderEmail}&gt;` : ''}</td></tr>
@@ -148,15 +148,15 @@ async function handleContact(req, res) {
   `;
 
   await transporter.sendMail({
-    from: `"Uni-HOTAS VerseMail" <${process.env.SMTP_USER}>`,
+    from: `"Uni-HOTAS Feedback" <${process.env.SMTP_USER}>`,
     to: CONTACT_EMAIL,
     replyTo: senderEmail || undefined,
-    subject: `[VerseMail] ${subject}`,
+    subject: `[Feedback] ${subject}`,
     html: emailHtml,
     text: `From: ${senderName}\nCategory: ${category}\nSubject: ${subject}\n\n${message}`,
   });
 
-  logger.info(`[VerseMail] Contact delivered | Subject: ${subject}`);
+  logger.info(`[Feedback] Contact delivered | Subject: ${subject}`);
   return res.json({ ok: true, delivered: true });
 }
 
@@ -176,7 +176,7 @@ async function handleBugReport(req, res) {
 
   const severityEmoji = { low: '🟢', medium: '🟡', high: '🟠', critical: '🔴' }[severity] || '⚪';
   const issueBody = [
-    `## Bug Report — submitted via VerseMail`,
+    `## Bug Report — submitted via the Feedback form`,
     '',
     `**Reported by:** ${senderHandle}`,
     `**Severity:** ${severityEmoji} ${severity.toUpperCase()}`,
@@ -187,7 +187,7 @@ async function handleBugReport(req, res) {
     steps ? `\n## Steps to Reproduce\n${steps}` : '',
     '',
     `---`,
-    `*Auto-filed by Uni-HOTAS VerseMail*`,
+    `*Auto-filed from the Uni-HOTAS Feedback form*`,
   ].filter((l) => l !== null).join('\n');
 
   const labels = ['bug', `severity:${severity}`];
@@ -198,30 +198,30 @@ async function handleBugReport(req, res) {
     labels,
   });
 
-  logger.info(`[VerseMail] Bug filed | Issue #${issue.number} | ${title}`);
+  logger.info(`[Feedback] Bug filed | Issue #${issue.number} | ${title}`);
   return res.json({ ok: true, issueNumber: issue.number, issueUrl: issue.html_url });
 }
 
 // ── Route registration ────────────────────────────────────────────────────────
 
-export function registerVersemailRoutes(app) {
-  app.post('/api/versemail/contact', async (req, res) => {
+export function registerFeedbackRoutes(app) {
+  app.post('/api/feedback/contact', async (req, res) => {
     try {
       await handleContact(req, res);
     } catch (err) {
-      logger.error(`VerseMail contact error: ${err.message}`);
+      logger.error(`Feedback contact error: ${err.message}`);
       res.status(500).json({ error: 'Failed to send transmission. Please try again.' });
     }
   });
 
-  app.post('/api/versemail/bug', async (req, res) => {
+  app.post('/api/feedback/bug', async (req, res) => {
     try {
       await handleBugReport(req, res);
     } catch (err) {
-      logger.error(`VerseMail bug report error: ${err.message}`);
+      logger.error(`Feedback bug report error: ${err.message}`);
       res.status(500).json({ error: 'Failed to file anomaly report. Please try again.' });
     }
   });
 
-  logger.info('VerseMail routes registered');
+  logger.info('Feedback routes registered');
 }

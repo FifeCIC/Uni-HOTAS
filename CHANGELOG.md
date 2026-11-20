@@ -4,6 +4,20 @@ All notable changes to Uni-HOTAS will be documented in this file.
 
 ---
 
+## [Unreleased] — Ships out, Aerobook out, VerseMail now Feedback
+
+### Removed
+
+- **All ship tooling** — Loadout Builder page and route, ship-class selector in the profile matrix lab, ship-branch academy data, `shipImage` profile-card overlay, and the remaining ship tasks in the dev context.
+- **Aerobook** — gallery page, post card, media feed store and content, plus the YouTube/Twitch/media providers, `/api/media` routes, live-follow store and remote image cache that existed to feed it.
+
+### Changed
+
+- **VerseMail → Feedback** — the toolbar button, modal, form copy and server API (`/api/versemail/*` → `/api/feedback/*`) are renamed. The API still creates a GitHub issue for bugs and emails contact messages.
+- The toolbar is now `AppToolbar` (HOTAS test guide, Feedback, official links) and no longer polls a media feed.
+
+---
+
 ## [Unreleased] — HOTAS-only strip
 
 ### Removed

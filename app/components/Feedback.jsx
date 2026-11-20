@@ -59,10 +59,10 @@ function ContactForm({ onClose }) {
     setLoading(true);
     setResult(null);
     try {
-      const data = await apiPost('/api/versemail/contact', fields);
+      const data = await apiPost('/api/feedback/contact', fields);
       setResult({ ok: true, delivered: data.delivered });
     } catch (err) {
-      setResult({ ok: false, error: err.message || 'Transmission failed' });
+      setResult({ ok: false, error: err.message || 'Message could not be sent' });
     } finally {
       setLoading(false);
     }
@@ -73,10 +73,10 @@ function ContactForm({ onClose }) {
       <Stack gap="md" align="center" py="xl">
         <IconCheck size={48} color="#22d17b" />
         <Text size="lg" fw={700} style={{ color: '#22d17b', letterSpacing: '0.1em' }}>
-          TRANSMISSION SENT
+          MESSAGE SENT
         </Text>
         <Text c="dimmed" size="sm" ta="center">
-          Your message has been routed through the quantum relay network.
+          Thanks — your message has been passed to the maintainer.
           {!result.delivered && (
             <><br /><span style={{ color: '#ffb648' }}>Note: SMTP relay offline — message queued locally.</span></>
           )}
@@ -129,7 +129,7 @@ function ContactForm({ onClose }) {
         />
         <TextInput
           label="Subject"
-          placeholder="Transmission subject"
+          placeholder="Subject"
           value={fields.subject}
           onChange={(e) => set('subject', e.currentTarget.value)}
           maxLength={120}
@@ -141,7 +141,7 @@ function ContactForm({ onClose }) {
 
       <Textarea
         label="Message"
-        placeholder="Compose your transmission…"
+        placeholder="Write your message…"
         value={fields.message}
         onChange={(e) => set('message', e.currentTarget.value)}
         minRows={5}
@@ -167,7 +167,7 @@ function ContactForm({ onClose }) {
           disabled={!fields.senderName.trim() || !fields.subject.trim() || !fields.message.trim()}
           style={{ letterSpacing: '0.08em', textTransform: 'uppercase', fontFamily: 'monospace' }}
         >
-          Send Transmission
+          Send Message
         </Button>
       </Group>
     </Stack>
@@ -197,10 +197,10 @@ function BugReportForm({ onClose }) {
     setLoading(true);
     setResult(null);
     try {
-      const data = await apiPost('/api/versemail/bug', fields);
+      const data = await apiPost('/api/feedback/bug', fields);
       setResult({ ok: true, issueNumber: data.issueNumber, issueUrl: data.issueUrl });
     } catch (err) {
-      setResult({ ok: false, error: err.message || 'Anomaly report failed' });
+      setResult({ ok: false, error: err.message || 'Bug report failed' });
     } finally {
       setLoading(false);
     }
@@ -211,7 +211,7 @@ function BugReportForm({ onClose }) {
       <Stack gap="md" align="center" py="xl">
         <IconBug size={48} color="#22d17b" />
         <Text size="lg" fw={700} style={{ color: '#22d17b', letterSpacing: '0.1em' }}>
-          ANOMALY LOGGED
+          BUG REPORTED
         </Text>
         <Text c="dimmed" size="sm" ta="center">
           Issue #{result.issueNumber} has been filed to mission control.
@@ -244,7 +244,7 @@ function BugReportForm({ onClose }) {
         variant="light"
         styles={{ message: { fontSize: '0.8rem', fontFamily: 'monospace' } }}
       >
-        Anomaly reports are filed directly to mission control as GitHub issues. Include as much detail as possible.
+        Bug reports are filed directly as GitHub issues. Include as much detail as possible.
       </Alert>
 
       <Group gap="sm">
@@ -273,7 +273,7 @@ function BugReportForm({ onClose }) {
       </Group>
 
       <TextInput
-        label="Anomaly Title"
+        label="Bug Title"
         placeholder="Brief summary of the issue"
         value={fields.title}
         onChange={(e) => set('title', e.currentTarget.value)}
@@ -330,16 +330,16 @@ function BugReportForm({ onClose }) {
           disabled={!fields.title.trim() || !fields.description.trim()}
           style={{ letterSpacing: '0.08em', textTransform: 'uppercase', fontFamily: 'monospace' }}
         >
-          File Anomaly Report
+          Submit Bug Report
         </Button>
       </Group>
     </Stack>
   );
 }
 
-// ── VerseMail modal ────────────────────────────────────────────────────────────
+// ── Feedback modal ─────────────────────────────────────────────────────────────
 
-export default function VerseMail({ opened, onClose, defaultTab = 'contact' }) {
+export default function Feedback({ opened, onClose, defaultTab = 'contact' }) {
   return (
     <Modal
       opened={opened}
@@ -383,7 +383,7 @@ export default function VerseMail({ opened, onClose, defaultTab = 'contact' }) {
               fontFamily: 'monospace',
             }}
           >
-            VerseMail
+            Feedback
           </Text>
           <Badge
             size="xs"
@@ -391,7 +391,7 @@ export default function VerseMail({ opened, onClose, defaultTab = 'contact' }) {
             variant="dot"
             style={{ fontFamily: 'monospace' }}
           >
-            Quantum Relay Online
+            Channel Open
           </Badge>
         </Group>
         <Group gap="xs">
@@ -404,12 +404,12 @@ export default function VerseMail({ opened, onClose, defaultTab = 'contact' }) {
           <Group gap={4}>
             <IconWifi size={10} color="#22d17b" />
             <Text size="xs" c="dimmed" style={{ fontFamily: 'monospace' }}>
-              STANTON RELAY
+              DIRECT CHANNEL
             </Text>
           </Group>
           <button
             onClick={onClose}
-            aria-label="Close VerseMail"
+            aria-label="Close feedback"
             style={{
               background: 'none',
               border: 'none',
@@ -446,7 +446,7 @@ export default function VerseMail({ opened, onClose, defaultTab = 'contact' }) {
               color: '#7a9ab0',
             }}
           >
-            New Transmission
+            Message
           </Tabs.Tab>
           <Tabs.Tab
             value="bug"
@@ -459,7 +459,7 @@ export default function VerseMail({ opened, onClose, defaultTab = 'contact' }) {
               color: '#7a9ab0',
             }}
           >
-            Report Anomaly
+            Report a Bug
           </Tabs.Tab>
         </Tabs.List>
 
@@ -484,7 +484,7 @@ export default function VerseMail({ opened, onClose, defaultTab = 'contact' }) {
         }}
       >
         <Text size="xs" c="dimmed" style={{ fontFamily: 'monospace' }}>
-          Uni-HOTAS VerseMail v1.0 — Secure Citizen Relay Network
+          Uni-HOTAS Feedback — report a bug or send a message
         </Text>
         <Text size="xs" c="dimmed" style={{ fontFamily: 'monospace' }}>
           UEE-2954

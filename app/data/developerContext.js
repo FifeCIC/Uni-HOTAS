@@ -22,7 +22,6 @@ export const developerContext = {
       '✅ Header with menu and user info',
       '⏳ Integrate real citizen data from RSI API',
       '⏳ Add organization badges/colors',
-      '⏳ Ship database integration',
     ],
     reminder: 'This is the main user-facing dashboard. Keep it immersive and responsive. See MainDashboardPage.jsx',
   },
@@ -120,24 +119,6 @@ export const developerContext = {
     reminder: 'Keep settings in Zustand store with localStorage persistence.',
   },
 
-  // Aerobook (Media Library)
-  '/aerobook': {
-    title: 'Aerobook (Media & Social)',
-    status: '⏳ In Development',
-    docs: [
-      { title: 'Aerobook Guide', path: 'docs/AEROBOOK-GUIDE.md' },
-    ],
-    tasks: [
-      '✅ Basic grid layout',
-      '⏳ YouTube API integration',
-      '⏳ Twitch API integration',
-      '⏳ Content filtering',
-      '⏳ Like/comment system',
-      '⏳ Bookmarking',
-    ],
-    reminder: 'Goal: Instagram-like experience for Star Citizen content. See AEROBOOK-GUIDE.md for YouTube setup.',
-  },
-
   // Chat (Gemini)
   '/admin/chat/gemini': {
     title: 'Gemini AI Chat',
@@ -191,19 +172,6 @@ export const developerContext = {
   },
 
   // Loadout Builder
-  '/loadout-builder': {
-    title: 'Loadout Builder',
-    status: '⏳ Not Started',
-    docs: [],
-    tasks: [
-      '⏳ UI layout design',
-      '⏳ Weapon/armor/component database',
-      '⏳ Load-out calculator',
-      '⏳ Save/share configs',
-    ],
-    reminder: 'Major feature. Needs integration with Star Citizen data. Plan scope carefully.',
-  },
-
   // Developer -> Error Log
   '/developer/errors': {
     title: 'Error Log Viewer',

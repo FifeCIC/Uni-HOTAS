@@ -9,7 +9,7 @@ export default function APITestPage() {
   const [citizenData, setCitizenData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [geminiMessage, setGeminiMessage] = useState('What are the best ships for bounty hunting?');
+  const [geminiMessage, setGeminiMessage] = useState('How should I tune my HOTAS axis curves for smooth flight?');
   const [geminiResponse, setGeminiResponse] = useState(null);
   const [geminiLoading, setGeminiLoading] = useState(false);
 
