@@ -284,7 +284,7 @@ function BugReportForm({ onClose }) {
 
       <TextInput
         label="Page / Section (optional)"
-        placeholder="e.g. Ship Database, Nav Charts"
+        placeholder="e.g. Peripheral Configuration, HOTAS Test Lab"
         value={fields.page}
         onChange={(e) => set('page', e.currentTarget.value)}
         maxLength={200}
@@ -305,7 +305,7 @@ function BugReportForm({ onClose }) {
 
       <Textarea
         label="Steps to Reproduce (optional)"
-        placeholder="1. Open Ship Database&#10;2. Click on a ship&#10;3. …"
+        placeholder="1. Open Peripheral Configuration&#10;2. Right-click a binding&#10;3. …"
         value={fields.steps}
         onChange={(e) => set('steps', e.currentTarget.value)}
         minRows={3}

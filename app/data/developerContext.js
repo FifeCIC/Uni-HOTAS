@@ -67,7 +67,6 @@ export const developerContext = {
     reminder: 'Star Citizen API endpoint: /{apikey}/v1/live/user/{handle} on api.starcitizen-api.com. Get key from Discord.',
   },
 
-  // Developer Nav Charts Lab
   // Developer Page
   '/developer': {
     title: 'Developer Hub',
@@ -205,10 +204,6 @@ export const developerContext = {
     reminder: 'Major feature. Needs integration with Star Citizen data. Plan scope carefully.',
   },
 
-  // Economy Tracker
-  // Location Guide
-  // Ship Database
-  // New Player Guide
   // Developer -> Error Log
   '/developer/errors': {
     title: 'Error Log Viewer',
