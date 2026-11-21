@@ -1,6 +1,7 @@
 ﻿import HOTASViewSwitcher from '../components/HOTASViewSwitcher';
 import HOTASInfoBar from '../components/HOTASInfoBar';
 import HOTASErrorDisplay from '../components/HOTASErrorDisplay';
+import MappingsFolderPanel from '../components/MappingsFolderPanel';
 import HOTASNotesSection from '../components/HOTASNotesSection';
 import HOTASFilterControls from '../components/HOTASFilterControls';
 import { useHotasOverlayState } from '../hooks/useHotasOverlayState';
@@ -188,7 +189,7 @@ export default function HOTASConfigMainPage() {
       useEffect(() => {
         async function loadOverlays() {
           try {
-            const overlayUrl = `/data/hotas/overlays/hotas-x52-overlay-positions.jsonc?t=${Date.now()}`;
+            const overlayUrl = '/api/hotas-overlay-positions';
             const res = await fetch(overlayUrl, { cache: 'no-store' });
             const text = await res.text();
             const { parse } = await import('jsonc-parser');
@@ -741,9 +742,9 @@ export default function HOTASConfigMainPage() {
       const response = await fetch('/api/hotas/profiles');
       console.log('[HC01] Response status:', response.status);
       if (!response.ok) {
-        const error = await response.text();
-        console.error('[HC01] Response error:', error);
-        throw new Error(`Failed to load profiles (${response.status})`);
+        const payload = await response.json().catch(() => null);
+        console.error('[HC01] Response error:', payload);
+        throw new Error(payload?.error || `Failed to load profiles (${response.status})`);
       }
       const data = await response.json();
       console.log('[HC01] Profiles loaded:', data.profiles?.length);
@@ -1534,6 +1535,20 @@ export default function HOTASConfigMainPage() {
 
         {/* Error Display (extracted) */}
         <HOTASErrorDisplay error={profilesError} />
+
+        {profilesError ? (
+          <Box
+            p="sm"
+            style={{
+              borderRadius: 8,
+              border: '1px solid rgba(255, 170, 0, 0.3)',
+              background: 'rgba(255, 170, 0, 0.05)',
+            }}
+          >
+            <Text size="sm" fw={700} mb={8}>Controls folder</Text>
+            <MappingsFolderPanel onChanged={() => { void loadProfiles(); }} />
+          </Box>
+        ) : null}
 
         <Box
           p="sm"

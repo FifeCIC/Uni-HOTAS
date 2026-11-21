@@ -17,7 +17,10 @@
     "server": "nodemon --watch server --ext js,mjs,cjs --ignore server/data/*.json server/index.js",
     "server:3101": "set PORT=3101&& nodemon --watch server --ext js,mjs,cjs --ignore server/data/*.json server/index.js",
     "hotas:agent": "node server/peripherals/hotas/agent/HotasModeCompanionAgent.js",
-    "hotas:agent:dry": "node server/peripherals/hotas/agent/HotasModeCompanionAgent.js --dry-run"
+    "hotas:agent:dry": "node server/peripherals/hotas/agent/HotasModeCompanionAgent.js --dry-run",
+    "start": "node server/index.js",
+    "serve": "npm run build:local && node server/index.js",
+    "build:local": "vite build --base=/"
   },
   "dependencies": {
     "@arwes/animated": "1.0.0-next.25020502",

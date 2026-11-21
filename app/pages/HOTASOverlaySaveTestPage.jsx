@@ -12,7 +12,7 @@
 import React, { useState, useEffect } from 'react';
 import { Box, Title, Text, Button, Stack, Badge, Group, Code, TextInput, Select } from '@mantine/core';
 
-const DATA_FETCH_URL = '/data/hotas/overlays/hotas-x52-overlay-positions.jsonc';
+const DATA_FETCH_URL = '/api/hotas-overlay-positions';
 const SAVE_URL = '/api/hotas-overlay-positions';
 
 export default function HOTASOverlaySaveTestPage() {

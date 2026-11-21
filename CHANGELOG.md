@@ -4,6 +4,28 @@ All notable changes to Uni-HOTAS will be documented in this file.
 
 ---
 
+## [Unreleased] — one-command install
+
+### Added
+
+- **`npm run serve`** — builds the app with base `/` and serves it from the companion API, so the whole app runs at `http://localhost:3001` with no CORS and no second terminal.
+- **Controls folder discovery** — the server auto-detects `LIVE` / `PTU` / `EPTU` / `HOTFIX` installs, and `GET·POST /api/hotas/mappings-path` plus `POST /api/hotas/pick-folder` let the UI show and change the folder. A saved folder that disappears is reported, not silently swapped.
+- **Mappings folder panel** in HOTAS Config (on load failure) and Settings.
+- **`GET /api/hotas-overlay-positions`** — the client now reads saved overlay positions from the API instead of a static path that 404'd.
+
+### Changed
+
+- **User data moved to `%APPDATA%\Uni-HOTAS`** — overlay positions, backups and the mappings-folder choice no longer live inside the app folder (required for any packaged build).
+- Server identity JSON moved from `/` to `/api`; `/` now serves the app.
+- `/api/hotas/profiles` returns **409 `MAPPINGS_NOT_CONFIGURED`** with detected candidates instead of a bare 404.
+
+### Removed
+
+- The dead `/api/game/settings` endpoint and its category helper (feature already removed).
+- The `game-settings` source from backup sync.
+
+---
+
 ## [Unreleased] — Ships out, Aerobook out, VerseMail now Feedback
 
 ### Removed

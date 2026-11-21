@@ -76,27 +76,37 @@ The hosted build is **demo mode**: it can browse the interface, but it cannot re
 
 ### Option B — Run locally
 
+**One command** (builds the app and serves everything from one port):
+
 ```powershell
 npm install
+npm run serve    # builds with base "/" then opens http://localhost:3001
+```
+
+**Development, two terminals** (hot reload):
+
+```powershell
 npm run server   # companion API on http://localhost:3001
 npm run dev      # UI on http://localhost:4242 (proxies /api to :3001)
 ```
 
-Then open `http://localhost:4242`, go to **HOTAS Config**, pick a profile, right-click a binding and press the input you want.
+Then open `http://localhost:3001` (serve) or `http://localhost:4242` (dev), go to **HOTAS Config**, pick a profile, right-click a binding and press the input you want.
+
+If the profiles list is empty, the **Controls folder** panel appears: it shows any install it detected (`LIVE`/`PTU`/`EPTU`), lets you pick the folder natively, and saves the choice to `%APPDATA%\Uni-HOTAS\config.json`.
 
 ### Option C — A packaged Windows app (planned)
 
 A one-click Windows build is the next installation milestone — see [Why installation is manual today](#why-installation-is-manual-today) and [issue #5](https://github.com/FifeCIC/Uni-HOTAS/issues/5).
 
-### Why installation is manual today
+### Why installation is still manual
 
-Three things make a double-click install harder than it looks, and each is a real change rather than a packaging step:
+Two of the three original limits are now fixed; the third is what the Windows app work removes.
 
-| Limit | What happens | What packaging needs |
-|---|---|---|
-| **The mappings folder is a fixed path** | The server reads `C:\Program Files\Roberts Space Industries\StarCitizen\LIVE\user\client\0\controls\mappings` — a custom install or a different game channel will not be found | Auto-detect the channel, then let the user pick the folder on first run |
-| **Overlay data is written inside the app folder** | Saved overlay positions live in `app/data/hotas/overlays/`, which is read-only under `Program Files` | Move user data to `%APPDATA%\Uni-HOTAS` |
-| **The hosted page cannot call the local server** | The server's CORS allowlist only trusts `localhost:4242`, so `fifecic.github.io` is refused | Ship the UI *from* the local server (same origin), or run it in a desktop shell |
+| Limit | Status |
+|---|---|
+| **The mappings folder was a fixed path** | ✅ Fixed — auto-detects `LIVE`/`PTU`/`EPTU`/`HOTFIX`, and the folder can be chosen in the app (saved to `%APPDATA%\Uni-HOTAS\config.json`) |
+| **Hosted page could not call the server** | ✅ Fixed for local use — `npm run serve` serves the UI *from* the API, so there is no CORS and no second terminal |
+| **No installer** | ⏳ Needs Node.js and a terminal — that is what [#5](https://github.com/FifeCIC/Uni-HOTAS/issues/5) packages |
 
 ### Getting started with the editor
 
@@ -157,6 +167,10 @@ CI runs the strict mapping check and the XML rebind regression on every push and
 | `GET /api/hotas/profile/:name` | Load a profile XML |
 | `POST /api/hotas/profile/:name/bindings` | Persist captured bindings to XML |
 | `POST /api/hotas/open-folder` | Open the mappings folder in Explorer (Windows) |
+| `GET /api/hotas/mappings-path` | Current folder, how it was resolved, detected installs |
+| `POST /api/hotas/mappings-path` | Save a folder (`{ "path": "…" }`) |
+| `POST /api/hotas/pick-folder` | Native Windows folder picker, then saves the choice |
+| `GET·POST /api/hotas-overlay-positions` | Read/save overlay layout (stored under `%APPDATA%`) |
 
 ### Project structure
 

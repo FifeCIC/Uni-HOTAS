@@ -28,6 +28,8 @@ import { registerFeedbackRoutes } from './api/feedback/index.js';
 import { registerDownloadRoutes } from './api/dev/download/index.js';
 import { registerHotasOverlayRoutes } from './api/hotasOverlayApi.js';
 import { upsertDeviceRebind, removeDeviceRebind } from './peripherals/hotas/xmlRebind.js';
+import { getMappingsPath, getMappingsStatus, listCandidates, setMappingsPath } from './lib/mappingsPath.js';
+import { getUserDataDir } from './lib/userData.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -42,6 +44,8 @@ const MAX_ANALYTICS_EVENTS_PER_BATCH = 20;
 const ALLOWED_ORIGINS = [
   'http://localhost:4242',
   'http://127.0.0.1:4242',
+  'http://localhost:3001',
+  'http://127.0.0.1:3001',
 ];
 const ANALYTICS_EVENT_NAME_PATTERN = /^[a-z0-9][a-z0-9._:-]{2,63}$/;
 const SENSITIVE_KEY_PATTERN = /(email|password|token|secret|phone|address|auth|apikey|api-key|key)/i;
@@ -184,12 +188,14 @@ app.use(
 app.use(express.json({ limit: '1mb' }));
 
 // --- Public endpoints ---
-app.get('/', (req, res) => {
+// The app is served at `/` (see the static block at the end of this file), so the
+// server's own identity lives at `/api` instead.
+app.get('/api', (req, res) => {
   res.json({
     message: 'UNI-HOTAS Backend API Server',
     version: SERVER_VERSION,
     status: 'running',
-    endpoints: '/api/version, /api/gemini, /api/chat, /api/hotas/profiles'
+    endpoints: '/api/version, /api/gemini, /api/chat, /api/hotas/profiles, /api/hotas/mappings-path'
   });
 });
 
@@ -711,8 +717,20 @@ app.post('/api/chat', async (req, res) => {
 });
 
 // --- HOTAS Profile Endpoints ---
-const STAR_CITIZEN_MAPPINGS_PATH = 'C:\\Program Files\\Roberts Space Industries\\StarCitizen\\LIVE\\user\\client\\0\\controls\\mappings';
+// The mappings folder is resolved per request (config -> env -> auto-detect) so a
+// packaged build never depends on one machine's install path.
 const HOTAS_PROFILE_MODE_KEYS = ['green', 'orange', 'red'];
+
+function sendMappingsMissing(res) {
+  const status = getMappingsStatus();
+  return res.status(409).json({
+    error: 'Star Citizen mappings folder not found',
+    code: 'MAPPINGS_NOT_CONFIGURED',
+    hint: 'Choose your controls folder in HOTAS Config, or POST /api/hotas/mappings-path',
+    configured: status.configured || null,
+    candidates: status.candidates || [],
+  });
+}
 
 // SECURITY: Validate profile name to prevent directory traversal
 function validateProfileName(name) {
@@ -780,15 +798,14 @@ function normalizeModeHotasOverrides(input) {
 }
 
 function getProfileModeOverridesPath(profileName) {
-  return join(STAR_CITIZEN_MAPPINGS_PATH, `${profileName}.unihotas.modes.json`);
+  const mappingsPath = getMappingsPath();
+  if (!mappingsPath) return null;
+  return join(mappingsPath, `${profileName}.unihotas.modes.json`);
 }
 
 function readProfileModeOverrides(profileName) {
   const filePath = getProfileModeOverridesPath(profileName);
-
-  if (!filePath.startsWith(STAR_CITIZEN_MAPPINGS_PATH)) {
-    throw new Error('Access denied');
-  }
+  if (!filePath) throw new Error('MAPPINGS_NOT_CONFIGURED');
 
   if (!existsSync(filePath)) {
     return normalizeModeHotasOverrides({});
@@ -806,10 +823,10 @@ function readProfileModeOverrides(profileName) {
 
 function writeProfileModeOverrides(profileName, modeHotasOverrides) {
   const filePath = getProfileModeOverridesPath(profileName);
+  const mappingsPath = getMappingsPath();
 
-  if (!filePath.startsWith(STAR_CITIZEN_MAPPINGS_PATH)) {
-    throw new Error('Access denied');
-  }
+  if (!filePath || !mappingsPath) throw new Error('MAPPINGS_NOT_CONFIGURED');
+  if (!filePath.startsWith(mappingsPath)) throw new Error('Access denied');
 
   const payload = {
     profile: profileName,
@@ -823,17 +840,20 @@ function writeProfileModeOverrides(profileName, modeHotasOverrides) {
 
 app.get('/api/hotas/profiles', (req, res) => {
   try {
-    if (!existsSync(STAR_CITIZEN_MAPPINGS_PATH) || !statSync(STAR_CITIZEN_MAPPINGS_PATH).isDirectory()) {
-      return res.status(404).json({ error: 'Star Citizen mappings folder not found' });
+    const mappingsPath = getMappingsPath();
+    if (!mappingsPath) return sendMappingsMissing(res);
+
+    if (!existsSync(mappingsPath) || !statSync(mappingsPath).isDirectory()) {
+      return sendMappingsMissing(res);
     }
 
-    const profiles = readdirSync(STAR_CITIZEN_MAPPINGS_PATH)
+    const profiles = readdirSync(mappingsPath)
       .filter(file => file.endsWith('.xml'))
       .map(file => {
         const name = file.replace('.xml', '');
         let meta = {};
         try {
-          const metaPath = join(STAR_CITIZEN_MAPPINGS_PATH, `${name}.unihotas.json`);
+          const metaPath = join(mappingsPath, `${name}.unihotas.json`);
           const metaRaw = readFileSync(metaPath, 'utf-8');
           try {
             meta = JSON.parse(metaRaw);
@@ -857,8 +877,10 @@ app.get('/api/hotas/profile/:profileName/meta', (req, res) => {
   try {
     const profileName = validateProfileName(req.params.profileName);
     if (!profileName) return res.status(400).json({ error: 'Invalid profile name' });
-    const metaPath = join(STAR_CITIZEN_MAPPINGS_PATH, `${profileName}.unihotas.json`);
-    if (!metaPath.startsWith(STAR_CITIZEN_MAPPINGS_PATH)) return res.status(403).json({ error: 'Access denied' });
+    const mappingsPath = getMappingsPath();
+    if (!mappingsPath) return sendMappingsMissing(res);
+    const metaPath = join(mappingsPath, `${profileName}.unihotas.json`);
+    if (!metaPath.startsWith(mappingsPath)) return res.status(403).json({ error: 'Access denied' });
     try {
       const meta = JSON.parse(readFileSync(metaPath, 'utf-8'));
       res.json(meta);
@@ -874,8 +896,10 @@ app.post('/api/hotas/profile/:profileName/meta', (req, res) => {
   try {
     const profileName = validateProfileName(req.params.profileName);
     if (!profileName) return res.status(400).json({ error: 'Invalid profile name' });
-    const metaPath = join(STAR_CITIZEN_MAPPINGS_PATH, `${profileName}.unihotas.json`);
-    if (!metaPath.startsWith(STAR_CITIZEN_MAPPINGS_PATH)) return res.status(403).json({ error: 'Access denied' });
+    const mappingsPath = getMappingsPath();
+    if (!mappingsPath) return sendMappingsMissing(res);
+    const metaPath = join(mappingsPath, `${profileName}.unihotas.json`);
+    if (!metaPath.startsWith(mappingsPath)) return res.status(403).json({ error: 'Access denied' });
     const meta = req.body || {};
     writeFileSync(metaPath, JSON.stringify(meta, null, 2), 'utf-8');
     log(`HOTAS: Saved metadata for profile "${profileName}"`);
@@ -928,10 +952,13 @@ app.get('/api/hotas/profile/:profileName', (req, res) => {
       return res.status(400).json({ error: 'Invalid profile name' });
     }
 
-    const filePath = join(STAR_CITIZEN_MAPPINGS_PATH, `${profileName}.xml`);
+    const mappingsPath = getMappingsPath();
+    if (!mappingsPath) return sendMappingsMissing(res);
+
+    const filePath = join(mappingsPath, `${profileName}.xml`);
     
     // SECURITY: Validate file path is within allowed directory
-    if (!filePath.startsWith(STAR_CITIZEN_MAPPINGS_PATH)) {
+    if (!filePath.startsWith(mappingsPath)) {
       return res.status(403).json({ error: 'Access denied' });
     }
 
@@ -964,10 +991,12 @@ app.post('/api/hotas/profile/:profileName/bindings', (req, res) => {
       return res.status(400).json({ error: 'No valid action names provided' });
     }
 
-    const filePath = join(STAR_CITIZEN_MAPPINGS_PATH, `${profileName}.xml`);
+    const filePath = join(getMappingsPath() || '', `${profileName}.xml`);
+    const mappingsPath = getMappingsPath();
+    if (!mappingsPath) return sendMappingsMissing(res);
 
     // SECURITY: Validate file path is within allowed directory.
-    if (!filePath.startsWith(STAR_CITIZEN_MAPPINGS_PATH)) {
+    if (!filePath.startsWith(mappingsPath)) {
       return res.status(403).json({ error: 'Access denied' });
     }
 
@@ -1015,67 +1044,88 @@ app.post('/api/hotas/profile/:profileName/bindings', (req, res) => {
   }
 });
 
+// --- Mappings folder discovery & configuration ---
+app.get('/api/hotas/mappings-path', (req, res) => {
+  try {
+    res.json(getMappingsStatus());
+  } catch (error) {
+    log('HOTAS mappings-path read error:', error.message);
+    res.status(500).json({ error: 'Failed to read mappings path' });
+  }
+});
+
+app.get('/api/hotas/mappings-candidates', (req, res) => {
+  try {
+    res.json({ candidates: listCandidates() });
+  } catch (error) {
+    log('HOTAS mappings-candidates error:', error.message);
+    res.status(500).json({ error: 'Failed to scan for installs' });
+  }
+});
+
+app.post('/api/hotas/mappings-path', (req, res) => {
+  try {
+    const result = setMappingsPath(req.body?.path);
+    log(`HOTAS: Mappings folder set to ${result.path} (${result.xmlCount} xml)`);
+    res.json({ success: true, ...result });
+  } catch (error) {
+    log('HOTAS mappings-path save error:', error.message);
+    res.status(400).json({ error: error.message });
+  }
+});
+
+// Native folder picker — Windows only, and deliberately a child process so the
+// server keeps running if the user cancels.
+app.post('/api/hotas/pick-folder', (req, res) => {
+  try {
+    const script = [
+      'Add-Type -AssemblyName System.Windows.Forms;',
+      '$d = New-Object System.Windows.Forms.FolderBrowserDialog;',
+      "$d.Description = 'Select the Star Citizen controls/mappings folder';",
+      '$d.ShowNewFolderButton = $false;',
+      'if ($d.ShowDialog() -eq [System.Windows.Forms.DialogResult]::OK) { Write-Output $d.SelectedPath }',
+    ].join(' ');
+
+    const output = execSync(`powershell -NoProfile -STA -Command "${script.replace(/"/g, '\\"')}"`, {
+      encoding: 'utf-8',
+      windowsHide: true,
+      timeout: 120000,
+    }).trim();
+
+    if (!output) {
+      return res.status(204).end();
+    }
+
+    const result = setMappingsPath(output);
+    log(`HOTAS: Mappings folder chosen via picker: ${result.path}`);
+    res.json({ success: true, ...result });
+  } catch (error) {
+    log('HOTAS pick-folder error:', error.message);
+    res.status(500).json({ error: 'Folder picker failed' });
+  }
+});
+
 app.post('/api/hotas/open-folder', (req, res) => {
   try {
-    if (!existsSync(STAR_CITIZEN_MAPPINGS_PATH) || !statSync(STAR_CITIZEN_MAPPINGS_PATH).isDirectory()) {
-      return res.status(404).json({ error: 'Star Citizen mappings folder not found' });
+    const mappingsPath = getMappingsPath();
+    if (!mappingsPath) return sendMappingsMissing(res);
+    if (!existsSync(mappingsPath) || !statSync(mappingsPath).isDirectory()) {
+      return sendMappingsMissing(res);
     }
-    
+
     // Open folder with Windows explorer (works on Windows)
-    execSync(`start "" "${STAR_CITIZEN_MAPPINGS_PATH}"`, { stdio: 'ignore' });
+    execSync(`start "" "${mappingsPath}"`, { stdio: 'ignore' });
     
     log('HOTAS: Opened mappings folder');
-    res.json({ success: true, path: STAR_CITIZEN_MAPPINGS_PATH });
+    res.json({ success: true, path: mappingsPath });
   } catch (error) {
     log('HOTAS open folder error:', error.message);
     res.status(500).json({ error: 'Failed to open folder' });
   }
 });
 
-// --- Game Settings Endpoint ---
-const STAR_CITIZEN_ATTRIBUTES_PATH = join(STAR_CITIZEN_MAPPINGS_PATH, '..', '..', 'Profiles', 'default', 'attributes.xml');
-
-app.get('/api/game/settings', (req, res) => {
-  try {
-    const xml = readFileSync(STAR_CITIZEN_ATTRIBUTES_PATH, 'utf-8');
-    const attrPattern = /<Attr\s+name="([^"]+)"\s+value="([^"]*)"\s*\/>/gi;
-    const settings = [];
-    let match;
-    while ((match = attrPattern.exec(xml)) !== null) {
-      const name = match[1];
-      const value = match[2];
-      // Simple heuristic: if value is 0 or 1 for most settings, it's likely default
-      const isDefault = value === '1' || value === '0' || value === '';
-      settings.push({ name, value, category: categorizeSettingName(name), isDefault });
-    }
-    res.json({ settings, count: settings.length });
-  } catch (error) {
-    log('Game settings error:', error.message);
-    res.status(500).json({ error: 'Failed to read game settings' });
-  }
-});
-
-function categorizeSettingName(name) {
-  const n = name.toLowerCase();
-  if (n.startsWith('audio')) return 'Audio';
-  if (n.startsWith('sysspec')) return 'Graphics';
-  if (n.startsWith('headtracking') || n.startsWith('tobii') || n.startsWith('foip')) return 'Head Tracking';
-  if (n.startsWith('lookahead')) return 'Look Ahead';
-  if (n.startsWith('flight') || n.startsWith('pilot') || n.startsWith('speed')) return 'Flight';
-  if (n.startsWith('turret')) return 'Turrets';
-  if (n.startsWith('hmd')) return 'VR / HMD';
-  if (n.startsWith('gforce') || n.startsWith('shake') || n.startsWith('motionblur')) return 'Effects';
-  if (n.startsWith('preset') || n.startsWith('selectedship')) return 'Profile / Ship';
-  if (n.startsWith('weapon')) return 'Weapons';
-  if (n.startsWith('width') || n.startsWith('height') || n.startsWith('resolution') || n.startsWith('window') || n.startsWith('overscan') || n.startsWith('aspect') || n.startsWith('upscaling')) return 'Display';
-  if (n.startsWith('textinput')) return 'Input';
-  if (n.startsWith('crosshair') || n.startsWith('autozoom')) return 'HUD';
-  if (n.startsWith('salvage') || n.startsWith('ads')) return 'Gameplay';
-  return 'Other';
-}
-
 // --- Backup/Sync Service ---
-const DATA_DIR = join(process.cwd(), 'server', 'data');
+const DATA_DIR = getUserDataDir();
 const BACKUP_CONFIG_PATH = join(DATA_DIR, 'backup-config.json');
 
 function getBackupConfig() {
@@ -1107,10 +1157,14 @@ function runBackupSync() {
       mkdirSync(config.folderPath, { recursive: true });
     }
 
+    const mappingsPath = getMappingsPath();
     const sources = [
-      { dir: STAR_CITIZEN_MAPPINGS_PATH, subdir: 'hotas-profiles', pattern: /\.(xml|json)$/i },
-      { dir: join(STAR_CITIZEN_MAPPINGS_PATH, '..', '..', 'Profiles', 'default'), subdir: 'game-settings', pattern: /\.xml$/i },
-    ];
+      { dir: mappingsPath, subdir: 'hotas-profiles', pattern: /\.(xml|json)$/i },
+    ].filter((source) => source.dir);
+
+    if (sources.length === 0) {
+      return { success: false, error: 'Mappings folder not configured' };
+    }
 
     let filesCopied = 0;
     for (const source of sources) {
@@ -1189,7 +1243,46 @@ registerFeedbackRoutes(app);
 registerDownloadRoutes(app);
 registerHotasOverlayRoutes(app);
 
+// --- Serve the built app (same-origin install) ---
+// WHY: when the server also serves dist/, the whole app runs at
+// http://localhost:3001 with no CORS, no proxy and no second terminal. It is the
+// foundation for the packaged Windows build. In development `dist/` may be absent,
+// in which case Vite keeps serving the UI on :4242.
+const DIST_DIR = join(__dirname, '..', 'dist');
+if (existsSync(DIST_DIR)) {
+  app.use(express.static(DIST_DIR, { index: false }));
+  app.use((req, res, next) => {
+    if (req.method !== 'GET' && req.method !== 'HEAD') return next();
+    if (req.path.startsWith('/api')) return res.status(404).json({ error: 'Not found' });
+    if (req.path.includes('.')) return next();
+    return res.sendFile(join(DIST_DIR, 'index.html'));
+  });
+}
+
+/**
+ * A dist/ built for GitHub Pages references /Uni-HOTAS/assets/..., which this server
+ * does not serve. That shows up as a blank page with no error, so say it out loud.
+ */
+function distWasBuiltForPages() {
+  try {
+    const html = readFileSync(join(DIST_DIR, 'index.html'), 'utf-8');
+    return html.includes('/Uni-HOTAS/assets/');
+  } catch {
+    return false;
+  }
+}
+
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
   log(`Server ${SERVER_VERSION} running on port ${PORT}`);
+  if (existsSync(DIST_DIR)) {
+    if (distWasBuiltForPages()) {
+      log('WARNING: dist/ was built for GitHub Pages (/Uni-HOTAS/assets/...) and will not load from this server.');
+      log('WARNING: run "npm run serve" (or "npm run build:local") to build the app for same-origin use.');
+    } else {
+      log(`Serving built app at http://localhost:${PORT}/`);
+    }
+  } else {
+    log('No dist/ build found — run "npm run build:local" to serve the app from this server');
+  }
 });

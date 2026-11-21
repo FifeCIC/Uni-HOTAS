@@ -2,8 +2,8 @@
 
 ## Installation & packaging — next priority
 
-- [ ] **Step 0 — same-origin serving**: Express serves the built `dist/` so the whole app runs at `http://localhost:3001` (removes CORS entirely)
-- [ ] **Step 1 — configurable mappings path**: detect `LIVE` / `PTU` / `EPTU`, first-run folder picker, user data moved to `%APPDATA%\Uni-HOTAS`
+- [x] **Step 0 — same-origin serving**: Express serves the built `dist/`; `npm run serve` runs the whole app at `http://localhost:3001`
+- [x] **Step 1 — configurable mappings path**: detects `LIVE` / `PTU` / `EPTU` / `HOTFIX`, native folder picker, user data in `%APPDATA%\Uni-HOTAS`
 - [ ] **Step 2 — Electron + electron-builder**: NSIS installer and portable `.exe`, built in GitHub Actions
 - [ ] **Step 3 — code signing and auto-update**
 

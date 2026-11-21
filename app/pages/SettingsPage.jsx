@@ -2,6 +2,7 @@ import { Container, Stack, Text, Tabs, Card, NumberInput, Button, Alert, Select,
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { apiGet, apiPost, appendErrorLog, clearUniHotasStorage, useSettingsStore } from '../platform-core';
+import MappingsFolderPanel from '../components/MappingsFolderPanel';
 import { SciFiFrame } from '../components/ui';
 import DevTag from '../components/DevTag';
 
@@ -108,6 +109,9 @@ export default function SettingsPage() {
                 <Button color="cyan" variant="light" onClick={() => navigate('/settings/hotas')}>
                   Open HOTAS Settings
                 </Button>
+                <div style={{ marginTop: '1rem' }}>
+                  <MappingsFolderPanel />
+                </div>
               </div>
             </SciFiFrame>
 

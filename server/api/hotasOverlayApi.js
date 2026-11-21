@@ -1,15 +1,28 @@
-// Express route to save HOTAS overlay positions to JSON file (ESM version)
+// Express routes that persist HOTAS overlay positions (ESM version).
+//
+// WHY USER DATA: positions used to be written into app/data/ inside the project.
+// That breaks once the app is installed somewhere read-only, so both the saved
+// file and its backups live under %APPDATA%\Uni-HOTAS now.
 import express from 'express';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { getUserDataPath } from '../lib/userData.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Model-specific overlay path (X52)
-const HOTAS_OVERLAY_PATH = path.join(__dirname, '../../app/data/hotas/overlays/hotas-x52-overlay-positions.jsonc');
-const HOTAS_OVERLAY_BACKUP_DIR = path.join(__dirname, '../../app/data/hotas/overlays/backups');
+const OVERLAY_FILENAME = 'hotas-x52-overlay-positions.jsonc';
+// Shipped defaults, used until the user saves their own layout.
+const BUNDLED_OVERLAY_PATH = path.join(__dirname, '../../app/data/hotas/overlays', OVERLAY_FILENAME);
+
+function overlayFile() {
+  return getUserDataPath('overlays', OVERLAY_FILENAME);
+}
+
+function overlayBackupDir() {
+  return getUserDataPath('overlays', 'backups');
+}
 
 function buildBackupStamp(date = new Date()) {
   const pad = (value) => String(value).padStart(2, '0');
@@ -22,7 +35,25 @@ function buildBackupStamp(date = new Date()) {
   return `${year}${month}${day}-${hours}${minutes}${seconds}`;
 }
 
+function readOverlayText() {
+  const saved = overlayFile();
+  if (fs.existsSync(saved)) return fs.readFileSync(saved, 'utf8');
+  if (fs.existsSync(BUNDLED_OVERLAY_PATH)) return fs.readFileSync(BUNDLED_OVERLAY_PATH, 'utf8');
+  return '[]';
+}
+
 export function registerHotasOverlayRoutes(app) {
+  // The client reads saved positions here instead of a static file, which is what
+  // lets a saved layout survive a rebuild or an app update.
+  app.get('/api/hotas-overlay-positions', (req, res) => {
+    try {
+      res.type('application/json').send(readOverlayText().replace(/^\uFEFF/, ''));
+    } catch (error) {
+      console.error('Failed to read overlay positions:', error);
+      res.status(500).json({ error: 'Failed to read file' });
+    }
+  });
+
   app.post('/api/hotas-overlay-positions', express.json({ limit: '1mb' }), (req, res) => {
     const overlays = req.body;
     if (!Array.isArray(overlays)) {
@@ -30,36 +61,38 @@ export function registerHotasOverlayRoutes(app) {
     }
 
     try {
-      fs.mkdirSync(HOTAS_OVERLAY_BACKUP_DIR, { recursive: true });
+      const overlayPath = overlayFile();
+      const backupDir = overlayBackupDir();
+      fs.mkdirSync(backupDir, { recursive: true });
 
       // Keep a safety copy of the current persisted file before every overwrite.
-      if (fs.existsSync(HOTAS_OVERLAY_PATH)) {
-        const existingContents = fs.readFileSync(HOTAS_OVERLAY_PATH, 'utf8');
+      if (fs.existsSync(overlayPath)) {
+        const existingContents = fs.readFileSync(overlayPath, 'utf8');
         const stamp = buildBackupStamp();
-        const timestampedBackupPath = path.join(HOTAS_OVERLAY_BACKUP_DIR, `hotas-x52-overlay-positions.${stamp}.jsonc`);
-        const latestBackupPath = path.join(HOTAS_OVERLAY_BACKUP_DIR, 'hotas-x52-overlay-positions.latest.jsonc');
+        const timestampedBackupPath = path.join(backupDir, `hotas-x52-overlay-positions.${stamp}.jsonc`);
+        const latestBackupPath = path.join(backupDir, 'hotas-x52-overlay-positions.latest.jsonc');
         fs.writeFileSync(timestampedBackupPath, existingContents, 'utf8');
         fs.writeFileSync(latestBackupPath, existingContents, 'utf8');
 
-        // Prune old timestamped backups — keep only the 3 most recent
+        // Prune old timestamped backups - keep only the 3 most recent
         const MAX_BACKUPS = 3;
-        const backups = fs.readdirSync(HOTAS_OVERLAY_BACKUP_DIR)
-          .filter(f => f !== 'hotas-x52-overlay-positions.latest.jsonc' && f.endsWith('.jsonc'))
+        const backups = fs.readdirSync(backupDir)
+          .filter((f) => f !== 'hotas-x52-overlay-positions.latest.jsonc' && f.endsWith('.jsonc'))
           .sort()
           .reverse();
-        backups.slice(MAX_BACKUPS).forEach(f => {
-          try { fs.unlinkSync(path.join(HOTAS_OVERLAY_BACKUP_DIR, f)); } catch { /* ignore */ }
+        backups.slice(MAX_BACKUPS).forEach((f) => {
+          try { fs.unlinkSync(path.join(backupDir, f)); } catch { /* ignore */ }
         });
       }
 
       const serialized = JSON.stringify(overlays, null, 2);
-      // Write directly — backup above already protects against data loss.
-      // renameSync fails on Windows when destination is held open by editor.
-      fs.writeFileSync(HOTAS_OVERLAY_PATH, serialized, 'utf8');
+      // Write directly - the backup above already protects against data loss.
+      // renameSync fails on Windows when the destination is held open by an editor.
+      fs.writeFileSync(overlayPath, serialized, 'utf8');
 
       return res.json({
         success: true,
-        backupDir: HOTAS_OVERLAY_BACKUP_DIR,
+        backupDir,
       });
     } catch (error) {
       console.error('Failed to save overlay positions:', error);
