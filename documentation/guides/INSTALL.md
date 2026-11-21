@@ -93,7 +93,7 @@ Copy `.env.example` to `.env` in the project root. Nothing is required for HOTAS
 | Mappings path was fixed to `…\StarCitizen\LIVE\…` | ✅ Fixed — auto-detects channels, and the folder is user-selectable |
 | Overlay/settings data was written inside the app folder | ✅ Fixed — user data lives in `%APPDATA%\Uni-HOTAS` |
 | Hosted page could not call the local server | ✅ Fixed for local use — `npm run serve` serves the UI from the API |
-| No installer yet | ⏳ Requires Node.js and a terminal; tracked in [issue #5](https://github.com/FifeCIC/Uni-HOTAS/issues/5) |
+| No installer yet | ✅ Fixed — `npm run dist:win`; installers publish on tags |
 
 ### User data locations
 
@@ -105,9 +105,43 @@ Copy `.env.example` to `.env` in the project root. Nothing is required for HOTAS
 
 ---
 
-## 5. Option C — Windows app (planned)
+## 5. Option C — Windows app
 
-A packaged build removes Node, the terminal and the two-command dance. The plan and its trade-offs are in [issue #5](https://github.com/FifeCIC/Uni-HOTAS/issues/5). Nothing in this guide depends on it — Option B works today.
+The desktop build is produced from this repo: an Electron shell around the same Express server, so the window and the API share an origin and no terminal is needed.
+
+### For players
+
+Installers are attached to [GitHub Releases](https://github.com/FifeCIC/Uni-HOTAS/releases) on each tag:
+
+| File | Use |
+|---|---|
+| `Uni-HOTAS-<version>-x64.exe` | Installer — per-user, no admin rights, Start Menu + desktop shortcuts |
+| `Uni-HOTAS-<version>-portable.exe` | Single file; run it anywhere, nothing installed |
+
+Unsigned builds show a SmartScreen prompt (*More info → Run anyway*). Code signing is step 3 of [issue #5](https://github.com/FifeCIC/Uni-HOTAS/issues/5).
+
+### For developers
+
+```powershell
+npm install
+npm run pack:win    # release\win-unpacked\Uni-HOTAS.exe
+npm run dist:win    # installer + portable exe in release\
+```
+
+⚠️ **"Cannot create symbolic link" during a local build** — electron-builder needs the *Create symbolic links* privilege to unpack a tools archive (it contains macOS symlinks we never use). Fix with either:
+
+- Enable Windows **Developer Mode** (Settings → System → For developers), then rebuild; or
+- Append `--config.win.signAndEditExecutable=false` to the electron-builder call — the exe then keeps Electron's default icon and version metadata. CI runners hold the privilege, so released builds are unaffected.
+
+### What the desktop app does differently
+
+| Behaviour | Detail |
+|---|---|
+| Server | Child process on port 3001, or the next free port if 3001 is taken |
+| Data | `%APPDATA%\Uni-HOTAS` (config, overlays, backups, `desktop.log`) |
+| Window | 1440×900, minimum 1024×700; external links open in your browser |
+| Menu | **File → Open data folder**, reload / devtools, Help links |
+| Shutdown | Closing the window stops the server; single instance only |
 
 ---
 

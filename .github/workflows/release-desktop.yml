@@ -1,0 +1,59 @@
+name: Build Windows app
+
+# Builds the NSIS installer and the portable exe on the same tag that ships the web build.
+# No signing yet: unsigned builds show a SmartScreen prompt, tracked in issue #5.
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    name: Windows installer
+    runs-on: windows-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build app and package Windows targets
+        run: npm run dist:win
+        env:
+          # electron-builder reads this to avoid interactive prompts in CI.
+          CSC_IDENTITY_AUTO_DISCOVERY: 'false'
+
+      - name: List artifacts
+        run: Get-ChildItem release -File | Select-Object Name, Length
+
+      - name: Upload artifacts (workflow run)
+        uses: actions/upload-artifact@v4
+        with:
+          name: uni-hotas-windows
+          path: |
+            release/*.exe
+            release/*.blockmap
+          if-no-files-found: error
+
+      - name: Publish release assets (tag builds)
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            release/*.exe
+            release/*.blockmap
+          draft: false
+          generate_release_notes: true

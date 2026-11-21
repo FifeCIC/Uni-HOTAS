@@ -4,6 +4,24 @@ All notable changes to Uni-HOTAS will be documented in this file.
 
 ---
 
+## [Unreleased] — Windows app
+
+### Added
+
+- **Electron desktop shell** (`desktop/main.cjs`) — starts the Express server as a child process on 3001 (or the next free port), waits for it, then loads the app from that origin. Single instance, external links open in the browser, closing the window stops the server, and everything is logged to `%APPDATA%\Uni-HOTAS\desktop.log`.
+- **`npm run dist:win`** — NSIS installer (~84 MB) and portable exe (~76 MB) via electron-builder (`electron-builder.yml`).
+- **`npm run pack:win`** — unpacked build for quick testing.
+- **`scripts/generate-icon.mjs`** — draws the hexagon mark and writes `desktop/assets/icon.png` + `icon.ico` (no rasteriser dependency).
+- **`.github/workflows/release-desktop.yml`** — builds both targets on Windows runners; attaches them to a GitHub release on `v*` tags.
+- **`author`** in package.json, so electron-builder stops warning.
+
+### Changed
+
+- **Dependencies split** — only the eight packages the server imports (`express`, `cors`, `helmet`, `express-rate-limit`, `dotenv`, `nodemailer`, `@aws-sdk/client-bedrock-runtime`, `@google/generative-ai`) stay in `dependencies`. Everything the app bundles at build time moved to `devDependencies`, which is what keeps the installer at ~84 MB instead of shipping React twice.
+- README and INSTALL now document the desktop build, the artifacts, and the local symlink-privilege workaround.
+
+---
+
 ## [Unreleased] — one-command install
 
 ### Added

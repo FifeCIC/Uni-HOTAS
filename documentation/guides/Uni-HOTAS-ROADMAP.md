@@ -4,7 +4,7 @@
 
 - [x] **Step 0 — same-origin serving**: Express serves the built `dist/`; `npm run serve` runs the whole app at `http://localhost:3001`
 - [x] **Step 1 — configurable mappings path**: detects `LIVE` / `PTU` / `EPTU` / `HOTFIX`, native folder picker, user data in `%APPDATA%\Uni-HOTAS`
-- [ ] **Step 2 — Electron + electron-builder**: NSIS installer and portable `.exe`, built in GitHub Actions
+- [x] **Step 2 — Electron + electron-builder**: NSIS installer and portable `.exe`, built in GitHub Actions on tag
 - [ ] **Step 3 — code signing and auto-update**
 
 Tracked in [#5](https://github.com/FifeCIC/Uni-HOTAS/issues/5). See [Installation Guide](INSTALL.md) for the current options.

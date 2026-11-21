@@ -1,0 +1,47 @@
+# electron-builder configuration for the Windows desktop build.
+#
+# WHY asar is disabled: the Express server reads dist/ and app/data at runtime with
+# plain fs calls. Unpacked files remove a whole class of "works in dev, blank in the
+# installer" failures, and the app is small enough that startup is not affected.
+appId: com.fifecic.unihotas
+productName: Uni-HOTAS
+copyright: Copyright (c) 2026 FifeCIC
+
+directories:
+  output: release
+  buildResources: desktop/assets
+
+files:
+  - dist/**/*
+  - server/**/*
+  - desktop/**/*
+  - package.json
+  - '!**/*.map'
+  - '!**/*.md'
+
+asar: false
+npmRebuild: false
+
+win:
+  target:
+    - target: nsis
+      arch:
+        - x64
+    - target: portable
+      arch:
+        - x64
+  icon: desktop/assets/icon.png
+  artifactName: Uni-HOTAS-${version}-${arch}.${ext}
+
+nsis:
+  oneClick: false
+  perMachine: false
+  allowToChangeInstallationDirectory: true
+  createDesktopShortcut: true
+  createStartMenuShortcut: true
+  shortcutName: Uni-HOTAS
+  uninstallDisplayName: Uni-HOTAS ${version}
+  deleteAppDataOnUninstall: false
+
+portable:
+  artifactName: Uni-HOTAS-${version}-portable.${ext}

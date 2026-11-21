@@ -5,7 +5,7 @@ import globals from 'globals';
 
 export default [
   {
-    ignores: ['dist/**', 'node_modules/**']
+    ignores: ['dist/**', 'node_modules/**', 'release/**']
   },
   js.configs.recommended,
   {
@@ -13,6 +13,17 @@ export default [
     languageOptions: {
       ecmaVersion: 2022,
       sourceType: 'module',
+      globals: {
+        ...globals.node
+      }
+    }
+  },
+  {
+    // Electron main process: CommonJS on purpose (see desktop/main.cjs).
+    files: ['desktop/**/*.cjs'],
+    languageOptions: {
+      ecmaVersion: 2022,
+      sourceType: 'commonjs',
       globals: {
         ...globals.node
       }

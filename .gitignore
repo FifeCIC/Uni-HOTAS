@@ -32,3 +32,7 @@ _site/
 .vscode/local-history/
 *.swp
 *.swo
+
+# Desktop build output
+release/
+

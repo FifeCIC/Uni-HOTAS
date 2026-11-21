@@ -94,9 +94,24 @@ Then open `http://localhost:3001` (serve) or `http://localhost:4242` (dev), go t
 
 If the profiles list is empty, the **Controls folder** panel appears: it shows any install it detected (`LIVE`/`PTU`/`EPTU`), lets you pick the folder natively, and saves the choice to `%APPDATA%\Uni-HOTAS\config.json`.
 
-### Option C — A packaged Windows app (planned)
+### Option C — Windows app
 
-A one-click Windows build is the next installation milestone — see [Why installation is manual today](#why-installation-is-manual-today) and [issue #5](https://github.com/FifeCIC/Uni-HOTAS/issues/5).
+A packaged build is produced from this repo — no separate project:
+
+```powershell
+npm install
+npm run dist:win     # NSIS installer + portable exe in release/
+```
+
+| Command | What you get |
+|---|---|
+| `npm run pack:win` | `release\win-unpacked\Uni-HOTAS.exe` — fastest loop, no installer |
+| `npm run dist:win` | `release\Uni-HOTAS-<version>-x64.exe` (installer, ~84 MB) and `-portable.exe` (~76 MB) |
+| `npm run desktop` | Runs the app from the working tree (expects a previous `build:local`) |
+
+Tagged builds (`v*`) run `.github/workflows/release-desktop.yml` and attach both exes to the GitHub release.
+
+⚠️ **Building locally on Windows:** electron-builder extracts a tools archive containing macOS symlinks, which needs the **Create symbolic links** privilege. If the build stops with *"Cannot create symbolic link"*, either enable Windows **Developer Mode**, or append `--config.win.signAndEditExecutable=false` (the app then keeps Electron's default exe icon; CI builds are unaffected).
 
 ### Why installation is still manual
 
@@ -106,7 +121,7 @@ Two of the three original limits are now fixed; the third is what the Windows ap
 |---|---|
 | **The mappings folder was a fixed path** | ✅ Fixed — auto-detects `LIVE`/`PTU`/`EPTU`/`HOTFIX`, and the folder can be chosen in the app (saved to `%APPDATA%\Uni-HOTAS\config.json`) |
 | **Hosted page could not call the server** | ✅ Fixed for local use — `npm run serve` serves the UI *from* the API, so there is no CORS and no second terminal |
-| **No installer** | ⏳ Needs Node.js and a terminal — that is what [#5](https://github.com/FifeCIC/Uni-HOTAS/issues/5) packages |
+| **No installer** | ✅ Fixed — `npm run dist:win` produces an NSIS installer and a portable exe; tagged builds publish them |
 
 ### Getting started with the editor
 
