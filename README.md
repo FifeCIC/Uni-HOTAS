@@ -80,17 +80,17 @@ The hosted build is **demo mode**: it can browse the interface, but it cannot re
 
 ```powershell
 npm install
-npm run serve    # builds with base "/" then opens http://localhost:3001
+npm run serve    # builds with base "/" then opens http://localhost:3111
 ```
 
 **Development, two terminals** (hot reload):
 
 ```powershell
-npm run server   # companion API on http://localhost:3001
-npm run dev      # UI on http://localhost:4242 (proxies /api to :3001)
+npm run server   # companion API on http://localhost:3111
+npm run dev      # UI on http://localhost:5175 (proxies /api to :3111)
 ```
 
-Then open `http://localhost:3001` (serve) or `http://localhost:4242` (dev), go to **HOTAS Config**, pick a profile, right-click a binding and press the input you want.
+Then open `http://localhost:3111` (serve) or `http://localhost:5175` (dev), go to **HOTAS Config**, pick a profile, right-click a binding and press the input you want.
 
 If the profiles list is empty, the **Controls folder** panel appears: it shows any install it detected (`LIVE`/`PTU`/`EPTU`), lets you pick the folder natively, and saves the choice to `%APPDATA%\Uni-HOTAS\config.json`.
 
@@ -144,11 +144,11 @@ Two of the three original limits are now fixed; the third is what the Windows ap
 
 ```bash
 npm install
-npm run dev      # Vite app on http://localhost:4242
-npm run server   # Express API on http://localhost:3001
+npm run dev      # Vite app on http://localhost:5175
+npm run server   # Express API on http://localhost:3111
 ```
 
-The dev server proxies `/api` to `http://127.0.0.1:3001`.
+The dev server proxies `/api` to `http://127.0.0.1:3111`.
 
 ### Quality commands
 

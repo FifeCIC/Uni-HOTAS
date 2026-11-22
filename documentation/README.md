@@ -21,7 +21,7 @@ Everything needed to install, use and extend **Uni-HOTAS** — a Universal HOTAS
 ## How it is put together
 
 ```
-Browser UI (React)  ──HTTP──▶  Companion server (Express, localhost:3001)  ──▶  Game XML profiles
+Browser UI (React)  ──HTTP──▶  Companion server (Express, localhost:3111)  ──▶  Game XML profiles
 ```
 
 The UI can run from GitHub Pages, but **file access requires the companion server** running on the same machine. This split is why the installation guide has more than one option.

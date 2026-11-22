@@ -8,7 +8,7 @@ All notable changes to Uni-HOTAS will be documented in this file.
 
 ### Added
 
-- **Electron desktop shell** (`desktop/main.cjs`) — starts the Express server as a child process on 3001 (or the next free port), waits for it, then loads the app from that origin. Single instance, external links open in the browser, closing the window stops the server, and everything is logged to `%APPDATA%\Uni-HOTAS\desktop.log`.
+- **Electron desktop shell** (`desktop/main.cjs`) — starts the Express server as a child process on 3111 (or the next free port), waits for it, then loads the app from that origin. Single instance, external links open in the browser, closing the window stops the server, and everything is logged to `%APPDATA%\Uni-HOTAS\desktop.log`.
 - **`npm run dist:win`** — NSIS installer (~84 MB) and portable exe (~76 MB) via electron-builder (`electron-builder.yml`).
 - **`npm run pack:win`** — unpacked build for quick testing.
 - **`scripts/generate-icon.mjs`** — draws the hexagon mark and writes `desktop/assets/icon.png` + `icon.ico` (no rasteriser dependency).
@@ -26,7 +26,7 @@ All notable changes to Uni-HOTAS will be documented in this file.
 
 ### Added
 
-- **`npm run serve`** — builds the app with base `/` and serves it from the companion API, so the whole app runs at `http://localhost:3001` with no CORS and no second terminal.
+- **`npm run serve`** — builds the app with base `/` and serves it from the companion API, so the whole app runs at `http://localhost:3111` with no CORS and no second terminal.
 - **Controls folder discovery** — the server auto-detects `LIVE` / `PTU` / `EPTU` / `HOTFIX` installs, and `GET·POST /api/hotas/mappings-path` plus `POST /api/hotas/pick-folder` let the UI show and change the folder. A saved folder that disappears is reported, not silently swapped.
 - **Mappings folder panel** in HOTAS Config (on load failure) and Settings.
 - **`GET /api/hotas-overlay-positions`** — the client now reads saved overlay positions from the API instead of a static path that 404'd.

@@ -20,7 +20,8 @@ const net = require('net');
 const path = require('path');
 
 const APP_ID = 'com.fifecic.unihotas';
-const PREFERRED_PORT = 3001;
+// 3111 to match the API (3001 is StreamerOps; see the Intranet port registry).
+const PREFERRED_PORT = 3111;
 const START_TIMEOUT_MS = 30000;
 
 let mainWindow = null;

@@ -43,24 +43,24 @@ npm install
 npm run serve
 ```
 
-Open **http://localhost:3001**. UI and API share an origin, so there is no CORS and nothing else to start.
+Open **http://localhost:3111**. UI and API share an origin, so there is no CORS and nothing else to start.
 
 ### Or: development mode (hot reload)
 
 Open two terminals:
 
 ```powershell
-npm run server   # companion API on http://localhost:3001
-npm run dev      # UI on http://localhost:4242
+npm run server   # companion API on http://localhost:3111
+npm run dev      # UI on http://localhost:5175
 ```
 
-Then open **http://localhost:4242**.
+Then open **http://localhost:5175**.
 
 ### First run checklist
 
 | Step | Expected |
 |---|---|
-| `npm run serve` prints `Serving built app at http://localhost:3001/` | Server up, UI served |
+| `npm run serve` prints `Serving built app at http://localhost:3111/` | Server up, UI served |
 | App header shows **ONLINE** instead of **DEMO MODE** | UI found the server |
 | **HOTAS Config** lists your `.xml` profiles | Mappings folder found automatically |
 | Right-click a binding, press an input, save | XML written, backup created |
@@ -137,7 +137,7 @@ npm run dist:win    # installer + portable exe in release\
 
 | Behaviour | Detail |
 |---|---|
-| Server | Child process on port 3001, or the next free port if 3001 is taken |
+| Server | Child process on port 3111, or the next free port if 3111 is taken |
 | Data | `%APPDATA%\Uni-HOTAS` (config, overlays, backups, `desktop.log`) |
 | Window | 1440×900, minimum 1024×700; external links open in your browser |
 | Menu | **File → Open data folder**, reload / devtools, Help links |
@@ -149,10 +149,10 @@ npm run dist:win    # installer + portable exe in release\
 
 | Symptom | Cause | Fix |
 |---|---|---|
-| **DEMO MODE** banner stays on | Server not running, or running on the wrong port | Start `npm run serve`; confirm `http://localhost:3001/api/version` answers |
+| **DEMO MODE** banner stays on | Server not running, or running on the wrong port | Start `npm run serve`; confirm `http://localhost:3111/api/version` answers |
 | Profiles list empty | Mappings folder not found | Use the **Controls folder** panel to pick it, or press Refresh |
 | *Your saved folder is missing* | The folder you chose was moved or uninstalled | Pick a detected install, or choose a new folder |
-| `EADDRINUSE :3001` | Something else is on 3001 | Stop the other process, or set `PORT` in `.env` |
+| `EADDRINUSE :3111` | Something else is on 3111 | Stop the other process, or set `PORT` in `.env` |
 | Blank page with no error when served by the API | `dist/` was built for GitHub Pages (`/Uni-HOTAS/assets/…`) | Use `npm run serve` (builds with base `/`); the server also logs a warning for this |
 | Save fails with *Access denied* | Profile path outside the allowed mappings folder | The server refuses writes outside the configured folder by design |
 | CORS error in the console | Using the hosted page with a local server | Use Option B |

@@ -6,7 +6,7 @@ function shouldRetrySameOrigin(path, error) {
   return (
     typeof path === 'string' &&
     path.startsWith('/api') &&
-    baseUrl.includes('localhost:3001') &&
+    baseUrl.includes('localhost:3111') &&
     error instanceof TypeError
   );
 }

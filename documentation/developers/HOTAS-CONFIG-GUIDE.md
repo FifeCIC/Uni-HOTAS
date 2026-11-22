@@ -139,7 +139,7 @@ Future phases (Phase 2: Device Integration, Phase 3: Advanced Features) are docu
 
 ### Navigate Categories
 
-1. Visit `http://localhost:4242/hotas-config` (HC05)
+1. Visit `http://localhost:5175/hotas-config` (HC05)
 2. See tabs for each category: Flight, Weapons, Shields, Power, Targeting, Mining, Salvage, Scanning
 3. Click a tab to filter the table to that category's keybindings
 

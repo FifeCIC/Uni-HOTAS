@@ -365,7 +365,7 @@ To copy this system to your boilerplate:
 2. **Test time windows** (find best 15-sec clips)
 3. **Update mediaLibrary.js** with real video IDs
 4. **Create/source hero images** (1920x1080)
-5. **Test hover effect** at `localhost:4242/theme`
+5. **Test hover effect** at `localhost:5175/theme`
 
 ---
 

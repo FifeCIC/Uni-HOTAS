@@ -42,10 +42,10 @@ const MAX_MESSAGE_LENGTH = 10000;
 const MAX_LOG_FIELD_LENGTH = 2000;
 const MAX_ANALYTICS_EVENTS_PER_BATCH = 20;
 const ALLOWED_ORIGINS = [
-  'http://localhost:4242',
-  'http://127.0.0.1:4242',
-  'http://localhost:3001',
-  'http://127.0.0.1:3001',
+  'http://localhost:5175',
+  'http://127.0.0.1:5175',
+  'http://localhost:3111',
+  'http://127.0.0.1:3111',
 ];
 const ANALYTICS_EVENT_NAME_PATTERN = /^[a-z0-9][a-z0-9._:-]{2,63}$/;
 const SENSITIVE_KEY_PATTERN = /(email|password|token|secret|phone|address|auth|apikey|api-key|key)/i;
@@ -1245,9 +1245,9 @@ registerHotasOverlayRoutes(app);
 
 // --- Serve the built app (same-origin install) ---
 // WHY: when the server also serves dist/, the whole app runs at
-// http://localhost:3001 with no CORS, no proxy and no second terminal. It is the
+// http://localhost:3111 with no CORS, no proxy and no second terminal. It is the
 // foundation for the packaged Windows build. In development `dist/` may be absent,
-// in which case Vite keeps serving the UI on :4242.
+// in which case Vite keeps serving the UI on :5175.
 const DIST_DIR = join(__dirname, '..', 'dist');
 if (existsSync(DIST_DIR)) {
   app.use(express.static(DIST_DIR, { index: false }));
@@ -1272,7 +1272,8 @@ function distWasBuiltForPages() {
   }
 }
 
-const PORT = process.env.PORT || 3001;
+// 3111, not 3001: 3001 belongs to StreamerOps (data/port-registry.json in the Intranet).
+const PORT = process.env.PORT || 3111;
 app.listen(PORT, () => {
   log(`Server ${SERVER_VERSION} running on port ${PORT}`);
   if (existsSync(DIST_DIR)) {

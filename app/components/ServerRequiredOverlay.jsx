@@ -63,7 +63,7 @@ export default function ServerRequiredOverlay({ featureName = 'This feature', re
           </Text>
           <Text size="xs" c="dimmed" style={{ lineHeight: 1.6 }}>
             2. Start the local server (<code style={{ color: '#22d17b', background: 'rgba(34,209,123,0.1)', padding: '1px 5px', borderRadius: 3 }}>npm run server</code>), then open{' '}
-            <code style={{ color: '#00d9ff', background: 'rgba(0,217,255,0.08)', padding: '1px 5px', borderRadius: 3 }}>http://localhost:4242</code>.
+            <code style={{ color: '#00d9ff', background: 'rgba(0,217,255,0.08)', padding: '1px 5px', borderRadius: 3 }}>http://localhost:5175</code>.
           </Text>
           <Text size="xs" c="dimmed" style={{ lineHeight: 1.6 }}>
             3. Star Citizen must be installed — the server locates your profile files automatically.

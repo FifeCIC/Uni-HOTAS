@@ -248,11 +248,11 @@ const response = await fetch('/api/gemini', {
 
 **Test with cURL**:
 ```bash
-curl -X GET "http://localhost:3001/api/citizen/LOLinDark"
+curl -X GET "http://localhost:3111/api/citizen/LOLinDark"
 ```
 
 **Test with Postman**:
-1. POST to `http://localhost:3001/api/citizen/LOLinDark`
+1. POST to `http://localhost:3111/api/citizen/LOLinDark`
 2. Headers: None required (proxy passes API key server-side)
 3. Body: None
 
@@ -607,7 +607,7 @@ Start here based on your role:
 
 ## Support & Debugging
 
-**Test Page**: http://localhost:4242/developer/api-test
+**Test Page**: http://localhost:5175/developer/api-test
 
 **Logs**: Check browser console + server output
 

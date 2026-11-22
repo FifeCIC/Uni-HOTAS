@@ -193,7 +193,7 @@ Defined as CSS variables in `src/styles/scifi-theme.css`:
 
 ## Backend API
 
-Base URL: `http://localhost:3001`
+Base URL: `http://localhost:3111`
 
 | Endpoint | Method | Purpose |
 |----------|--------|---------|
@@ -215,10 +215,10 @@ Base URL: `http://localhost:3001`
 
 ```
 # Frontend (vite.config.js auto-proxies to backend)
-VITE_API_BASE_URL=http://localhost:3001
+VITE_API_BASE_URL=http://localhost:3111
 
 # Backend
-PORT=3001
+PORT=3111
 GEMINI_API_KEY=<your-key>
 AWS_REGION=us-east-1
 AWS_ACCESS_KEY_ID=<your-key>       # uncomment to enable Bedrock
@@ -233,8 +233,8 @@ MAX_HOURLY_REQUESTS=5
 ## Running
 
 ```bash
-npm run dev      # Frontend on :4242 (Vite)
-npm run server   # Backend on :3001 (Express + nodemon)
+npm run dev      # Frontend on :5175 (Vite)
+npm run server   # Backend on :3111 (Express + nodemon)
 npm run build    # Production build
 npm run lint     # ESLint check
 npm run preview  # Preview production build

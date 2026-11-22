@@ -315,7 +315,7 @@ export default function HC05LiveInputContainer({ overlays, onOverlayChange, keyb
         const message = detail || `Failed to save overlay positions (${response.status})`;
         saveErrors.push(`${endpoint}: ${message}`);
 
-        // Retry on route-not-found to handle conflicting local API on 3001.
+        // Retry on route-not-found to handle conflicting local API on 3111.
         // Also continue retry chain for other transient HTTP failures.
         continue;
       } catch (error) {

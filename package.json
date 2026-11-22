@@ -15,7 +15,6 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "server": "nodemon --watch server --ext js,mjs,cjs --ignore server/data/*.json server/index.js",
-    "server:3101": "set PORT=3101&& nodemon --watch server --ext js,mjs,cjs --ignore server/data/*.json server/index.js",
     "hotas:agent": "node server/peripherals/hotas/agent/HotasModeCompanionAgent.js",
     "hotas:agent:dry": "node server/peripherals/hotas/agent/HotasModeCompanionAgent.js --dry-run",
     "start": "node server/index.js",
@@ -25,7 +24,8 @@
     "desktop:dev": "npm run build:local && electron .",
     "predist:win": "node scripts/generate-icon.mjs",
     "dist:win": "npm run build:local && electron-builder --win --publish never",
-    "pack:win": "npm run build:local && electron-builder --win --dir"
+    "pack:win": "npm run build:local && electron-builder --win --dir",
+    "server:3111": "set PORT=3111&& nodemon --watch server --ext js,mjs,cjs --ignore server/data/*.json server/index.js"
   },
   "dependencies": {
     "@aws-sdk/client-bedrock-runtime": "^3.1034.0",
