@@ -4,6 +4,22 @@ All notable changes to Uni-HOTAS will be documented in this file.
 
 ---
 
+## [Unreleased] — install guidance on the hosted demo
+
+### Changed
+
+- **"Server required" notice now offers two paths, joined by an OR** — on GitHub Pages,
+  `/hotas-config` previously told a visitor to clone the repo and run `npm run server`, which is
+  the developer answer to a player's question. It now shows **Windows installer** (download from
+  Releases, run it, no Node.js) beside **Run from source**, with an **OR** between them. Each
+  option is a panel and the OR is the middle flex child, so wide screens get two columns and
+  narrow screens keep the installer → OR → source order.
+- **Demo-mode banner links the installer** — its "Want to run it fully?" line now points at
+  `releases/latest` before the clone instruction, so the global banner and the page notice agree.
+- Small-text contrast raised from `rgba(255,255,255,0.4)` to `0.62` in the notice, for AA.
+
+---
+
 ## [Unreleased] — Windows app
 
 ### Added

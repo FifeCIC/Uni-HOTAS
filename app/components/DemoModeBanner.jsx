@@ -54,7 +54,17 @@ export default function DemoModeBanner() {
           </Text>
           <Text size="xs" c="dimmed" style={{ lineHeight: 1.6 }}>
             <strong style={{ color: 'rgba(255,255,255,0.75)' }}>Want to run it fully?</strong>{' '}
-            Download the project from{' '}
+            Download the{' '}
+            <Anchor
+              href="https://github.com/FifeCIC/Uni-HOTAS/releases/latest"
+              target="_blank"
+              rel="noopener noreferrer"
+              size="xs"
+              style={{ color: '#22d17b' }}
+            >
+              Windows installer
+            </Anchor>
+            {' '}— no Node.js needed — or clone it from{' '}
             <Anchor
               href="https://github.com/FifeCIC/Uni-HOTAS"
               target="_blank"
@@ -64,7 +74,7 @@ export default function DemoModeBanner() {
             >
               GitHub
             </Anchor>
-            {' '}and follow the setup instructions to run it on localhost.
+            {' '}and follow the setup instructions.
           </Text>
           <Text size="xs" c="dimmed" style={{ lineHeight: 1.6 }}>
             <strong style={{ color: 'rgba(255,255,255,0.75)' }}>Want an online version?</strong>{' '}
