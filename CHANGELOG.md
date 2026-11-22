@@ -4,6 +4,25 @@ All notable changes to Uni-HOTAS will be documented in this file.
 
 ---
 
+## [Unreleased] — the real cause of the blank page
+
+### Fixed
+
+- **`t.map is not a function` on `/hotas-config`** — the overlay loader fetched
+  `/api/hotas-overlay-positions` and passed the body straight to `jsonc-parser.parse()`. On a
+  static host that path is not the API: GitHub Pages answers with its 404 HTML, and
+  **`parse()` returns `undefined` for invalid input rather than throwing**, so the overlay array
+  was replaced with `undefined` about 200 ms after mount and the next `overlays.map(...)` threw.
+  That is why the page painted and then went blank.
+  - the loader now ignores a non-OK response and validates `Array.isArray(parsed)` before setting state
+  - `useHotasOverlayState().setOverlays` refuses a non-array, so no caller can reintroduce it
+  - the bundled X52 layout is now the initial state, so the demo build shows hotspots instead of none
+
+Verified against a deliberately hostile static host that answers `/api/*` with `200` + HTML: the
+page renders and stays up, with no `t.map` error in the console.
+
+---
+
 ## [Unreleased] — crash visibility
 
 ### Fixed

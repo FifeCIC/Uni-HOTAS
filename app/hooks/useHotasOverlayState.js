@@ -1,8 +1,21 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 
-// Custom hook for HOTAS overlay state and dev mode persistence
+/**
+ * useHotasOverlayState — overlay hotspot state.
+ *
+ * ⚠️ `setOverlays` REFUSES a non-array. `jsonc-parser.parse()` returns `undefined` (it does not
+ * throw) for HTML or an error body, so a demo-mode / GitHub Pages response used to overwrite the
+ * array with `undefined` and the next `overlays.map(...)` crashed the whole app.
+ */
 export function useHotasOverlayState(initialOverlays = []) {
-  const [overlays, setOverlays] = useState(initialOverlays);
+  const [overlays, setOverlaysState] = useState(() => (Array.isArray(initialOverlays) ? initialOverlays : []));
+  const setOverlays = useCallback((next) => {
+    if (Array.isArray(next)) {
+      setOverlaysState(next);
+      return;
+    }
+    console.warn('[Uni-HOTAS] Ignored a non-array overlay payload:', typeof next);
+  }, []);
   const [devEditMode, setDevEditMode] = useState(() => {
     try {
       const saved = localStorage.getItem('hotasOverlayDevEditMode');

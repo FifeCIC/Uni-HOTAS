@@ -45,6 +45,7 @@ import { useHotasInput, LogitechX52Device } from '../libraries/hotas';
 import { fetchProfileModeOverrides, saveProfileModeOverrides } from '../libraries/peripherals/hotas';
 import DevTag from '../components/DevTag';
 import HC05LiveInputContainer from '../containers/HC05LiveInputContainer';
+import bundledOverlayRaw from '../data/hotas/overlays/hotas-x52-overlay-positions.jsonc?raw';
 import { normalizeText, getInputKind, getInputAction } from '../utils/hotasUtils';
 import { formatHotasBindingFromInput, formatHotasInputForXml } from '../utils/hotasInputFormatters';
 import ServerRequiredOverlay from '../components/ServerRequiredOverlay';
@@ -52,6 +53,20 @@ import { useServerStatus } from '../hooks/useServerStatus';
 import { getAssetUrl } from '../utils/pathUtils';
 
 const HOTAS_MODE_KEYS = ['green', 'orange', 'red'];
+
+/**
+ * Default X52 hotspot layout, used when no saved layout is available (demo mode / GitHub Pages).
+ * Imported raw so it ships with the page instead of needing a server round-trip.
+ */
+const BUNDLED_OVERLAY_POSITIONS = (() => {
+  try {
+    const parsed = JSON.parse(bundledOverlayRaw.replace(/^\s*\/\/.*$/gm, ''));
+    return Array.isArray(parsed) ? parsed : [];
+  } catch {
+    return [];
+  }
+})();
+
 const HOTAS_BAR_EVENT = 'unihotas:hotas-bookmark-status';
 const PAGE_DEV_TAG = 'HC05';
 const PAGE_LOG_SCOPE = `[${PAGE_DEV_TAG}]`;
@@ -182,18 +197,22 @@ export default function HOTASConfigMainPage() {
       // Overlay state for HOTAS overlay demo (persisted in localStorage)
       // Always load overlays from the overlays JSONC file for X52
       // Use custom hook for overlays and devEditMode state
-      const { overlays, setOverlays, devEditMode, setDevEditMode } = useHotasOverlayState([]);
+      const { overlays, setOverlays, devEditMode, setDevEditMode } = useHotasOverlayState(BUNDLED_OVERLAY_POSITIONS);
       const { isChecking: serverChecking, serverAvailable } = useServerStatus();
       const [dragged, setDragged] = React.useState(null);
-      // Load overlays from JSONC file on mount
+      // Load overlays from the API (saved layout) on mount.
+      // ⚠️ `jsonc-parser.parse()` returns undefined for HTML / error bodies rather than throwing,
+      // so the response is checked and the result validated before it reaches state. Without this
+      // the demo-mode response replaced the array with undefined and the page crashed on .map().
       useEffect(() => {
         async function loadOverlays() {
           try {
-            const overlayUrl = '/api/hotas-overlay-positions';
-            const res = await fetch(overlayUrl, { cache: 'no-store' });
+            const res = await fetch('/api/hotas-overlay-positions', { cache: 'no-store' });
+            if (!res.ok) return; // No server: keep the bundled default layout.
             const text = await res.text();
             const { parse } = await import('jsonc-parser');
-            setOverlays(parse(text));
+            const parsed = parse(text);
+            if (Array.isArray(parsed)) setOverlays(parsed);
           } catch (e) {
             console.error('Failed to load overlays JSONC:', e);
           }
