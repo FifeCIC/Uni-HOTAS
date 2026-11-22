@@ -1,4 +1,4 @@
-const CACHE_NAME = 'uni-hotas-v9';
+const CACHE_NAME = 'uni-hotas-v10';
 
 self.addEventListener('install', (event) => {
   self.skipWaiting();

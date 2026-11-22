@@ -5,6 +5,7 @@ import { Notifications } from '@mantine/notifications'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { BrowserRouter } from 'react-router-dom'
 import App from './App'
+import AppErrorBoundary from './components/AppErrorBoundary'
 import { useAppStore, useSettingsStore } from './stores'
 import '@mantine/core/styles.css'
 import '@mantine/notifications/styles.css'
@@ -64,7 +65,9 @@ function Root() {
       <QueryClientProvider client={queryClient}>
         <MantineProvider theme={theme} forceColorScheme={colorScheme}>
           <Notifications position="top-right" />
-          <App />
+          <AppErrorBoundary>
+            <App />
+          </AppErrorBoundary>
         </MantineProvider>
       </QueryClientProvider>
     </BrowserRouter>

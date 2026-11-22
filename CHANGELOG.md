@@ -4,6 +4,27 @@ All notable changes to Uni-HOTAS will be documented in this file.
 
 ---
 
+## [Unreleased] — crash visibility
+
+### Fixed
+
+- **A failed lazy chunk no longer blanks the app.** A deploy replaces every hashed chunk; a
+  browser still holding the previous `index.html` asks for a file that no longer exists, the
+  dynamic import rejects, and with no error boundary React unmounted the whole tree — the app
+  painted for a moment, then went to a flat background with no message. Two changes:
+  - **`AppErrorBoundary`** wraps `<App />` and renders the error, its message, and a reload
+    button instead of an empty page.
+  - **`lazyWithRetry`** reloads once automatically when a chunk fails to load (guarded by a
+    60-second `sessionStorage` window so a genuinely broken build cannot reload-loop).
+- **Service-worker cache bumped to `uni-hotas-v10`**, so the activate handler purges the previous
+  cache instead of serving an old chunk after an update.
+
+Reproduced deliberately: deleting one page chunk from `dist/` and loading its route produced
+`TypeError: Failed to fetch dynamically imported module` → one reload → the boundary, with the
+message and both buttons.
+
+---
+
 ## [Unreleased] — install guidance on the hosted demo
 
 ### Changed

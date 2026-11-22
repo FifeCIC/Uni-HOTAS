@@ -7,35 +7,70 @@ import { trackAppView, installGlobalErrorHandlers, startPerformanceMonitoring, u
 import { Loader, Center } from '@mantine/core';
 
 
-const HistoryPage = lazy(() => import('./pages/HistoryPage'));
-const RSILoginPage = lazy(() => import('./pages/RSILoginPage'));
-const DashboardPage = lazy(() => import('./pages/DashboardPage'));
-const MainDashboardPage = lazy(() => import('./pages/MainDashboardPage'));
-const OnboardingChecklistPage = lazy(() => import('./pages/OnboardingChecklistPage'));
-const SettingsPage = lazy(() => import('./pages/SettingsPage'));
-const ThemePage = lazy(() => import('./pages/ThemePage'));
-const DeveloperPage = lazy(() => import('./pages/DeveloperPage'));
-const ChangesPage = lazy(() => import('./pages/ChangesPage'));
-const ErrorLogPage = lazy(() => import('./pages/ErrorLogPage'));
-const AboutPage = lazy(() => import('./pages/AboutPage'));
-const ScreenshotsPage = lazy(() => import('./pages/ScreenshotsPage'));
-const APITestPage = lazy(() => import('./pages/APITestPage'));
-const AcademyFeatureLibraryPage = lazy(() => import('./pages/AcademyFeatureLibraryPage'));
-const HOTASConfigMainPage = lazy(() => import('./pages/HOTASConfigMainPage'));
-const DeveloperContextIndexPage = lazy(() => import('./pages/DeveloperContextIndexPage'));
-const HOTASDiagramPage = lazy(() => import('./pages/HOTASDiagramPage'));
-const HOTASOverlayPage = lazy(() => import('./pages/HOTASOverlayPage'));
-const HOTASOverlaySaveTestPage = lazy(() => import('./pages/HOTASOverlaySaveTestPage'));
-const HOTASCommunityTestingPage = lazy(() => import('./pages/HOTASCommunityTestingPage'));
-const DeveloperHotasDataFlowPage = lazy(() => import('./pages/DeveloperHotasDataFlowPage'));
+const CHUNK_RELOAD_KEY = 'unihotas.chunk-reload-at';
+
+/**
+ * lazyWithRetry — React.lazy plus one automatic reload when a chunk fails to load.
+ *
+ * A deploy replaces every hashed chunk. A browser that still holds the previous index.html
+ * asks for a file that no longer exists, the dynamic import rejects, and the screen goes blank.
+ * Reloading once fetches the new index; a guard stops a reload loop when the failure is real.
+ */
+function lazyWithRetry(factory) {
+  return lazy(async () => {
+    try {
+      return await factory();
+    } catch (error) {
+      let lastAttempt = 0;
+      try {
+        lastAttempt = Number(sessionStorage.getItem(CHUNK_RELOAD_KEY) || 0);
+      } catch {
+        lastAttempt = 0;
+      }
+
+      if (Date.now() - lastAttempt > 60000) {
+        try {
+          sessionStorage.setItem(CHUNK_RELOAD_KEY, String(Date.now()));
+        } catch {
+          // Storage unavailable: still worth one reload.
+        }
+        window.location.reload();
+        return new Promise(() => {});
+      }
+
+      throw error;
+    }
+  });
+}
+const HistoryPage = lazyWithRetry(() => import('./pages/HistoryPage'));
+const RSILoginPage = lazyWithRetry(() => import('./pages/RSILoginPage'));
+const DashboardPage = lazyWithRetry(() => import('./pages/DashboardPage'));
+const MainDashboardPage = lazyWithRetry(() => import('./pages/MainDashboardPage'));
+const OnboardingChecklistPage = lazyWithRetry(() => import('./pages/OnboardingChecklistPage'));
+const SettingsPage = lazyWithRetry(() => import('./pages/SettingsPage'));
+const ThemePage = lazyWithRetry(() => import('./pages/ThemePage'));
+const DeveloperPage = lazyWithRetry(() => import('./pages/DeveloperPage'));
+const ChangesPage = lazyWithRetry(() => import('./pages/ChangesPage'));
+const ErrorLogPage = lazyWithRetry(() => import('./pages/ErrorLogPage'));
+const AboutPage = lazyWithRetry(() => import('./pages/AboutPage'));
+const ScreenshotsPage = lazyWithRetry(() => import('./pages/ScreenshotsPage'));
+const APITestPage = lazyWithRetry(() => import('./pages/APITestPage'));
+const AcademyFeatureLibraryPage = lazyWithRetry(() => import('./pages/AcademyFeatureLibraryPage'));
+const HOTASConfigMainPage = lazyWithRetry(() => import('./pages/HOTASConfigMainPage'));
+const DeveloperContextIndexPage = lazyWithRetry(() => import('./pages/DeveloperContextIndexPage'));
+const HOTASDiagramPage = lazyWithRetry(() => import('./pages/HOTASDiagramPage'));
+const HOTASOverlayPage = lazyWithRetry(() => import('./pages/HOTASOverlayPage'));
+const HOTASOverlaySaveTestPage = lazyWithRetry(() => import('./pages/HOTASOverlaySaveTestPage'));
+const HOTASCommunityTestingPage = lazyWithRetry(() => import('./pages/HOTASCommunityTestingPage'));
+const DeveloperHotasDataFlowPage = lazyWithRetry(() => import('./pages/DeveloperHotasDataFlowPage'));
 
 
 // Theme Lab Pages
-const WelcomeOnline = lazy(() => import('./pages/theme/WelcomeOnline'));
-const StarCitizenDetail = lazy(() => import('./pages/theme/StarCitizenDetail'));
-const Squadron42Detail = lazy(() => import('./pages/theme/Squadron42Detail'));
-const PlaceholderSamplesPage = lazy(() => import('./pages/theme/PlaceholderSamplesPage'));
-const HOTASTestPage = lazy(() => import('./pages/settings/HOTASTestPage'));
+const WelcomeOnline = lazyWithRetry(() => import('./pages/theme/WelcomeOnline'));
+const StarCitizenDetail = lazyWithRetry(() => import('./pages/theme/StarCitizenDetail'));
+const Squadron42Detail = lazyWithRetry(() => import('./pages/theme/Squadron42Detail'));
+const PlaceholderSamplesPage = lazyWithRetry(() => import('./pages/theme/PlaceholderSamplesPage'));
+const HOTASTestPage = lazyWithRetry(() => import('./pages/settings/HOTASTestPage'));
 
 function LazyFallback() {
   return <Center h={200}><Loader color="cyan" type="dots" /></Center>;
