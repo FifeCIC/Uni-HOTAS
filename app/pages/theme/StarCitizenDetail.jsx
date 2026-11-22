@@ -273,9 +273,9 @@ export default function StarCitizenDetail() {
             variant="outline"
             color="cyan"
             size="lg"
-            onClick={() => navigate('/login')}
+            onClick={() => navigate('/')}
           >
-            Already a Citizen?
+            Open Uni-HOTAS
           </Button>
         </Group>
       </Section>

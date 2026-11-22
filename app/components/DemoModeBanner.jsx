@@ -48,7 +48,7 @@ export default function DemoModeBanner() {
         <Stack gap="xs" mt="sm" style={{ maxWidth: 780 }}>
           <Text size="xs" c="dimmed" style={{ lineHeight: 1.6 }}>
             Uni-HOTAS is built primarily as a <strong style={{ color: 'rgba(255,255,255,0.75)' }}>local desktop application</strong> — it runs
-            alongside Star Citizen on your own machine, where it can read and write your game profile XML files,
+            alongside your game on your own machine, where it can read and write your control profile files,
             manage HOTAS bindings, and sync data with your local drive. The GitHub Pages version is a
             live preview of the interface only; no data is loaded or saved while you're here.
           </Text>

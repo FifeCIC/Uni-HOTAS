@@ -4,6 +4,37 @@ All notable changes to Uni-HOTAS will be documented in this file.
 
 ---
 
+## [Unreleased] — multi-game shell & HOTAS config layout
+
+### Changed
+
+- **The shell is no longer Star Citizen-branded.** The header reads **Created by LOLinDark** ·
+  UNI-HOTAS · **version**, and the version pill in the top-left is gone.
+- **The second toolbar bar is removed entirely.** Feedback now sits in the header beside the game
+  selector; the `+ Links`, HOTAS Test Guide and Games entries go with the bar.
+- **Login is removed.** `/login`, the login page, the **Sign in** button, the sign-out action and
+  the `welcomeCompleted` gate are all gone. Unknown routes return to the dashboard.
+- **New `/games` page** lists the titles with extra built-in support and the planned adapters, and
+  says explicitly that any game with a readable binding profile can be supported. RSI links use
+  the project's referral URL.
+- **Quick game selector** in the header switches the active title. The choice persists and decides
+  which controls folder the app reads.
+- **Controls folders are stored per game** — `gameMappings` in `%APPDATA%\Uni-HOTAS\config.json`,
+  with `activeGame` selecting which one the profile endpoints use. New
+  `GET`/`POST /api/hotas/active-game`.
+- **HOTAS config header compacted**: the four controls fit one row, Reload is a square icon
+  button, the "Configure your flight stick…" line is removed, and the Groups label and
+  description sit inline.
+- **A game with no profile adapter** now gets an explicit notice and no bindings table, instead
+  of its files being parsed by the Star Citizen adapter.
+
+### Fixed
+
+- Dropped the hard-coded "Star Citizen mappings folder" wording from the API error and first-run
+  panel.
+
+---
+
 ## [Unreleased] — the real cause of the blank page
 
 ### Fixed

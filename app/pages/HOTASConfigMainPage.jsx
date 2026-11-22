@@ -19,6 +19,8 @@ import {
   SegmentedControl,
   MultiSelect,
   Button,
+  Alert,
+  Tooltip,
 } from '@mantine/core';
 import { IconRefresh, IconSearch } from '@tabler/icons-react';
 
@@ -50,6 +52,7 @@ import { normalizeText, getInputKind, getInputAction } from '../utils/hotasUtils
 import { formatHotasBindingFromInput, formatHotasInputForXml } from '../utils/hotasInputFormatters';
 import ServerRequiredOverlay from '../components/ServerRequiredOverlay';
 import { useServerStatus } from '../hooks/useServerStatus';
+import useActiveGame from '../hooks/useActiveGame';
 import { getAssetUrl } from '../utils/pathUtils';
 
 const HOTAS_MODE_KEYS = ['green', 'orange', 'red'];
@@ -67,7 +70,6 @@ const BUNDLED_OVERLAY_POSITIONS = (() => {
   }
 })();
 
-const HOTAS_BAR_EVENT = 'unihotas:hotas-bookmark-status';
 const PAGE_DEV_TAG = 'HC05';
 const PAGE_LOG_SCOPE = `[${PAGE_DEV_TAG}]`;
 const PAGE_STORAGE_KEY = 'unihotas.hc05.state';
@@ -113,7 +115,7 @@ function ActivityCardPicker({ value, onChange, options }) {
   const color = activeMeta.color;
 
   return (
-    <div style={{ position: 'relative', width: 320, maxWidth: '100%' }}>
+    <div style={{ position: 'relative', width: 240, maxWidth: '100%' }}>
       {/* Active card */}
       <div
         onClick={() => setOpen((v) => !v)}
@@ -194,6 +196,9 @@ function ActivityCardPicker({ value, onChange, options }) {
 }
 
 export default function HOTASConfigMainPage() {
+      // The profile adapter is title-specific. Only a 'built-in' game may be parsed;
+      // anything else is shown an explicit notice instead of being fed to the SC parser.
+      const { activeGame, hasAdapter } = useActiveGame();
       // Overlay state for HOTAS overlay demo (persisted in localStorage)
       // Always load overlays from the overlays JSONC file for X52
       // Use custom hook for overlays and devEditMode state
@@ -755,6 +760,12 @@ export default function HOTASConfigMainPage() {
   }, [getInputKind, lastHotasInput]);
 
   const loadProfiles = useCallback(async () => {
+    if (!hasAdapter) {
+      setProfiles([]);
+      setProfilesError(null);
+      setProfilesLoading(false);
+      return;
+    }
     try {
       setProfilesLoading(true);
       console.log('[HC01] Attempting to load profiles from /api/hotas/profiles');
@@ -776,7 +787,7 @@ export default function HOTASConfigMainPage() {
     } finally {
       setProfilesLoading(false);
     }
-  }, []);
+  }, [hasAdapter]);
 
   // Load profiles from backend
   useEffect(() => {
@@ -971,7 +982,7 @@ export default function HOTASConfigMainPage() {
     };
   }, [selectedProfile, modeHotasOverrides, bindingLayout]);
 
-  useEffect(() => {
+  const barStatus = useMemo(() => {
     const hasProfile = Boolean(selectedProfile);
     const hasConflict = Boolean(captureWarning);
     const activeSaveState = xmlSaveStatus !== 'idle'
@@ -994,7 +1005,7 @@ export default function HOTASConfigMainPage() {
               label: hasProfile ? 'Auto-save ready' : 'Load a profile',
               message: hasProfile
                 ? 'Assignments save back to the selected profile automatically.'
-                : 'Choose a Star Citizen profile before capturing or saving bindings.',
+                : 'Choose a profile before capturing or saving bindings.',
             });
 
     const contextDetail = bindingLayout === 'modes'
@@ -1011,24 +1022,22 @@ export default function HOTASConfigMainPage() {
           message: 'Single HOTAS editing is active. Captures write the same binding across your base layout.',
         };
 
-    window.dispatchEvent(new CustomEvent(HOTAS_BAR_EVENT, {
-      detail: {
-        saveTone: activeSaveState.tone,
-        saveIcon: activeSaveState.icon,
-        saveLabel: activeSaveState.label,
-        saveMessage: activeSaveState.message,
-        contextTone: contextDetail.tone,
-        contextIcon: contextDetail.icon,
-        contextLabel: contextDetail.label,
-        contextMessage: contextDetail.message,
-        warningIcon: hasConflict ? '⚠️' : '',
-        warningLabel: hasConflict ? 'Conflict detected' : '',
-        warningMessage: captureWarning || '',
-        helperText: hasConflict
-          ? 'Resolve the highlighted clash before trusting the current layout.'
-          : (hasProfile ? 'Sticky status lives here while you scroll the table.' : 'Select a profile to start editing.'),
-      },
-    }));
+    return {
+      saveTone: activeSaveState.tone,
+      saveIcon: activeSaveState.icon,
+      saveLabel: activeSaveState.label,
+      saveMessage: activeSaveState.message,
+      contextTone: contextDetail.tone,
+      contextIcon: contextDetail.icon,
+      contextLabel: contextDetail.label,
+      contextMessage: contextDetail.message,
+      warningIcon: hasConflict ? '⚠️' : '',
+      warningLabel: hasConflict ? 'Conflict detected' : '',
+      warningMessage: captureWarning || '',
+      helperText: hasConflict
+        ? 'Resolve the highlighted clash before trusting the current layout.'
+        : (hasProfile ? 'Status stays visible while you scroll the table.' : 'Select a profile to start editing.'),
+    };
   }, [
     selectedProfile,
     xmlSaveStatus,
@@ -1039,12 +1048,6 @@ export default function HOTASConfigMainPage() {
     bindingLayout,
     activeBindingMode,
   ]);
-
-  useEffect(() => () => {
-    window.dispatchEvent(new CustomEvent(HOTAS_BAR_EVENT, {
-      detail: null,
-    }));
-  }, []);
 
   const filterPerfRef = useRef({ baseMs: 0, finalMs: 0 });
 
@@ -1413,7 +1416,6 @@ export default function HOTASConfigMainPage() {
               <DevTag tag={PAGE_DEV_TAG} />
               Peripheral Config{hc05View === 'live' ? ' — HOTAS Live Input' : ' — Profile Bindings Table'}
             </h1>
-            <Text c="dimmed" mb="md">Configure your flight stick, mouse, and keyboard for precision control</Text>
             <Group mb="xs" gap="sm" align="stretch" wrap="wrap">
               {/* Active profile card with click-to-select menu */}
               <div>
@@ -1422,6 +1424,8 @@ export default function HOTASConfigMainPage() {
                   profiles={profiles}
                   selectedProfile={selectedProfile}
                   onSelect={handleLoadProfile}
+                  minWidth={240}
+                  maxWidth={320}
                 />
               </div>
 
@@ -1430,7 +1434,7 @@ export default function HOTASConfigMainPage() {
                 <Text size="xs" c="dimmed" mb={4}>View</Text>
                 <div
                   style={{
-                    width: 320,
+                    width: 250,
                     maxWidth: '100%',
                     minHeight: 92,
                     borderRadius: 10,
@@ -1490,29 +1494,29 @@ export default function HOTASConfigMainPage() {
                 </div>
               </div>
 
-              {/* Reload profiles card */}
+              {/* Reload profiles — square so four controls stay on one row */}
               <div>
-                <Text size="xs" c="dimmed" mb={4}>Reload profiles from game files</Text>
-                <Button
-                  variant="light"
-                  leftSection={<IconRefresh size={16} />}
-                  onClick={() => void loadProfiles()}
-                  loading={profilesLoading}
-                  style={{
-                    width: 320,
-                    maxWidth: '100%',
-                    minHeight: 92,
-                    borderRadius: 10,
-                    background: 'linear-gradient(135deg, rgba(0, 40, 56, 0.78) 0%, rgba(28, 44, 54, 0.76) 70%, rgba(163, 89, 24, 0.44) 100%)',
-                    border: '1px solid rgba(0, 217, 255, 0.32)',
-                    boxShadow: '0 0 12px rgba(0, 217, 255, 0.18)',
-                    color: '#d7edf7',
-                    justifyContent: 'flex-start',
-                    paddingLeft: '0.85rem',
-                  }}
-                >
-                  Reload profiles
-                </Button>
+                <Text size="xs" c="dimmed" mb={4}>Reload</Text>
+                <Tooltip label="Reload profiles from game files" position="bottom">
+                  <Button
+                    variant="light"
+                    aria-label="Reload profiles from game files"
+                    onClick={() => void loadProfiles()}
+                    loading={profilesLoading}
+                    style={{
+                      width: 92,
+                      height: 92,
+                      borderRadius: 10,
+                      background: 'linear-gradient(135deg, rgba(0, 40, 56, 0.78) 0%, rgba(28, 44, 54, 0.76) 70%, rgba(163, 89, 24, 0.44) 100%)',
+                      border: '1px solid rgba(0, 217, 255, 0.32)',
+                      boxShadow: '0 0 12px rgba(0, 217, 255, 0.18)',
+                      color: '#d7edf7',
+                      padding: 0,
+                    }}
+                  >
+                    <IconRefresh size={26} />
+                  </Button>
+                </Tooltip>
               </div>
 
               {/* Activity card picker — matches ProfileCardScroller aesthetic */}
@@ -1525,9 +1529,31 @@ export default function HOTASConfigMainPage() {
                 />
               </div>
             </Group>
-            <Text size="xs" c="dimmed">
-              {profiles.length} profile{profiles.length === 1 ? '' : 's'} detected
-            </Text>
+            <Group gap="xs" mt="xs" wrap="wrap" align="center">
+              <Text size="xs" c="dimmed">
+                {profiles.length} profile{profiles.length === 1 ? '' : 's'} detected
+              </Text>
+              <Tooltip label={barStatus.saveMessage} position="bottom">
+                <Badge color={barStatus.saveTone} variant="light" size="sm">
+                  {barStatus.saveIcon} {barStatus.saveLabel}
+                </Badge>
+              </Tooltip>
+              <Tooltip label={barStatus.contextMessage} position="bottom">
+                <Badge color={barStatus.contextTone} variant="outline" size="sm">
+                  {barStatus.contextIcon} {barStatus.contextLabel}
+                </Badge>
+              </Tooltip>
+              {barStatus.warningLabel ? (
+                <Tooltip label={barStatus.warningMessage} position="bottom">
+                  <Badge color="orange" variant="light" size="sm">
+                    {barStatus.warningIcon} {barStatus.warningLabel}
+                  </Badge>
+                </Tooltip>
+              ) : null}
+              <Text size="xs" c="dimmed" fw={600}>
+                {barStatus.helperText}
+              </Text>
+            </Group>
           </div>
           <Box
             style={{
@@ -1555,7 +1581,14 @@ export default function HOTASConfigMainPage() {
         {/* Error Display (extracted) */}
         <HOTASErrorDisplay error={profilesError} />
 
-        {profilesError ? (
+        {!hasAdapter ? (
+          <Alert color="orange" variant="light" title={`No profile adapter for ${activeGame.name} yet`}>
+            Uni-HOTAS can read and write Star Citizen profiles today. You can still point the app at this
+            game&apos;s controls folder below, but its bindings will not be parsed until an adapter ships.
+          </Alert>
+        ) : null}
+
+        {profilesError || !hasAdapter ? (
           <Box
             p="sm"
             style={{
@@ -1564,11 +1597,13 @@ export default function HOTASConfigMainPage() {
               background: 'rgba(255, 170, 0, 0.05)',
             }}
           >
-            <Text size="sm" fw={700} mb={8}>Controls folder</Text>
-            <MappingsFolderPanel onChanged={() => { void loadProfiles(); }} />
+            <Text size="sm" fw={700} mb={8}>Controls folder — {activeGame.name}</Text>
+            <MappingsFolderPanel game={activeGame} onChanged={() => { void loadProfiles(); }} />
           </Box>
         ) : null}
 
+        {hasAdapter ? (
+          <>
         <Box
           p="sm"
           style={{
@@ -1577,10 +1612,14 @@ export default function HOTASConfigMainPage() {
             background: 'rgba(0, 217, 255, 0.04)',
           }}
         >
-          <Text size="sm" fw={700} mb={8}>Groups</Text>
+          <Group gap="sm" align="baseline" mb={8} wrap="wrap">
+            <Text size="sm" fw={700}>Groups</Text>
+            <Text size="xs" c="dimmed">
+              Global filter applied to the bindings table and HOTAS input views. Includes play-mode groups and categories.
+            </Text>
+          </Group>
           <Group align="flex-end" gap="sm" wrap="wrap">
             <MultiSelect
-              description="Global filter applied to the bindings table and HOTAS input views. Includes play-mode groups and categories."
               placeholder="Show gameplay groups and categories"
               data={mergedGroupOptions}
               value={selectedModeGroups}
@@ -1746,6 +1785,8 @@ export default function HOTASConfigMainPage() {
             <HOTASNotesSection />
           </>
         )}
+          </>
+        ) : null}
       </Stack>
   );
 }

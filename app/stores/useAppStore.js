@@ -12,14 +12,10 @@ const useAppStore = create(
     (set) => ({
       colorScheme: 'dark',
       devMode: false,
-      // In development, default to true so we don't have to log in every time
-      welcomeCompleted: import.meta.env.DEV ? true : false,
 
       setColorScheme: (scheme) => set({ colorScheme: scheme }),
       toggleColorScheme: () => set((s) => ({ colorScheme: s.colorScheme === 'dark' ? 'light' : 'dark' })),
       toggleDevMode: () => set((s) => ({ devMode: !s.devMode })),
-      completeWelcome: () => set({ welcomeCompleted: true }),
-      resetWelcome: () => set({ welcomeCompleted: false }),
 
       // Dev activity log (not persisted — see partialize below)
       activities: [],
@@ -36,7 +32,6 @@ const useAppStore = create(
       partialize: (state) => ({
         colorScheme: state.colorScheme,
         devMode: state.devMode,
-        welcomeCompleted: state.welcomeCompleted,
       }),
     }
   )

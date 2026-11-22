@@ -38,7 +38,7 @@ function normalizeProfileLabel(rawName) {
     .trim();
 }
 
-export default function ProfileCardScroller({ profiles, selectedProfile, onSelect }) {
+export default function ProfileCardScroller({ profiles, selectedProfile, onSelect, minWidth = MIN_PROFILE_CARD_WIDTH, maxWidth = 640 }) {
   const [showChoices, setShowChoices] = useState(false);
 
   const allCards = profiles.map((p, i) => ({ ...p, index: i }));
@@ -46,7 +46,7 @@ export default function ProfileCardScroller({ profiles, selectedProfile, onSelec
   if (allCards.length === 0) {
     return (
       <div style={{ padding: '1rem', border: '1px dashed rgba(0,217,255,0.2)', borderRadius: 8, textAlign: 'center' }}>
-        <Text size="sm" c="dimmed">No profiles found. Place XML files in your Star Citizen mappings folder.</Text>
+        <Text size="sm" c="dimmed">No profiles found. Choose your game&apos;s controls folder below.</Text>
       </div>
     );
   }
@@ -70,7 +70,7 @@ export default function ProfileCardScroller({ profiles, selectedProfile, onSelec
   };
 
   return (
-    <div style={{ position: 'relative', width: '100%', minWidth: MIN_PROFILE_CARD_WIDTH, maxWidth: 640 }}>
+    <div style={{ position: 'relative', width: '100%', minWidth, maxWidth }}>
       <Tooltip label={description || label} position="bottom" disabled={!description}>
         <div
           onClick={() => setShowChoices((current) => !current)}

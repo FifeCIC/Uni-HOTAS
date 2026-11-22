@@ -3,7 +3,7 @@ import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import AdminLayout from './components/LayoutNew';
 import MainLayout from './components/MainLayout';
 import DevPanel from './components/DevPanel';
-import { trackAppView, installGlobalErrorHandlers, startPerformanceMonitoring, useAppStore } from './platform-core';
+import { trackAppView, installGlobalErrorHandlers, startPerformanceMonitoring } from './platform-core';
 import { Loader, Center } from '@mantine/core';
 
 
@@ -43,7 +43,6 @@ function lazyWithRetry(factory) {
   });
 }
 const HistoryPage = lazyWithRetry(() => import('./pages/HistoryPage'));
-const RSILoginPage = lazyWithRetry(() => import('./pages/RSILoginPage'));
 const DashboardPage = lazyWithRetry(() => import('./pages/DashboardPage'));
 const MainDashboardPage = lazyWithRetry(() => import('./pages/MainDashboardPage'));
 const OnboardingChecklistPage = lazyWithRetry(() => import('./pages/OnboardingChecklistPage'));
@@ -53,6 +52,7 @@ const DeveloperPage = lazyWithRetry(() => import('./pages/DeveloperPage'));
 const ChangesPage = lazyWithRetry(() => import('./pages/ChangesPage'));
 const ErrorLogPage = lazyWithRetry(() => import('./pages/ErrorLogPage'));
 const AboutPage = lazyWithRetry(() => import('./pages/AboutPage'));
+const GamesPage = lazyWithRetry(() => import('./pages/GamesPage'));
 const ScreenshotsPage = lazyWithRetry(() => import('./pages/ScreenshotsPage'));
 const APITestPage = lazyWithRetry(() => import('./pages/APITestPage'));
 const AcademyFeatureLibraryPage = lazyWithRetry(() => import('./pages/AcademyFeatureLibraryPage'));
@@ -97,28 +97,19 @@ function RuntimeObservers() {
 }
 
 function App() {
-  const welcomeCompleted = useAppStore((s) => s.welcomeCompleted);
-  const completeWelcome = useAppStore((s) => s.completeWelcome);
-
-  console.log('[Uni-HOTAS] App.jsx rendering, welcomeCompleted:', welcomeCompleted);
+  console.log('[Uni-HOTAS] App.jsx rendering');
 
   return (
     <>
       <DevPanel />
       <RuntimeObservers />
       <Routes>
-        {/* Theme Lab Routes - Public, no auth required */}
+        {/* Theme Lab Routes - Public */}
         <Route path="/theme" element={<Lazy Component={WelcomeOnline} />} />
         <Route path="/theme/star-citizen" element={<Lazy Component={StarCitizenDetail} />} />
         <Route path="/theme/squadron-42" element={<Lazy Component={Squadron42Detail} />} />
         <Route path="/theme/placeholder-samples" element={<Lazy Component={PlaceholderSamplesPage} />} />
         <Route path="/theme/hotas-test" element={<Navigate to="/settings/hotas" replace />} />
-
-        {/* Login Route */}
-        <Route
-          path="/login"
-          element={<Lazy Component={RSILoginPage} componentProps={{ onComplete: () => { completeWelcome(); window.location.href = import.meta.env.BASE_URL; } }} />}
-        />
         
         {/* Main User-Facing Dashboard & Feature Pages (with MainLayout) */}
         <Route element={<MainLayout />}>
@@ -130,6 +121,7 @@ function App() {
           <Route path="settings/hotas" element={<Lazy Component={HOTASTestPage} />} />
           <Route path="settings/theme" element={<Lazy Component={ThemePage} />} />
           <Route path="about" element={<Lazy Component={AboutPage} />} />
+          <Route path="games" element={<Lazy Component={GamesPage} />} />
           <Route path="screenshots" element={<Lazy Component={ScreenshotsPage} />} />
           <Route path="hotas-diagram" element={<Lazy Component={HOTASDiagramPage} />} />
 
@@ -161,8 +153,8 @@ function App() {
           <Route path="developer/hotas-data-flow" element={<Lazy Component={DeveloperHotasDataFlowPage} />} />
         </Route>
 
-        {/* Fallback: Always allow access, guard at component level if needed */}
-        <Route path="*" element={<Navigate to={welcomeCompleted ? "/" : "/login"} replace />} />
+        {/* Fallback: unknown routes return to the dashboard */}
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </>
   );

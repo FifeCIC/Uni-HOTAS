@@ -1,25 +1,29 @@
 /**
  * MappingsFolderPanel — first-run and recovery UI for the game's controls folder.
  *
- * WHY: the server used to hardcode `…\StarCitizen\LIVE\user\client\0\controls\mappings`.
- * Any other install path (custom drive, PTU, EPTU, HOTFIX) produced an empty profile
- * list with no explanation. This panel shows what was found, lets the user pick the
- * folder natively, and saves the choice to %APPDATA%\Uni-HOTAS\config.json.
+ * WHY: the server used to hardcode the Star Citizen mappings path. Any other install path
+ * (custom drive, PTU, EPTU, HOTFIX) produced an empty profile list with no explanation.
+ * The folder is now chosen per game, so switching game in the header changes which saved
+ * folder is read rather than re-pointing one shared path.
  *
- * Used by HOTAS Config when profile loading fails.
+ * Used by HOTAS Config when profile loading fails or the active game has no adapter yet.
  */
 import { useCallback, useEffect, useState } from 'react';
 import { Alert, Badge, Button, Group, Stack, Text, TextInput } from '@mantine/core';
+import { DEFAULT_GAME_ID, getGameById } from '../data/games';
 
 const SOURCE_LABEL = {
   config: 'Chosen by you',
+  legacy: 'Saved by an earlier version',
   env: 'Set by UNIHOTAS_MAPPINGS_PATH',
   detected: 'Detected automatically',
   'config-missing': 'Your saved folder is missing',
   none: 'Not found',
 };
 
-export default function MappingsFolderPanel({ onChanged }) {
+export default function MappingsFolderPanel({ onChanged, game }) {
+  const activeGame = game || getGameById(DEFAULT_GAME_ID);
+  const gameId = activeGame.id;
   const [status, setStatus] = useState(null);
   const [manualPath, setManualPath] = useState('');
   const [busy, setBusy] = useState(false);
@@ -27,15 +31,25 @@ export default function MappingsFolderPanel({ onChanged }) {
 
   const load = useCallback(async () => {
     try {
-      const res = await fetch('/api/hotas/mappings-path');
+      const res = await fetch(`/api/hotas/mappings-path?game=${encodeURIComponent(gameId)}`);
       if (!res.ok) throw new Error(`status ${res.status}`);
       const data = await res.json();
+
+      // An older server ignores `?game` and answers with the single Star Citizen folder.
+      // Showing that as another game's folder would be a confident wrong answer, so refuse.
+      if (!data.game && gameId !== DEFAULT_GAME_ID) {
+        setStatus({ game: gameId, path: null, source: 'none', configured: null, candidates: [] });
+        setManualPath('');
+        setMessage({ tone: 'yellow', text: 'Restart the local server to enable a separate controls folder for this game.' });
+        return;
+      }
+
       setStatus(data);
       setManualPath(data.configured || data.path || '');
     } catch (error) {
       setMessage({ tone: 'red', text: `Could not read the mappings setting: ${error.message}` });
     }
-  }, []);
+  }, [gameId]);
 
   useEffect(() => {
     void load();
@@ -53,7 +67,11 @@ export default function MappingsFolderPanel({ onChanged }) {
     setBusy(true);
     setMessage(null);
     try {
-      const res = await fetch('/api/hotas/pick-folder', { method: 'POST' });
+      const res = await fetch('/api/hotas/pick-folder', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ game: gameId }),
+      });
       if (res.status === 204) {
         setMessage({ tone: 'gray', text: 'No folder chosen.' });
         return;
@@ -66,7 +84,7 @@ export default function MappingsFolderPanel({ onChanged }) {
     } finally {
       setBusy(false);
     }
-  }, [applyResult]);
+  }, [applyResult, gameId]);
 
   const saveManualPath = useCallback(async () => {
     setBusy(true);
@@ -75,7 +93,7 @@ export default function MappingsFolderPanel({ onChanged }) {
       const res = await fetch('/api/hotas/mappings-path', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ path: manualPath }),
+        body: JSON.stringify({ path: manualPath, game: gameId }),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || `status ${res.status}`);
@@ -85,7 +103,7 @@ export default function MappingsFolderPanel({ onChanged }) {
     } finally {
       setBusy(false);
     }
-  }, [applyResult, manualPath]);
+  }, [applyResult, gameId, manualPath]);
 
   const candidates = status?.candidates || [];
   const resolved = status?.path;
@@ -103,9 +121,9 @@ export default function MappingsFolderPanel({ onChanged }) {
             </Text>
           ) : null}
           <Text size="xs" c="dimmed">
-            Uni-HOTAS needs the folder that holds <code>actionmaps.xml</code>:
+            Uni-HOTAS needs the folder that holds {activeGame.profileFileName || 'the controls file'} for {activeGame.name}:
             <br />
-            <code>…\StarCitizen\&lt;LIVE|PTU|EPTU&gt;\user\client\0\controls\mappings</code>
+            <code>{activeGame.profileFolderHint}</code>
           </Text>
         </Stack>
       </Alert>
@@ -132,7 +150,7 @@ export default function MappingsFolderPanel({ onChanged }) {
           label="Folder path"
           value={manualPath}
           onChange={(event) => setManualPath(event.currentTarget.value)}
-          placeholder="C:\Program Files\Roberts Space Industries\StarCitizen\LIVE\user\client\0\controls\mappings"
+          placeholder={activeGame.profileFolderPlaceholder || 'Path to the controls folder'}
           style={{ flex: '1 1 420px' }}
           size="xs"
         />

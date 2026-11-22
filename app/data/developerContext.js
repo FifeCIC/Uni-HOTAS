@@ -85,23 +85,6 @@ export const developerContext = {
     reminder: 'This is the nerve center for development. Keep tools organized and discoverable.',
   },
 
-  // Login Page
-  '/login': {
-    title: 'RSI Login',
-    status: '✅ MVP Complete',
-    docs: [
-      { title: 'Auth Architecture', path: 'docs/DEVELOPER-REFERENCE.md#authentication' },
-    ],
-    tasks: [
-      '✅ Basic login with handle',
-      '⏳ Fetch real citizen data',
-      '⏳ Display profile info on login',
-      '⏳ Error handling for invalid handles',
-      '⏳ Welcome/onboarding flow',
-    ],
-    reminder: 'Plan: Fetch RSI data after login using citizen handle. Show real org/profile.',
-  },
-
   // Settings
   '/settings': {
     title: 'Settings & Configuration',

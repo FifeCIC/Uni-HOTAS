@@ -20,6 +20,12 @@ yarn-error.log*
 .DS_Store
 Thumbs.db
 
+# Agent working files — local only, never committed
+.github/instructions/
+.github/agents/
+.github/skills/
+.github/prompts/
+
 # AWS/AI Tools
 amazonq-credentials.json
 

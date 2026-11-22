@@ -11,12 +11,6 @@ export default function ScreenshotsPage() {
       alt: 'HOTAS Control Hub',
     },
     {
-      src: `${import.meta.env.BASE_URL}screenshots/login.png`,
-      title: 'Login',
-      description: 'RSI account authentication interface',
-      alt: 'Login Page',
-    },
-    {
       src: `${import.meta.env.BASE_URL}screenshots/configuration.png`,
       title: 'Configuration',
       description: 'User settings and preferences',

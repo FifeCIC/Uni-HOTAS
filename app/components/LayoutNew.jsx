@@ -4,7 +4,6 @@ import { useState, useEffect } from 'react';
 import { Outlet, Link, useLocation, useNavigate } from 'react-router-dom';
 import { apiGet, useAppStore, useSettingsStore } from '../platform-core';
 import DevFooter from './DevFooter';
-import AppToolbar from './AppToolbar';
 import BrandWordmark from './BrandWordmark';
 
 const FRONTEND_VERSION = 'Alpha V0.1.0';
@@ -14,7 +13,7 @@ export default function Layout() {
   const navigate = useNavigate();
   const path = location.pathname;
 
-  const { colorScheme, toggleColorScheme, devMode, toggleDevMode, logActivity, resetWelcome } = useAppStore();
+  const { colorScheme, toggleColorScheme, devMode, toggleDevMode, logActivity } = useAppStore();
   const { costThreshold } = useSettingsStore();
 
   const [serverOnline, setServerOnline] = useState(false);
@@ -97,7 +96,9 @@ export default function Layout() {
         <Group justify="space-between">
           <Group>
             <BrandWordmark onClick={() => navigate('/')} size="1.25rem" color="#4cc9f0" />
-            <Badge size="sm" variant="light">{FRONTEND_VERSION}</Badge>
+            <Text size="xs" c="dimmed" style={{ letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+              {FRONTEND_VERSION}
+            </Text>
             <Badge size="sm" variant="light" color="blue">📊 {projectHours}h</Badge>
             <Indicator color={aiLoading ? 'yellow' : 'green'} processing={aiLoading} size={8}>
               <Badge size="sm" variant="light" color={aiLoading ? 'yellow' : 'teal'}>
@@ -121,10 +122,6 @@ export default function Layout() {
               </Menu.Dropdown>
             </Menu>
             <Button variant={path.startsWith('/developer') ? 'filled' : 'subtle'} component={Link} to="/developer">Developer</Button>
-            <Button variant="subtle" onClick={() => {
-              resetWelcome();
-              window.location.href = '/welcome';
-            }}>Sign Out</Button>
           </Group>
         </Group>
       </AppShell.Header>
@@ -210,7 +207,6 @@ export default function Layout() {
       </AppShell.Aside>
 
       <AppShell.Main>
-        <AppToolbar />
         <Container size="xl" py="md">
           <Outlet />
         </Container>

@@ -1,7 +1,9 @@
-import { Group, Button, Badge, Menu, Avatar, Text } from '@mantine/core';
+import { Group, Button, Badge, Menu, Text } from '@mantine/core';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useMemo, useState } from 'react';
 import BrandWordmark from './BrandWordmark';
+import QuickGameSelector from './QuickGameSelector';
+import Feedback from './Feedback';
 
 const FRONTEND_VERSION = 'Alpha V0.1.0';
 
@@ -69,6 +71,7 @@ export default function AppHeader() {
   const rsiHandle = localStorage.getItem('rsiHandle') || 'Citizen';
   const network = useNetworkStatus();
   const backup = useBackupStatus();
+  const [feedbackOpen, setFeedbackOpen] = useState(false);
 
   return (
     <div
@@ -109,7 +112,6 @@ export default function AppHeader() {
         >
           {network.label}
         </Badge>
-        <Badge size="xs" variant="light" color="cyan">{FRONTEND_VERSION}</Badge>
         <Badge
           size="xs"
           variant="dot"
@@ -124,7 +126,7 @@ export default function AppHeader() {
         </Badge>
       </Group>
 
-      {/* Center: Game titles + Brand */}
+      {/* Center: creator mark + brand + version */}
       <Group gap="sm" align="center" justify="center" wrap="nowrap">
         <Text
           size="xs"
@@ -136,7 +138,7 @@ export default function AppHeader() {
             whiteSpace: 'nowrap',
           }}
         >
-          Star Citizen
+          Created by LOLinDark
         </Text>
         <div style={{ cursor: 'pointer' }} onClick={() => navigate('/')}>
           <BrandWordmark size="1.5rem" color="#00d9ff" />
@@ -151,12 +153,27 @@ export default function AppHeader() {
             whiteSpace: 'nowrap',
           }}
         >
-          Squadron 42
+          {FRONTEND_VERSION}
         </Text>
       </Group>
 
-      {/* Right: Menu & User */}
-      <Group gap="lg" justify="flex-end">
+      {/* Right: Game selector, feedback & menu */}
+      <Group gap="md" justify="flex-end">
+        <QuickGameSelector />
+
+        <Button
+          variant="subtle"
+          size="sm"
+          onClick={() => setFeedbackOpen(true)}
+          style={{
+            color: '#b8cfe0',
+            textTransform: 'uppercase',
+            letterSpacing: '0.05em',
+          }}
+        >
+          ✉ Feedback
+        </Button>
+
         <Menu position="bottom-end" shadow="md">
           <Menu.Target>
             <Button
@@ -173,6 +190,8 @@ export default function AppHeader() {
           </Menu.Target>
           <Menu.Dropdown>
             <Menu.Item onClick={() => navigate('/')}>Home</Menu.Item>
+            <Menu.Item onClick={() => navigate('/hotas-config')}>Peripheral Config</Menu.Item>
+            <Menu.Item onClick={() => navigate('/games')}>Games &amp; Support</Menu.Item>
             <Menu.Item onClick={() => navigate('/settings')}>Settings</Menu.Item>
             <Menu.Divider />
             <Menu.Item onClick={() => navigate('/about')}>About</Menu.Item>
@@ -184,52 +203,11 @@ export default function AppHeader() {
                 </Menu.Item>
               </>
             )}
-            <Menu.Item
-              onClick={() => {
-                localStorage.removeItem('rsiHandle');
-                navigate('/login');
-              }}
-              color="red"
-            >
-              Logout
-            </Menu.Item>
           </Menu.Dropdown>
         </Menu>
-
-        {rsiHandle && rsiHandle !== 'Citizen' ? (
-          <Group gap="xs">
-            <div>
-              <Text size="sm" fw={500}>{rsiHandle}</Text>
-              <Text size="xs" c="dimmed">Pilot</Text>
-            </div>
-            <Avatar
-              size="md"
-              radius="xl"
-              style={{ backgroundColor: '#00d9ff', cursor: 'pointer' }}
-            >
-              {rsiHandle.substring(0, 2).toUpperCase()}
-            </Avatar>
-          </Group>
-        ) : (
-          <Button
-            variant="light"
-            size="sm"
-            onClick={() => window.open('https://robertsspaceindustries.com/en/star-citizen?referral=STAR-TBYK-XVFK', '_blank', 'noopener,noreferrer')}
-            style={{
-              color: '#0b1428',
-              background: 'linear-gradient(135deg, #22d17b 0%, #00d9ff 100%)',
-              border: '1px solid rgba(255, 255, 255, 0.35)',
-              fontSize: '0.82rem',
-              fontWeight: 800,
-              textTransform: 'uppercase',
-              letterSpacing: '0.06em',
-              boxShadow: '0 0 12px rgba(0, 217, 255, 0.35)',
-            }}
-          >
-            ENLIST - STAR-TBYK-XVFK
-          </Button>
-        )}
       </Group>
+
+      <Feedback opened={feedbackOpen} onClose={() => setFeedbackOpen(false)} />
     </div>
   );
 }

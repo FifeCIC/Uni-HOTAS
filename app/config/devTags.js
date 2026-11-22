@@ -33,7 +33,7 @@ const devTags = {
   // ── Main App ──────────────────────────────────
   APP01:     { label: 'Main Dashboard',          path: '/',                      file: 'pages/DashboardPage.jsx' },
   APP03:     { label: 'Onboarding Checklist',    path: '/onboarding',            file: 'pages/OnboardingChecklistPage.jsx' },
-  APP04:     { label: 'RSI Login',               path: '/login',                 file: 'pages/RSILoginPage.jsx' },
+  GAME01:    { label: 'Games & Extra Support',    path: '/games',                file: 'pages/GamesPage.jsx' },
 
   // ── Admin Chat ─────────────────────────────────
   ADM06:     { label: 'Claude Chat',             path: '/admin/chat/claude',          file: 'pages/AmazonQPage.jsx' },

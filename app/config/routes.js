@@ -15,12 +15,6 @@ export const routeConfig = {
       color: 'cyan',
     },
     {
-      label: '/login',
-      path: '/login',
-      category: 'Main App',
-      color: 'cyan',
-    },
-    {
       label: '/onboarding',
       path: '/onboarding',
       category: 'Main App',
@@ -41,6 +35,12 @@ export const routeConfig = {
     {
       label: '/about',
       path: '/about',
+      category: 'Main App',
+      color: 'cyan',
+    },
+    {
+      label: '/games',
+      path: '/games',
       category: 'Main App',
       color: 'cyan',
     },

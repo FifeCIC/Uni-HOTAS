@@ -28,7 +28,7 @@ import { registerFeedbackRoutes } from './api/feedback/index.js';
 import { registerDownloadRoutes } from './api/dev/download/index.js';
 import { registerHotasOverlayRoutes } from './api/hotasOverlayApi.js';
 import { upsertDeviceRebind, removeDeviceRebind } from './peripherals/hotas/xmlRebind.js';
-import { getMappingsPath, getMappingsStatus, listCandidates, setMappingsPath } from './lib/mappingsPath.js';
+import { getMappingsPath, getMappingsStatus, listCandidates, setActiveGame, setMappingsPath } from './lib/mappingsPath.js';
 import { getUserDataDir } from './lib/userData.js';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -724,8 +724,9 @@ const HOTAS_PROFILE_MODE_KEYS = ['green', 'orange', 'red'];
 function sendMappingsMissing(res) {
   const status = getMappingsStatus();
   return res.status(409).json({
-    error: 'Star Citizen mappings folder not found',
+    error: 'Controls mappings folder not found for the active game',
     code: 'MAPPINGS_NOT_CONFIGURED',
+    game: status.game || null,
     hint: 'Choose your controls folder in HOTAS Config, or POST /api/hotas/mappings-path',
     configured: status.configured || null,
     candidates: status.candidates || [],
@@ -865,7 +866,7 @@ app.get('/api/hotas/profiles', (req, res) => {
         return { name, path: file, filename: file, meta };
       });
 
-    log(`HOTAS: Loaded ${profiles.length} profiles from Star Citizen mappings directory`);
+    log(`HOTAS: Loaded ${profiles.length} profiles from the active game's mappings directory`);
     res.json({ profiles });
   } catch (error) {
     log('HOTAS profiles error:', error.message);
@@ -1044,10 +1045,29 @@ app.post('/api/hotas/profile/:profileName/bindings', (req, res) => {
   }
 });
 
-// --- Mappings folder discovery & configuration ---
+// --- Active game & per-game mappings folder discovery ---
+app.get('/api/hotas/active-game', (req, res) => {
+  try {
+    res.json({ activeGame: getMappingsStatus().game });
+  } catch (error) {
+    log('HOTAS active-game read error:', error.message);
+    res.status(500).json({ error: 'Failed to read the active game' });
+  }
+});
+
+app.post('/api/hotas/active-game', (req, res) => {
+  try {
+    const status = setActiveGame(req.body?.game);
+    log(`HOTAS: Active game set to ${status.game}`);
+    res.json({ success: true, activeGame: status.game, mappings: status });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+});
+
 app.get('/api/hotas/mappings-path', (req, res) => {
   try {
-    res.json(getMappingsStatus());
+    res.json(getMappingsStatus(req.query.game));
   } catch (error) {
     log('HOTAS mappings-path read error:', error.message);
     res.status(500).json({ error: 'Failed to read mappings path' });
@@ -1056,7 +1076,7 @@ app.get('/api/hotas/mappings-path', (req, res) => {
 
 app.get('/api/hotas/mappings-candidates', (req, res) => {
   try {
-    res.json({ candidates: listCandidates() });
+    res.json({ candidates: listCandidates(req.query.game) });
   } catch (error) {
     log('HOTAS mappings-candidates error:', error.message);
     res.status(500).json({ error: 'Failed to scan for installs' });
@@ -1065,8 +1085,8 @@ app.get('/api/hotas/mappings-candidates', (req, res) => {
 
 app.post('/api/hotas/mappings-path', (req, res) => {
   try {
-    const result = setMappingsPath(req.body?.path);
-    log(`HOTAS: Mappings folder set to ${result.path} (${result.xmlCount} xml)`);
+    const result = setMappingsPath(req.body?.path, req.body?.game);
+    log(`HOTAS: Mappings folder for ${result.game} set to ${result.path} (${result.xmlCount} xml)`);
     res.json({ success: true, ...result });
   } catch (error) {
     log('HOTAS mappings-path save error:', error.message);
@@ -1078,10 +1098,11 @@ app.post('/api/hotas/mappings-path', (req, res) => {
 // server keeps running if the user cancels.
 app.post('/api/hotas/pick-folder', (req, res) => {
   try {
+    const game = req.body?.game;
     const script = [
       'Add-Type -AssemblyName System.Windows.Forms;',
       '$d = New-Object System.Windows.Forms.FolderBrowserDialog;',
-      "$d.Description = 'Select the Star Citizen controls/mappings folder';",
+      "$d.Description = 'Select the controls or mappings folder for your game';",
       '$d.ShowNewFolderButton = $false;',
       'if ($d.ShowDialog() -eq [System.Windows.Forms.DialogResult]::OK) { Write-Output $d.SelectedPath }',
     ].join(' ');
@@ -1096,8 +1117,8 @@ app.post('/api/hotas/pick-folder', (req, res) => {
       return res.status(204).end();
     }
 
-    const result = setMappingsPath(output);
-    log(`HOTAS: Mappings folder chosen via picker: ${result.path}`);
+    const result = setMappingsPath(output, game);
+    log(`HOTAS: Mappings folder for ${result.game} chosen via picker: ${result.path}`);
     res.json({ success: true, ...result });
   } catch (error) {
     log('HOTAS pick-folder error:', error.message);

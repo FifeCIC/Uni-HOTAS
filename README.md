@@ -20,7 +20,7 @@ It is built as a **Universal HOTAS Setup** because the engine under it is not ti
 | **Star Citizen** | Supported | `actionmaps.xml` (device-aware read/write) |
 | **Squadron 42** | Supported | Same Star Citizen input system |
 
-These are the first two directly supported titles. The peripheral engine is game-agnostic — see [Other sims](#other-sims).
+These are the titles with a built-in adapter today — **not a limit.** The peripheral engine is game-agnostic: adding a sim means adding an adapter, not rewriting the app. See [Other sims](#other-sims) and the in-app **Games & Extra Support** page at `/games`.
 
 ---
 

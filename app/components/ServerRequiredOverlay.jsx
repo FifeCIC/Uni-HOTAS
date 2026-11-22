@@ -72,9 +72,9 @@ export default function ServerRequiredOverlay({ featureName = 'This feature', re
           <Text size="sm" c="dimmed" style={{ lineHeight: 1.65 }}>
             {reason || (
               <>
-                This tool reads and writes files on your machine — your Star Citizen game profile XMLs,
-                HOTAS binding data, and local settings. That requires the Uni-HOTAS app running
-                alongside your game.
+                This tool reads and writes files on your machine — your game&apos;s control profile
+                files, HOTAS binding data, and local settings. That requires the Uni-HOTAS app
+                running alongside your game.
               </>
             )}
           </Text>
@@ -103,8 +103,8 @@ export default function ServerRequiredOverlay({ featureName = 'This feature', re
                 desktop shortcuts.
               </Step>
               <Step n={3}>
-                Uni-HOTAS opens in its own window and finds your Star Citizen controls folder
-                automatically.
+                Uni-HOTAS opens in its own window and finds your game&apos;s controls folder
+                automatically (Star Citizen is detected out of the box).
               </Step>
               <Anchor
                 href={RELEASES_URL}
@@ -182,9 +182,10 @@ export default function ServerRequiredOverlay({ featureName = 'This feature', re
           }}
         >
           <Text size="xs" style={{ color: 'rgba(34,209,123,0.85)', lineHeight: 1.6 }}>
-            <strong>Star Citizen must be installed</strong> for either option — the app reads and
-            writes the game&apos;s own profile files. Prefer a fully online version? Online support is
-            planned; community funding decides what gets built next, so{' '}
+            <strong>A supported game must be installed</strong> for either option — the app reads and
+            writes the game&apos;s own profile files. Star Citizen has built-in detection today; other
+            titles are pointed at their controls folder manually. Prefer a fully online version? Online
+            support is planned; community funding decides what gets built next, so{' '}
             <Anchor
               href="https://github.com/sponsors/LOLinDark"
               target="_blank"

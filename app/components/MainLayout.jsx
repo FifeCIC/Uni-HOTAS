@@ -1,7 +1,6 @@
 import { Outlet, useLocation } from 'react-router-dom';
 import { useEffect } from 'react';
 import AppHeader from './AppHeader';
-import AppToolbar from './AppToolbar';
 import AppFooter from './AppFooter';
 import DemoModeBanner from './DemoModeBanner';
 import { trackAppView } from '../platform-core';
@@ -18,19 +17,18 @@ export default function MainLayout() {
 
   return (
     <div style={{ minHeight: '100vh', background: 'var(--oc-space-deep)', position: 'relative' }}>
-      {/* Sticky Header + Bookmarks Bar */}
+      {/* Sticky Header */}
       <div style={{ position: 'sticky', top: 0, zIndex: 100 }}>
         <AppHeader />
-        <AppToolbar />
         <DemoModeBanner />
       </div>
 
-      {/* Permanent gradient overlay — positioned below header + bookmark bar, scrolls with content */}
+      {/* Permanent gradient overlay — positioned below the header, scrolls with content */}
       <div
         aria-hidden="true"
         style={{
           position: 'absolute',
-          top: '127px',
+          top: '60px',
           left: 0,
           right: 0,
           bottom: 0,

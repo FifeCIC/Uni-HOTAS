@@ -198,7 +198,7 @@ const getToolsArray = () => [
   {
     id: 'hotas-config',
     title: 'Peripheral Configuration',
-    desc: 'Configure your flight stick, mouse, and keyboard for precision control',
+    desc: 'Load a control profile, map your hardware, and write bindings back to the game',
     image: null,
     alt: 'Peripheral Configuration - Flight controls, HOTAS, mouse and keyboard setup',
     color: '#ff6b00',

@@ -295,9 +295,9 @@ export default function Squadron42Detail() {
             variant="outline"
             color="cyan"
             size="lg"
-            onClick={() => navigate('/login')}
+            onClick={() => navigate('/')}
           >
-            Already Enlisted?
+            Open Uni-HOTAS
           </Button>
         </Group>
       </Section>

@@ -52,6 +52,14 @@ const MODE_INDEX_TO_KEY = {
   2: 'red',
 };
 
+/** Display label for the Type column — shared by sorting and rendering so they cannot drift. */
+function getTypeLabel(row) {
+  if (row.type === 'Button') {
+    return `Button ${X52_BUTTONS[row.index]?.windowsIndex ?? row.index + 1}`;
+  }
+  return row.type;
+}
+
 function buildInputList(modes) {
   const inputs = [];
   const modeList = modes.includes('all')
@@ -267,6 +275,8 @@ export default function HOTASInputView({ bindings, allBindings = [], hotasOverri
   const [modeOverride, setModeOverride] = useState(false);
   const [editingRowId, setEditingRowId] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
+  const [sortColumn, setSortColumn] = useState(null);
+  const [sortDirection, setSortDirection] = useState('asc');
   const [localHideStickFeatures, setLocalHideStickFeatures] = useState(hideStickFeatures);
   const prevModeRef = useRef(currentMode);
   const effectiveHideStickFeatures = onHideStickFeaturesChange ? hideStickFeatures : localHideStickFeatures;
@@ -347,7 +357,54 @@ export default function HOTASInputView({ bindings, allBindings = [], hotasOverri
 
   useEffect(() => {
     setCurrentPage(1);
-  }, [modeFilter, bindingFilter, deviceFilter, searchQuery]);
+  }, [modeFilter, bindingFilter, deviceFilter, searchQuery, sortColumn, sortDirection]);
+
+  const handleSort = (column) => {
+    if (sortColumn === column) {
+      setSortDirection((direction) => (direction === 'asc' ? 'desc' : 'asc'));
+    } else {
+      setSortColumn(column);
+      setSortDirection('asc');
+    }
+  };
+
+  // Sorting happens after filtering but before pagination, so the header applies to the
+  // whole result set rather than the visible page.
+  const sortedRows = useMemo(() => {
+    if (!sortColumn) return filteredRows;
+
+    const direction = sortDirection === 'asc' ? 1 : -1;
+    const valueFor = (row) => {
+      switch (sortColumn) {
+        case 'mode': return row.mode?.indicator || '';
+        case 'input': return row.name || '';
+        case 'group': return row.group || '';
+        case 'type': return getTypeLabel(row);
+        case 'feature': return row.assignedBinding?.feature || '';
+        case 'category': return row.assignedBinding?.category || '';
+        default: return '';
+      }
+    };
+
+    return [...filteredRows].sort((a, b) => {
+      const aValue = valueFor(a);
+      const bValue = valueFor(b);
+      const aEmpty = aValue === '';
+      const bEmpty = bValue === '';
+
+      // Unassigned inputs stay at the bottom in both directions, so sorting by
+      // Assigned Feature surfaces the bound rows instead of burying them.
+      if (aEmpty || bEmpty) {
+        if (aEmpty && bEmpty) return 0;
+        return aEmpty ? 1 : -1;
+      }
+
+      return direction * String(aValue).localeCompare(String(bValue), undefined, {
+        numeric: true,
+        sensitivity: 'base',
+      });
+    });
+  }, [filteredRows, sortColumn, sortDirection]);
 
   // Build feature options for the Select dropdown.
   const featureOptionsAll = useMemo(() => {
@@ -414,11 +471,11 @@ export default function HOTASInputView({ bindings, allBindings = [], hotasOverri
   }
 
   const boundCount = filteredRows.filter((r) => r.assignedBinding).length;
-  const totalPages = Math.max(1, Math.ceil(filteredRows.length / ROWS_PER_PAGE));
+  const totalPages = Math.max(1, Math.ceil(sortedRows.length / ROWS_PER_PAGE));
   const pageStart = (currentPage - 1) * ROWS_PER_PAGE;
   const pageRows = useMemo(() => {
-    return filteredRows.slice(pageStart, pageStart + ROWS_PER_PAGE);
-  }, [filteredRows, pageStart]);
+    return sortedRows.slice(pageStart, pageStart + ROWS_PER_PAGE);
+  }, [sortedRows, pageStart]);
 
   useEffect(() => {
     if (currentPage > totalPages) {
@@ -493,12 +550,14 @@ export default function HOTASInputView({ bindings, allBindings = [], hotasOverri
         <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.82rem' }}>
           <thead>
             <tr style={{ background: 'rgba(0, 217, 255, 0.08)', borderBottom: '1px solid rgba(0, 217, 255, 0.2)' }}>
-              {modeFilter !== 'none' && <th style={thStyle}>Mode</th>}
-              <th style={thStyle}>Input</th>
-              <th style={thStyle}>Group</th>
-              <th style={thStyle}>Type</th>
-              <th style={{ ...thStyle, textAlign: 'left' }}>Assigned Feature</th>
-              <th style={thStyle}>Category</th>
+              {modeFilter !== 'none' && (
+                <SortableTh label="Mode" column="mode" sortColumn={sortColumn} sortDirection={sortDirection} onSort={handleSort} />
+              )}
+              <SortableTh label="Input" column="input" sortColumn={sortColumn} sortDirection={sortDirection} onSort={handleSort} />
+              <SortableTh label="Group" column="group" sortColumn={sortColumn} sortDirection={sortDirection} onSort={handleSort} />
+              <SortableTh label="Type" column="type" sortColumn={sortColumn} sortDirection={sortDirection} onSort={handleSort} />
+              <SortableTh label="Assigned Feature" column="feature" sortColumn={sortColumn} sortDirection={sortDirection} onSort={handleSort} style={{ textAlign: 'left' }} />
+              <SortableTh label="Category" column="category" sortColumn={sortColumn} sortDirection={sortDirection} onSort={handleSort} />
             </tr>
           </thead>
           <tbody>
@@ -528,9 +587,7 @@ export default function HOTASInputView({ bindings, allBindings = [], hotasOverri
                   <td style={{ ...tdStyle, color: '#6a8898' }}>{row.group}</td>
                   <td style={tdStyle}>
                     <Badge size="xs" variant="light" color={row.type === 'Button' ? 'cyan' : row.type === 'Axis' ? 'orange' : 'green'}>
-                      {row.type === 'Button'
-                        ? `Button ${X52_BUTTONS[row.index]?.windowsIndex ?? row.index + 1}`
-                        : row.type}
+                      {getTypeLabel(row)}
                     </Badge>
                   </td>
                   <td style={{ ...tdStyle, textAlign: 'left', minWidth: 260 }}>
@@ -608,6 +665,47 @@ const thStyle = {
   whiteSpace: 'nowrap',
   textTransform: 'uppercase',
 };
+
+/**
+ * SortableTh — a table header that is a real button, so it works by mouse and keyboard.
+ * The arrow is decorative; `aria-sort` carries the state for assistive tech.
+ */
+function SortableTh({ label, column, sortColumn, sortDirection, onSort, style }) {
+  const active = sortColumn === column;
+  const indicator = active ? (sortDirection === 'asc' ? '▲' : '▼') : '↕';
+
+  return (
+    <th
+      style={{ ...thStyle, ...style }}
+      aria-sort={active ? (sortDirection === 'asc' ? 'ascending' : 'descending') : 'none'}
+    >
+      <button
+        type="button"
+        onClick={() => onSort(column)}
+        style={{
+          appearance: 'none',
+          background: 'transparent',
+          border: 0,
+          padding: 0,
+          margin: 0,
+          color: active ? '#9fe8ff' : 'inherit',
+          font: 'inherit',
+          letterSpacing: 'inherit',
+          textTransform: 'inherit',
+          cursor: 'pointer',
+          display: 'inline-flex',
+          alignItems: 'center',
+          gap: 5,
+        }}
+      >
+        {label}
+        <span aria-hidden="true" style={{ fontSize: '0.72rem', opacity: active ? 1 : 0.4 }}>
+          {indicator}
+        </span>
+      </button>
+    </th>
+  );
+}
 
 const tdStyle = {
   padding: '8px 14px',

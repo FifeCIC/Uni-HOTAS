@@ -143,18 +143,18 @@ export default function WelcomeOnline() {
           </SimpleGrid>
         </div>
 
-        {/* Existing User Login */}
+        {/* Enter the app */}
         <SciFiFrame variant="corners" cornerLength={16} strokeWidth={1} padding={4}>
           <Stack align="center" gap="md">
             <Text c="dimmed" size="sm">
-              Already have an RSI account?
+              Ready to map your controls?
             </Text>
             <Button
               variant="outline"
               color="cyan"
-              onClick={() => navigate('/login')}
+              onClick={() => navigate('/')}
             >
-              Sign In
+              Open Uni-HOTAS
             </Button>
           </Stack>
         </SciFiFrame>

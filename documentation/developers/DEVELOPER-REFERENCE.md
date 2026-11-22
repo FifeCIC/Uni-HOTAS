@@ -30,11 +30,11 @@ Tags are short IDs shown in page/section headers when **Dev Mode** is enabled. T
 | ADM05 | About | /about | pages/AboutPage.jsx |
 | APP01 | Main Dashboard | / | pages/DashboardPage.jsx |
 | APP03 | Onboarding Checklist | /onboarding | pages/OnboardingChecklistPage.jsx |
-| APP04 | RSI Login | /login | pages/RSILoginPage.jsx |
 | HC01 | HOTAS Config (Light) | /theme/hotas-config | pages/theme/HOTASConfigPage.jsx |
 | HC03 | HOTAS Config (Dark) | /theme/hotas-config-dark | pages/theme/HOTASConfigPageDark.jsx |
 | HC04 | HOTAS Config (Toggle) | /theme/hotas-config-toggle | pages/theme/HOTASConfigPageToggle.jsx |
 | HC05 | HOTAS Main | /hotas-config | pages/HOTASConfigMainPage.jsx |
+| GAME01 | Games & Extra Support | /games | pages/GamesPage.jsx |
 | TL01 | Theme Lab Landing | /theme | pages/ThemePage.jsx |
 
 ### How to Add a New Tag
