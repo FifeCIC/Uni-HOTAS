@@ -2,6 +2,7 @@ import React, { useRef, useEffect, useState, useCallback, useMemo } from 'react'
 import { Box, Title, Text, Tooltip } from '@mantine/core';
 import Moveable from 'react-moveable';
 import HOTASInputView from '../components/HOTASInputView.jsx';
+import HOTASOverlayGroupBars from '../components/HOTASOverlayGroupBars.jsx';
 import { X52_BUTTONS, X52_AXES } from '../libraries/hotas';
 
 // Path to the HOTAS image (place in public/assets or adjust as needed)
@@ -258,12 +259,36 @@ export default function HC05LiveInputContainer({ overlays, onOverlayChange, keyb
   const [saveStatus, setSaveStatus] = useState('idle');
   const [lastSavedAt, setLastSavedAt] = useState(null);
   const [saveErrorMessage, setSaveErrorMessage] = useState('');
+  const [focusedInput, setFocusedInput] = useState(null);
   const containerWidth = 700;
   const containerHeight = 700;
 
   useEffect(() => {
     latestOverlaysRef.current = overlays;
   }, [overlays]);
+
+  /**
+   * handleHotspotSelect — a click on an overlay circle highlights that physical input in
+   * the assignment table. Clicking the same hotspot again clears the highlight.
+   *
+   * The overlay record is translated through buildOverlayInputMeta, so the table is
+   * matched on the RESOLVED input (button index / axis index), not on the hotspot id.
+   */
+  const handleHotspotSelect = useCallback((overlay) => {
+    const meta = buildOverlayInputMeta(overlay);
+    if (!meta) return;
+
+    setFocusedInput((current) => {
+      if (current?.overlayId === overlay.id) return null;
+      return {
+        overlayId: overlay.id,
+        type: meta.type,
+        index: meta.index,
+        label: overlay.label,
+        token: Date.now(),
+      };
+    });
+  }, []);
   // Convert percent to px for draggable default position
   const percentToPx = (percent, base) => (parseFloat(percent) / 100) * base;
   const pxToPercent = (px, base) => `${((px / base) * 100).toFixed(2)}%`;
@@ -406,6 +431,11 @@ export default function HC05LiveInputContainer({ overlays, onOverlayChange, keyb
               overflow: 'hidden',
             }}
           >
+            <HOTASOverlayGroupBars
+              overlays={overlays}
+              containerWidth={containerWidth}
+              containerHeight={containerHeight}
+            />
             {overlays.map((overlay, idx) => {
               const leftPx = percentToPx(overlay.style.left, containerWidth);
               const topPx = percentToPx(overlay.style.top, containerHeight);
@@ -447,6 +477,17 @@ export default function HC05LiveInputContainer({ overlays, onOverlayChange, keyb
                   >
                     <div
                       ref={el => overlayRefs.current[idx] = el}
+                      role="button"
+                      tabIndex={0}
+                      aria-label={`${overlay.label} — show this input in the assignment table`}
+                      aria-pressed={focusedInput?.overlayId === overlay.id}
+                      onClick={() => handleHotspotSelect(overlay)}
+                      onKeyDown={(event) => {
+                        if (event.key === 'Enter' || event.key === ' ') {
+                          event.preventDefault();
+                          handleHotspotSelect(overlay);
+                        }
+                      }}
                       style={{
                         position: 'absolute',
                         left: leftPx,
@@ -460,6 +501,10 @@ export default function HC05LiveInputContainer({ overlays, onOverlayChange, keyb
                         borderRadius: '50%',
                         zIndex: dragged === overlay.id ? 2 : 1,
                         boxSizing: 'border-box',
+                        outline: focusedInput?.overlayId === overlay.id
+                          ? '2px solid #9fe8ff'
+                          : 'none',
+                        outlineOffset: '2px',
                       }}
                     />
                   </Tooltip>
@@ -562,6 +607,7 @@ export default function HC05LiveInputContainer({ overlays, onOverlayChange, keyb
         <Title order={4} mb={4}>X52 Input Assignment Table</Title>
         <Text size="sm" c="dimmed" mb="sm">
           Physical X52 inputs mapped to assigned Star Citizen features for the selected mode view.
+          Click a circle on the overlay to jump to that input.
         </Text>
         <HOTASInputView
           bindings={keybindings}
@@ -574,6 +620,7 @@ export default function HC05LiveInputContainer({ overlays, onOverlayChange, keyb
           disableAssignmentMenuFiltering={disableAssignmentMenuFiltering}
           onAssign={onAssignFeature}
           onClear={onClearFeature}
+          focusInput={focusedInput}
         />
       </div>
     </div>

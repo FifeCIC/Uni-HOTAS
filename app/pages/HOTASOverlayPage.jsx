@@ -6,6 +6,7 @@ import Draggable from 'react-draggable';
 import DevTag from '../components/DevTag';
 import Moveable from 'react-moveable';
 import { KeyPressIndicator } from '../components/KeyPressIndicator';
+import HOTASOverlayGroupBars from '../components/HOTASOverlayGroupBars';
 import { useHotasInput, LogitechX52Device } from '../libraries/hotas';
 
 // Path to the HOTAS image (place in public/assets or adjust as needed)
@@ -114,6 +115,11 @@ export default function HOTASOverlayPage() {
             overflow: 'hidden',
           }}
         >
+          <HOTASOverlayGroupBars
+            overlays={overlays}
+            containerWidth={containerWidth}
+            containerHeight={containerHeight}
+          />
           {overlays.map((overlay, idx) => {
             // Convert percent to px for draggable
             const leftPx = percentToPx(overlay.style.left, containerWidth);

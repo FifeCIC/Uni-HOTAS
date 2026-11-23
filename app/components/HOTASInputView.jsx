@@ -270,7 +270,7 @@ const MODE_SEGMENTS = [
 
 const ROWS_PER_PAGE = 120;
 
-export default function HOTASInputView({ bindings, allBindings = [], hotasOverrides, bindingFilter, deviceFilter, searchQuery, onAssign, onClear, activeInputs, axisValues, lastHotasInput, currentMode, disableAssignmentMenuFiltering = false, hideStickFeatures = true, showHideStickToggle = true, onHideStickFeaturesChange }) {
+export default function HOTASInputView({ bindings, allBindings = [], hotasOverrides, bindingFilter, deviceFilter, searchQuery, onAssign, onClear, activeInputs, axisValues, lastHotasInput, currentMode, disableAssignmentMenuFiltering = false, hideStickFeatures = true, showHideStickToggle = true, onHideStickFeaturesChange, focusInput = null, fillAvailableHeight = false }) {
   const [modeFilter, setModeFilter] = useState('none');
   const [modeOverride, setModeOverride] = useState(false);
   const [editingRowId, setEditingRowId] = useState(null);
@@ -476,12 +476,54 @@ export default function HOTASInputView({ bindings, allBindings = [], hotasOverri
   const pageRows = useMemo(() => {
     return sortedRows.slice(pageStart, pageStart + ROWS_PER_PAGE);
   }, [sortedRows, pageStart]);
-
   useEffect(() => {
     if (currentPage > totalPages) {
       setCurrentPage(totalPages);
     }
   }, [currentPage, totalPages]);
+
+  /**
+   * focusInput — set when a hotspot on the HOTAS overlay is clicked.
+   *
+   * A physical input can own two rows (Short and Long press), so matching is by
+   * type+index rather than by row id, and every match is highlighted. The page is
+   * moved to the first match so a click does something visible even when the input
+   * is not on the current page.
+   */
+  const focusInputRef = useRef(sortedRows);
+  focusInputRef.current = sortedRows;
+  const tableWrapRef = useRef(null);
+
+  const isFocusedRow = (row) => Boolean(
+    focusInput
+    && row.type === focusInput.type
+    && String(row.index) === String(focusInput.index)
+  );
+
+  const focusedDescriptorRow = focusInput ? sortedRows.find(isFocusedRow) : null;
+  const focusedInputLabel = focusedDescriptorRow?.name || focusInput?.label || 'Selected input';
+
+  useEffect(() => {
+    if (!focusInput) return;
+    const rowsNow = focusInputRef.current;
+    const index = rowsNow.findIndex((row) => (
+      row.type === focusInput.type && String(row.index) === String(focusInput.index)
+    ));
+    if (index >= 0) {
+      setCurrentPage(Math.floor(index / ROWS_PER_PAGE) + 1);
+    }
+
+    // The matched row can be below the fold on a long page, so bring it into view
+    // once React has painted the new page.
+    const scrollTimer = setTimeout(() => {
+      const rowEl = tableWrapRef.current?.querySelector('[data-focus-row="true"]');
+      rowEl?.scrollIntoView({ block: 'center', behavior: 'smooth' });
+    }, 80);
+
+    // Only react to a new click: re-running on every sort/filter change would drag
+    // the reader back to an old input while they are browsing.
+    return () => clearTimeout(scrollTimer);
+  }, [focusInput?.token, focusInput?.type, focusInput?.index]);
 
   return (
     <>
@@ -504,6 +546,11 @@ export default function HOTASInputView({ bindings, allBindings = [], hotasOverri
         <Badge color="blue" variant="light" size="sm">
           Page {currentPage}/{totalPages}
         </Badge>
+        {focusInput ? (
+          <Badge color="cyan" variant="filled" size="sm" title="Selected from the HOTAS overlay">
+            ◉ {focusedInputLabel}
+          </Badge>
+        ) : null}
         <Group gap="xs">
           <Button
             size="xs"
@@ -540,11 +587,14 @@ export default function HOTASInputView({ bindings, allBindings = [], hotasOverri
       </Group>
 
       <div
+        ref={tableWrapRef}
         style={{
           background: 'rgba(0, 0, 0, 0.4)',
           border: '1px solid rgba(0, 217, 255, 0.15)',
           borderRadius: 8,
-          overflow: 'hidden',
+          overflowY: 'auto',
+          overflowX: 'auto',
+          ...(fillAvailableHeight ? { flex: 1, minHeight: 0 } : null),
         }}
       >
         <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.82rem' }}>
@@ -568,12 +618,20 @@ export default function HOTASInputView({ bindings, allBindings = [], hotasOverri
                 </td>
               </tr>
             ) : (
-              pageRows.map((row) => (
+              pageRows.map((row) => {
+                const focused = isFocusedRow(row);
+                return (
                 <tr
                   key={row.id}
+                  data-focus-row={focused ? 'true' : undefined}
+                  aria-current={focused ? 'true' : undefined}
                   style={{
                     borderBottom: '1px solid rgba(255,255,255,0.04)',
-                    background: row.assignedBinding ? 'rgba(34, 209, 123, 0.04)' : 'transparent',
+                    background: focused
+                      ? 'rgba(0, 217, 255, 0.18)'
+                      : (row.assignedBinding ? 'rgba(34, 209, 123, 0.04)' : 'transparent'),
+                    boxShadow: focused ? 'inset 3px 0 0 #00d9ff' : undefined,
+                    transition: 'background 0.15s ease',
                   }}
                 >
                   {modeFilter !== 'none' && (
@@ -646,7 +704,8 @@ export default function HOTASInputView({ bindings, allBindings = [], hotasOverri
                     {row.assignedBinding?.category || ''}
                   </td>
                 </tr>
-              ))
+                );
+              })
             )}
           </tbody>
         </table>
@@ -664,6 +723,23 @@ const thStyle = {
   fontSize: '0.7rem',
   whiteSpace: 'nowrap',
   textTransform: 'uppercase',
+};
+
+/**
+ * Header cells stick to the top of the scrolling table body.
+ *
+ * `position: sticky` on a `th` only works while an ancestor is the scroll container,
+ * which is why the table wrapper owns `overflow-y: auto`. The background must be opaque
+ * or rows show through, and a box-shadow replaces the bottom border because a collapsed
+ * border does not travel with a sticky cell.
+ */
+const thStickyStyle = {
+  ...thStyle,
+  position: 'sticky',
+  top: 0,
+  zIndex: 2,
+  background: 'linear-gradient(rgba(0, 217, 255, 0.10), rgba(0, 217, 255, 0.10)), #071523',
+  boxShadow: 'inset 0 -1px 0 rgba(0, 217, 255, 0.25)',
 };
 
 /**

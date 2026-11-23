@@ -27,11 +27,18 @@ All notable changes to Uni-HOTAS will be documented in this file.
   description sit inline.
 - **A game with no profile adapter** now gets an explicit notice and no bindings table, instead
   of its files being parsed by the Star Citizen adapter.
+- **POV hotspots tidied.** The three four-way POV hats on the overlay are now even crosses with a
+  connector bar, and all twelve POV circles share one size (5%). Each group's centre is unchanged,
+  so nothing moved more than ~1% of the image.
 
 ### Fixed
 
 - Dropped the hard-coded "Star Citizen mappings folder" wording from the API error and first-run
   panel.
+- **Hotspot clicks now do something.** Clicking a circle on the HOTAS overlay highlights that
+  physical input in the assignment table, jumps to the page holding it and scrolls it into view;
+  clicking the same circle again clears it. Before, the circles were decorative — the only handler
+  was an `alert()` on the un-routed dev overlay page.
 
 ---
 
