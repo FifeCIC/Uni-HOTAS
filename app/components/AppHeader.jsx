@@ -1,5 +1,5 @@
 import { Group, Button, Badge, Menu, Text } from '@mantine/core';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useEffect, useMemo, useState } from 'react';
 import BrandWordmark from './BrandWordmark';
 import QuickGameSelector from './QuickGameSelector';
@@ -188,17 +188,19 @@ export default function AppHeader() {
               ☰ Menu
             </Button>
           </Menu.Target>
+          {/* Real anchors, not onClick handlers: a click whose event path is disturbed still
+              navigates by default action, and middle-click / open-in-new-tab keeps working. */}
           <Menu.Dropdown>
-            <Menu.Item onClick={() => navigate('/')}>Home</Menu.Item>
-            <Menu.Item onClick={() => navigate('/hotas-config')}>Peripheral Config</Menu.Item>
-            <Menu.Item onClick={() => navigate('/games')}>Games &amp; Support</Menu.Item>
-            <Menu.Item onClick={() => navigate('/settings')}>Settings</Menu.Item>
+            <Menu.Item component={Link} to="/">Home</Menu.Item>
+            <Menu.Item component={Link} to="/hotas-config">Peripheral Config</Menu.Item>
+            <Menu.Item component={Link} to="/games">Games &amp; Support</Menu.Item>
+            <Menu.Item component={Link} to="/settings">Settings</Menu.Item>
             <Menu.Divider />
-            <Menu.Item onClick={() => navigate('/about')}>About</Menu.Item>
+            <Menu.Item component={Link} to="/about">About</Menu.Item>
             {rsiHandle === 'LOLinDark' && (
               <>
                 <Menu.Divider />
-                <Menu.Item onClick={() => navigate('/developer')} style={{ color: '#ff9e44' }}>
+                <Menu.Item component={Link} to="/developer" style={{ color: '#ff9e44' }}>
                   ⚙ Admin Panel
                 </Menu.Item>
               </>

@@ -17,8 +17,10 @@ export default function MainLayout() {
 
   return (
     <div style={{ minHeight: '100vh', background: 'var(--oc-space-deep)', position: 'relative' }}>
-      {/* Sticky Header */}
-      <div style={{ position: 'sticky', top: 0, zIndex: 100 }}>
+      {/* Sticky Header. `data-app-chrome` marks the persistent app chrome so page-level
+          input capture (see HOTASConfigMainPage keyboard capture) never swallows a click
+          meant for the menu or the game selector. */}
+      <div style={{ position: 'sticky', top: 0, zIndex: 100 }} data-app-chrome>
         <AppHeader />
         <DemoModeBanner />
       </div>

@@ -36,7 +36,9 @@ jobs:
         run: npm ci
 
       - name: Build React app with Vite
-        run: npm run build
+        # Pages needs the /Uni-HOTAS/ base. A plain `npm run build` produces a root-base
+        # build, which is what `dist/` must contain for the local server and Electron.
+        run: npm run build:pages
 
       - name: Setup Pages
         uses: actions/configure-pages@v5

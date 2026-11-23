@@ -79,41 +79,6 @@ console.log(citizen.affiliation[0].name) // "Bayne Enterprise"
 
 ---
 
-### Gemini AI API
-
-**File**: `gemini.js`  
-**Status**: ✅ Phase 1 - Complete  
-**Base URL**: `https://generativelanguage.googleapis.com`  
-**Cache TTL**: 0s (no cache - unique conversations)
-
-#### Methods
-
-```javascript
-// Send a message and get AI response
-chat(message, context = '') → Promise<{response, tokens}>
-
-// Generate content from prompt
-generate(prompt, options = {}) → Promise<{content}>
-```
-
-#### Usage
-
-```javascript
-import { GeminiClient } from './gemini.js'
-
-const client = new GeminiClient({
-  apiKey: process.env.GEMINI_API_KEY
-})
-
-const response = await client.chat(
-  'What are the best ships for bounty hunting?',
-  'Star Citizen universe context'
-)
-console.log(response.response)
-```
-
----
-
 ### Future Endpoints
 
 ### Media Provider Endpoint Family (Current App Integration)
@@ -428,15 +393,6 @@ const client = new StarCitizenClient({
 | SERVICE_UNAVAILABLE | API down | Yes |
 | UNAUTHORIZED | Invalid API key | No |
 
-### Gemini API
-
-| Code | Meaning | Retryable |
-|------|---------|-----------|
-| INVALID_MESSAGE | Message too long | No |
-| RATE_LIMIT | Quota exceeded | Yes |
-| UNSAFE_CONTENT | Content blocked | No |
-| SERVICE_ERROR | API error | Yes |
-
 ---
 
 ## Performance Recommendations
@@ -577,7 +533,7 @@ const data = await client.getUser('LOLinDark')
 
 ## Next Steps
 
-- [ ] Implement Phase 1 endpoints (Star Citizen, Gemini)
+- [ ] Implement Phase 1 endpoints (Star Citizen)
 - [ ] Add error handling tests
 - [ ] Build admin endpoint browser
 - [ ] Implement UEX endpoint (Phase 2)
@@ -587,4 +543,4 @@ const data = await client.getUser('LOLinDark')
 ---
 
 **Last Updated**: April 17, 2026  
-**Version**: 0.1.0 (Star Citizen + Gemini Phase)
+**Version**: 0.1.0 (Star Citizen Phase)

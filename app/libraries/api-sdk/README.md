@@ -34,7 +34,6 @@ api-sdk/
 │   ├── README.md             # How to add new endpoints
 │   ├── base-endpoint.js      # Template/base class for new endpoints
 │   ├── star-citizen.js       # Star Citizen API client
-│   ├── gemini.js             # Gemini AI API client
 │   └── [FUTURE] uex.js       # UEX Economy API
 │   └── [FUTURE] roadmap.js   # Star Citizen Roadmap API
 │

@@ -18,7 +18,7 @@ const pulseStyle = `
  * @param {string} props.sortOrder - Current sort order ('asc' or 'desc')
  * @param {Function} props.setSortBy - Callback to change sort column
  * @param {Function} props.setSortOrder - Callback to change sort order
- * @param {Object} props.colors - Theme colors { headerBg, headerBorder, headerText, featureText, tableRowBg, rowBorderColor, alternateRowBg }
+ * @param {Object} props.colors - Theme colors { headerBg, headerBorder, headerText, featureText, tableRowBg, rowBorderColor, alternateRowBg, categoryText, categoryTextOnLight }
  * @param {Function} props.getRowBackground - Optional function to determine row background based on binding
  * @param {Function} props.isBindingLive - Optional function to determine if a row matches current live HOTAS input
  */
@@ -195,6 +195,10 @@ export const HOTASTable = ({
             {sortedBindings.map((binding) => {
               const rowIsLive = isBindingLive ? isBindingLive(binding) : false;
               const baseRowBg = getRowBackground ? getRowBackground(binding) : colors.rowBg;
+              // Changed / pending-apply rows use LIGHT alert backgrounds, where the
+              // dark-theme accent would lose contrast. Detect them by the hex form
+              // the page's getRowBackground returns.
+              const rowIsLight = typeof baseRowBg === 'string' && baseRowBg.startsWith('#');
               const isCapturingThis = activeCaptureBindingId === binding.id;
               const isCapturingKeyboard = activeKeyboardCaptureBindingId === binding.id;
               const remainingSeconds = Math.max(0, Math.ceil(captureProgress * 3));
@@ -451,7 +455,13 @@ export const HOTASTable = ({
                 {showModeColumns && renderHotasCell('orange')}
                 {showModeColumns && renderHotasCell('red')}
                 <Table.Td style={{ padding: '1rem' }}>
-                  <Text size="xs" style={{ color: colors.categoryText, textShadow: colors.categoryTextShadow }}>
+                  <Text
+                    size="xs"
+                    style={{
+                      color: rowIsLight ? (colors.categoryTextOnLight || '#0b4f6c') : colors.categoryText,
+                      textShadow: colors.categoryTextShadow,
+                    }}
+                  >
                     {binding.category}
                   </Text>
                 </Table.Td>

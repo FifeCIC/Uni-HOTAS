@@ -57,8 +57,6 @@ export const developerContext = {
     ],
     tasks: [
       '✅ Star Citizen citizen lookup (live)',
-      '✅ Gemini AI chat testing',
-      '✅ Rate limits monitoring',
       '⏳ Cache validation UI',
       '⏳ Batch API testing',
       '⏳ Response timing analysis',
@@ -83,59 +81,6 @@ export const developerContext = {
       '⏳ Bundle budget tracking',
     ],
     reminder: 'This is the nerve center for development. Keep tools organized and discoverable.',
-  },
-
-  // Settings
-  '/settings': {
-    title: 'Settings & Configuration',
-    status: '⏳ WIP',
-    docs: [
-      { title: 'Settings Architecture', path: 'docs/DEVELOPER-REFERENCE.md' },
-    ],
-    tasks: [
-      '✅ Theme switcher',
-      '⏳ User preferences',
-      '⏳ Cost alert thresholds',
-      '⏳ API key management',
-      '⏳ Export/import config',
-    ],
-    reminder: 'Keep settings in Zustand store with localStorage persistence.',
-  },
-
-  // Chat (Gemini)
-  '/admin/chat/gemini': {
-    title: 'Gemini AI Chat',
-    status: '✅ Working',
-    docs: [
-      { title: 'AI Integration', path: 'docs/API-INTEGRATION.md#google-gemini-api' },
-    ],
-    tasks: [
-      '✅ Chat interface',
-      '✅ Token counting',
-      '✅ Cost tracking',
-      '⏳ Conversation history',
-      '⏳ System prompt customization',
-      '⏳ Star Citizen context injection',
-    ],
-    reminder: 'Using Gemini 2.0 Flash. Keep token usage visible. Update system prompts in server.',
-  },
-
-  // Analytics
-  '/admin/analytics': {
-    title: 'Analytics & Usage',
-    status: '✅ MVP',
-    docs: [
-      { title: 'Monitoring & Logging', path: 'docs/SECURITY.md#logging--monitoring' },
-    ],
-    tasks: [
-      '✅ Request counting',
-      '✅ Cost calculation',
-      '✅ Token tracking',
-      '⏳ Charts & graphs',
-      '⏳ Export reports',
-      '⏳ Trend analysis',
-    ],
-    reminder: 'Track usage to prevent surprise bills. Set cost alerts in settings.',
   },
 
   // Developer Context Index
@@ -195,8 +140,6 @@ export const developerContext = {
     tasks: [
       '✅ Theme switcher',
       '⏳ User preferences',
-      '⏳ Cost alert thresholds',
-      '⏳ API key management',
       '⏳ Export/import config',
     ],
     reminder: 'Use Zustand with localStorage persistence for settings.',

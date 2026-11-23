@@ -22,7 +22,7 @@ function createReportEnvelope({ appId, context, readiness, telemetry, runtime, d
   };
 }
 
-export function assessRuntimeReadiness({ usage, pricing, telemetry, performance, analyticsSummary }) {
+export function assessRuntimeReadiness({ telemetry, performance, analyticsSummary }) {
   const warnings = [];
   const blockers = [];
 
@@ -40,17 +40,6 @@ export function assessRuntimeReadiness({ usage, pricing, telemetry, performance,
 
   if (!performance?.started) {
     warnings.push('Web vitals monitoring not active');
-  }
-
-  if (pricing && usage) {
-    const threshold = Number(pricing.threshold || 0);
-    const totalCost = Number(usage.totalCost || 0);
-
-    if (threshold > 0 && totalCost >= threshold) {
-      blockers.push('Cost threshold reached');
-    } else if (threshold > 0 && totalCost >= threshold * 0.75) {
-      warnings.push('Cost usage above 75% threshold');
-    }
   }
 
   if (analyticsSummary && !analyticsSummary.lastEventAt) {
@@ -73,14 +62,12 @@ export function assessRuntimeReadiness({ usage, pricing, telemetry, performance,
 }
 
 export function buildRuntimeReport({
-  usage,
-  pricing,
   telemetry,
   performance,
   analyticsSummary,
   route = '/'
 }) {
-  const readiness = assessRuntimeReadiness({ usage, pricing, telemetry, performance, analyticsSummary });
+  const readiness = assessRuntimeReadiness({ telemetry, performance, analyticsSummary });
 
   return createReportEnvelope({
     appId: 'uni-hotas',
@@ -93,8 +80,6 @@ export function buildRuntimeReport({
     },
     runtime: {
       health: null,
-      usage,
-      pricing,
       theme: null
     },
     diagnostics: {

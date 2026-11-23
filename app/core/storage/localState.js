@@ -70,10 +70,7 @@ export function clearUniHotasStorage() {
     'uni-hotas-app',
     'uni-hotas-settings',
     'unihotas.analytics.queue.v1',
-    'errorLog',
-    'aiRules',
-    'aiConfig',
-    'aiPrompts'
+    'errorLog'
   ]);
 
   clearStorageKeys(getStorageKeysByPrefix('history_'));

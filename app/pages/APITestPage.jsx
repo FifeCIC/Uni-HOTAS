@@ -1,6 +1,5 @@
-import { Container, Stack, Button, TextInput, Group, Text, Badge, Card, Code, Tabs, Loader, Center, CopyButton, ActionIcon } from '@mantine/core';
+import { Container, Stack, Button, TextInput, Group, Text, Badge, Card, Code, Tabs, Loader, Center } from '@mantine/core';
 import { useState } from 'react';
-import { IconCheck, IconCopy } from '@tabler/icons-react';
 import { SciFiFrame } from '../components/ui';
 import DevTag from '../components/DevTag';
 
@@ -9,9 +8,6 @@ export default function APITestPage() {
   const [citizenData, setCitizenData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [geminiMessage, setGeminiMessage] = useState('How should I tune my HOTAS axis curves for smooth flight?');
-  const [geminiResponse, setGeminiResponse] = useState(null);
-  const [geminiLoading, setGeminiLoading] = useState(false);
 
   // Test Star Citizen API
   const testCitizenAPI = async () => {
@@ -30,43 +26,6 @@ export default function APITestPage() {
       setError(err.message);
     } finally {
       setLoading(false);
-    }
-  };
-
-  // Test Gemini API
-  const testGeminiAPI = async () => {
-    setGeminiLoading(true);
-    setError(null);
-    setGeminiResponse(null);
-    
-    try {
-      const response = await fetch('/api/gemini', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: geminiMessage }),
-      });
-      
-      if (!response.ok) {
-        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-      }
-      const data = await response.json();
-      setGeminiResponse(data);
-    } catch (err) {
-      setError(err.message);
-    } finally {
-      setGeminiLoading(false);
-    }
-  };
-
-  // Get Rate Limits
-  const [rateLimits, setRateLimits] = useState(null);
-  const fetchRateLimits = async () => {
-    try {
-      const response = await fetch('/api/rate-limits');
-      const data = await response.json();
-      setRateLimits(data);
-    } catch (err) {
-      setError(err.message);
     }
   };
 
@@ -96,8 +55,6 @@ export default function APITestPage() {
           {/* Tab 1: Star Citizen API */}
           <Tabs.List>
             <Tabs.Tab value="citizen">Star Citizen API</Tabs.Tab>
-            <Tabs.Tab value="gemini">Gemini AI</Tabs.Tab>
-            <Tabs.Tab value="limits">Rate Limits</Tabs.Tab>
             <Tabs.Tab value="docs">Docs</Tabs.Tab>
           </Tabs.List>
 
@@ -220,154 +177,6 @@ export default function APITestPage() {
             </SciFiFrame>
           </Tabs.Panel>
 
-          {/* Tab 2: Gemini AI */}
-          <Tabs.Panel value="gemini" pt="xl">
-            <SciFiFrame variant="corners" cornerLength={12} strokeWidth={1} padding={2}>
-              <Stack gap="lg">
-                <div>
-                  <Text fw={700} mb="xs">Gemini AI Chat</Text>
-                  <Text size="sm" c="dimmed">Test AI-powered responses</Text>
-                </div>
-
-                <TextInput
-                  placeholder="Enter your message..."
-                  value={geminiMessage}
-                  onChange={(e) => setGeminiMessage(e.currentTarget.value)}
-                  disabled={geminiLoading}
-                  multiline
-                  rows={3}
-                />
-
-                <Button
-                  onClick={testGeminiAPI}
-                  loading={geminiLoading}
-                  color="cyan"
-                  variant="outline"
-                >
-                  Send
-                </Button>
-
-                {geminiLoading && (
-                  <Center py="xl">
-                    <Loader color="cyan" />
-                  </Center>
-                )}
-
-                {geminiResponse && (
-                  <Stack gap="md">
-                    <Badge color="green">✓ Success</Badge>
-                    <Card bg="rgba(0, 217, 255, 0.05)" style={{ border: '1px solid rgba(0, 217, 255, 0.2)' }}>
-                      <Stack gap="md">
-                        <div>
-                          <Text fw={600} mb="xs">Response</Text>
-                          <Text size="sm">{geminiResponse.response || geminiResponse.message}</Text>
-                        </div>
-
-                        {geminiResponse.usage && (
-                          <div style={{ borderTop: '1px solid rgba(0, 217, 255, 0.2)', paddingTop: '1rem' }}>
-                            <Text fw={600} mb="xs">Usage</Text>
-                            <Group gap="md">
-                              <Badge size="lg">
-                                Input: {geminiResponse.usage.inputTokens} tokens
-                              </Badge>
-                              <Badge size="lg" color="yellow">
-                                Output: {geminiResponse.usage.outputTokens} tokens
-                              </Badge>
-                            </Group>
-                          </div>
-                        )}
-                      </Stack>
-                    </Card>
-
-                    {/* Raw JSON */}
-                    <div>
-                      <Text fw={600} mb="xs">Raw Response</Text>
-                      <Code block style={{ maxHeight: 300, overflow: 'auto', fontSize: '0.75rem' }}>
-                        {JSON.stringify(geminiResponse, null, 2)}
-                      </Code>
-                    </div>
-                  </Stack>
-                )}
-              </Stack>
-            </SciFiFrame>
-          </Tabs.Panel>
-
-          {/* Tab 3: Rate Limits */}
-          <Tabs.Panel value="limits" pt="xl">
-            <SciFiFrame variant="corners" cornerLength={12} strokeWidth={1} padding={2}>
-              <Stack gap="lg">
-                <div>
-                  <Text fw={700} mb="xs">Rate Limiting</Text>
-                  <Text size="sm" c="dimmed">Current API usage and limits</Text>
-                </div>
-
-                <Button
-                  onClick={fetchRateLimits}
-                  color="cyan"
-                  variant="outline"
-                >
-                  Fetch Limits
-                </Button>
-
-                {rateLimits && (
-                  <Stack gap="md">
-                    <Badge color="green">✓ Retrieved</Badge>
-
-                    <Group gap="xl">
-                      <Card bg="rgba(0, 217, 255, 0.05)" style={{ border: '1px solid rgba(0, 217, 255, 0.2)', flex: 1 }}>
-                        <Stack gap="sm">
-                          <Text fw={700} size="sm">Hourly Limit</Text>
-                          <Group justify="space-between">
-                            <Text>{rateLimits.hourly?.current || 0}/{rateLimits.hourly?.limit || 'N/A'}</Text>
-                            <Badge>{rateLimits.hourly?.percent || 0}%</Badge>
-                          </Group>
-                          <div style={{ width: '100%', height: 8, background: 'rgba(0,0,0,0.2)', borderRadius: 4, overflow: 'hidden' }}>
-                            <div
-                              style={{
-                                height: '100%',
-                                width: `${rateLimits.hourly?.percent || 0}%`,
-                                background: rateLimits.hourly?.percent > 80 ? '#ff0055' : '#00d9ff',
-                                transition: 'all 0.3s ease',
-                              }}
-                            />
-                          </div>
-                        </Stack>
-                      </Card>
-
-                      <Card bg="rgba(0, 217, 255, 0.05)" style={{ border: '1px solid rgba(0, 217, 255, 0.2)', flex: 1 }}>
-                        <Stack gap="sm">
-                          <Text fw={700} size="sm">Daily Limit</Text>
-                          <Group justify="space-between">
-                            <Text>{rateLimits.daily?.current || 0}/{rateLimits.daily?.limit || 'N/A'}</Text>
-                            <Badge>{rateLimits.daily?.percent || 0}%</Badge>
-                          </Group>
-                          <div style={{ width: '100%', height: 8, background: 'rgba(0,0,0,0.2)', borderRadius: 4, overflow: 'hidden' }}>
-                            <div
-                              style={{
-                                height: '100%',
-                                width: `${rateLimits.daily?.percent || 0}%`,
-                                background: rateLimits.daily?.percent > 80 ? '#ff0055' : '#00d9ff',
-                                transition: 'all 0.3s ease',
-                              }}
-                            />
-                          </div>
-                        </Stack>
-                      </Card>
-                    </Group>
-
-                    {/* Raw JSON */}
-                    <div>
-                      <Text fw={600} mb="xs">Raw Response</Text>
-                      <Code block style={{ maxHeight: 300, overflow: 'auto', fontSize: '0.75rem' }}>
-                        {JSON.stringify(rateLimits, null, 2)}
-                      </Code>
-                    </div>
-                  </Stack>
-                )}
-              </Stack>
-            </SciFiFrame>
-          </Tabs.Panel>
-
           {/* Tab 4: Docs */}
           <Tabs.Panel value="docs" pt="xl">
             <SciFiFrame variant="corners" cornerLength={12} strokeWidth={1} padding={2}>
@@ -403,9 +212,8 @@ export default function APITestPage() {
                       <Text fw={700}>Available Endpoints</Text>
                       <Group gap="xs" wrap="wrap">
                         <Badge>GET /api/citizen/:handle</Badge>
-                        <Badge>POST /api/gemini</Badge>
-                        <Badge>GET /api/rate-limits</Badge>
-                        <Badge>GET /api/usage</Badge>
+                        <Badge>GET /api/version</Badge>
+                        <Badge>GET /api/hotas/profiles</Badge>
                       </Group>
                     </Stack>
                   </Card>
@@ -413,8 +221,8 @@ export default function APITestPage() {
                   <Card bg="rgba(0, 217, 255, 0.05)" style={{ border: '1px solid rgba(0, 217, 255, 0.2)' }}>
                     <Stack gap="sm">
                       <Text fw={700}>Environment Setup</Text>
-                      <Code block>RSI_API_KEY=3z53rRXaw5a8nKUirs1mvwWE5bzdisle</Code>
-                      <Text size="xs" c="dimmed">Key is already configured in .env</Text>
+                      <Code block>RSI_API_KEY=&lt;your-key&gt;</Code>
+                      <Text size="xs" c="dimmed">Configure RSI_API_KEY in .env</Text>
                     </Stack>
                   </Card>
                 </Stack>

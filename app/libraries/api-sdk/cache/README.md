@@ -159,14 +159,13 @@ Keys are built hierarchically to avoid collisions and enable bulk operations:
 Examples:
 - memory:star-citizen:user:lolindark:1
 - memory:star-citizen:org:bayne:1
-- memory:gemini:chat:a7f3d2c:1
 - sqlite:uex:commodities:filters123:1
 ```
 
 ### Key Components
 
 - **adapter**: Which storage backend (for migration)
-- **endpoint**: Service name (star-citizen, gemini, uex)
+- **endpoint**: Service name (star-citizen, uex)
 - **method**: Function/operation (user, org, commodities)
 - **params**: Unique params hash (or direct value if simple)
 - **version**: Cache schema version (for invalidation)

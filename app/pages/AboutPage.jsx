@@ -8,8 +8,6 @@ const DEPENDENCIES = [
   { name: 'React', author: 'Meta', url: 'https://github.com/facebook/react', license: 'MIT', desc: 'UI framework' },
   { name: 'Vite', author: 'Evan You', url: 'https://github.com/vitejs/vite', license: 'MIT', desc: 'Build tool and dev server' },
   { name: 'Express', author: 'TJ Holowaychuk', url: 'https://github.com/expressjs/express', license: 'MIT', desc: 'Backend API server' },
-  { name: 'Google Generative AI', author: 'Google', url: 'https://github.com/google/generative-ai-js', license: 'Apache-2.0', desc: 'Gemini AI integration' },
-  { name: 'AWS Bedrock SDK', author: 'Amazon Web Services', url: 'https://github.com/aws/aws-sdk-js-v3', license: 'Apache-2.0', desc: 'Claude AI integration via AWS Bedrock' },
 ];
 
 export default function AboutPage() {
@@ -119,16 +117,6 @@ export default function AboutPage() {
           </div>
         </SciFiFrame>
 
-        <SciFiFrame variant="corners" cornerLength={12} strokeWidth={1.5} padding={0}>
-          <div style={{ padding: '1.5rem' }}>
-            <h2 style={{ color: '#ff0055', marginTop: 0, marginBottom: '1rem', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-              Disclaimer
-            </h2>
-            <Text size="sm" c="dimmed">
-              UNI-HOTAS is a fan-made project and is not affiliated with or endorsed by Cloud Imperium Games. Star Citizen® is a registered trademark of Cloud Imperium Rights LLC.
-            </Text>
-          </div>
-        </SciFiFrame>
       </Stack>
     </Container>
   );

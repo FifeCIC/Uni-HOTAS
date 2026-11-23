@@ -153,7 +153,8 @@ The dev server proxies `/api` to `http://127.0.0.1:3111`.
 ### Quality commands
 
 ```bash
-npm run build                      # production frontend build
+npm run build                      # production frontend build (root base — servable by the local server)
+npm run build:pages                # GitHub Pages build (/Uni-HOTAS/ base — CI only)
 npm run check:bundle               # bundle budget check
 npm run build:guard                # build + bundle budget
 npm run check:hotas:mapping        # HOTAS mapping integrity
@@ -161,6 +162,10 @@ npm run check:hotas:mapping:strict # same, strict mode (CI gate)
 npm run check:hotas:xml-rebind     # XML rebind regression suite
 npm run lint                       # eslint
 ```
+
+> ⚠️ `dist/` is shared by the local server, Electron packaging and the Pages build. Never leave a
+> Pages build in `dist/` — it references `/Uni-HOTAS/assets/…`, which the local server does not
+> serve, and the page goes blank white. The server now detects this and says so instead.
 
 CI runs the strict mapping check and the XML rebind regression on every push and pull request (`.github/workflows/hotas-quality-gates.yml`).
 

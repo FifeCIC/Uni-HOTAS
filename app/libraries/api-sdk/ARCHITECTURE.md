@@ -480,7 +480,6 @@ Keys are structured to avoid collisions:
 
 Examples:
 - star-citizen:user:lolindark:1
-- gemini:chat:hash(message):1
 - uex:commodities:filters={...}:1
 ```
 

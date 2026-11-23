@@ -24,9 +24,6 @@ Tags are short IDs shown in page/section headers when **Dev Mode** is enabled. T
 | DEV04 | Error Log | /developer/errors | pages/ErrorLogPage.jsx |
 | DEV05 | Changes | /developer/changes | pages/ChangesPage.jsx |
 | ADM01 | Settings | /settings | pages/SettingsPage.jsx |
-| ADM02 | Gemini Chat | /admin/chat/gemini | pages/GeminiPage.jsx |
-| ADM03 | AI Rules | /admin/ai-rules | pages/AIRulesPage.jsx |
-| ADM04 | Analytics Dashboard | /admin/analytics | pages/AnalyticsPage.jsx |
 | ADM05 | About | /about | pages/AboutPage.jsx |
 | APP01 | Main Dashboard | / | pages/DashboardPage.jsx |
 | APP03 | Onboarding Checklist | /onboarding | pages/OnboardingChecklistPage.jsx |
@@ -53,8 +50,7 @@ Tags are short IDs shown in page/section headers when **Dev Mode** is enabled. T
 | UI Framework | React 18 + Vite | SPA foundation |
 | Component Library | Mantine 8 | Layout, forms, navigation, data display |
 | Sci-Fi Visual Layer | Arwes 1.0.0-next | Animated frames, text effects, backgrounds |
-| Backend | Express 5 | API server, AI proxy, rate limiting |
-| AI | Google Gemini + AWS Bedrock | Content generation, chat |
+| Backend | Express 5 | API server, rate limiting |
 | PWA | manifest.json + sw.js | Installable web app |
 
 ## Project Structure
@@ -75,13 +71,8 @@ src/
 │   ├── DashboardPage.jsx     # Main landing — feature cards
 │   ├── WelcomePage.jsx       # Splash/loading screen
 │   ├── AboutPage.jsx         # Project info, credits, disclaimer
-│   ├── AmazonQPage.jsx       # Claude chat (admin)
-│   ├── GeminiPage.jsx        # Gemini chat (admin)
-│   ├── AIRulesPage.jsx       # AI system prompt config
-│   ├── AnalyticsPage.jsx     # Usage/cost analytics
-│   ├── RateLimitPage.jsx     # Rate limit monitor
 │   ├── HistoryPage.jsx       # Field change history
-│   ├── SettingsPage.jsx      # App settings, cost alerts
+│   ├── SettingsPage.jsx      # App settings, HOTAS, backup
 │   ├── ThemePage.jsx         # Theme customizer
 │   ├── DeveloperPage.jsx     # Dev tools hub
 │   ├── ChangesPage.jsx       # Changelog
@@ -90,8 +81,7 @@ src/
 │   └── scifi-theme.css       # CSS variables, Arwes overrides
 ├── utils/
 │   ├── dataStorage.js
-│   ├── historyManager.js
-│   └── writingStyles.js
+│   └── historyManager.js
 ├── App.jsx                   # Route mapping
 ├── main.jsx                  # Mantine provider, theme config
 └── index.css                 # Base reset
@@ -197,17 +187,8 @@ Base URL: `http://localhost:3111`
 
 | Endpoint | Method | Purpose |
 |----------|--------|---------|
-| `/api/version` | GET | Server version + project hours |
-| `/api/usage` | GET | Token/cost usage stats |
-| `/api/rate-limits` | GET | Current rate limit status |
-| `/api/pricing` | GET | Model pricing table |
-| `/api/pricing/calculate` | POST | Estimate cost for token count |
-| `/api/model` | POST | Switch active Bedrock model |
-| `/api/gemini` | POST | Send message to Gemini |
-| `/api/gemini/models` | GET | List available Gemini models |
-| `/api/chat` | POST | General chat (Gemini or Bedrock) |
+| `/api/version` | GET | Server version |
 | `/api/log-error` | POST | Log frontend error to file |
-| `/api/server/restart` | POST | Graceful server shutdown |
 
 ---
 
@@ -219,13 +200,8 @@ VITE_API_BASE_URL=http://localhost:3111
 
 # Backend
 PORT=3111
-GEMINI_API_KEY=<your-key>
-AWS_REGION=us-east-1
-AWS_ACCESS_KEY_ID=<your-key>       # uncomment to enable Bedrock
-AWS_SECRET_ACCESS_KEY=<your-key>   # uncomment to enable Bedrock
 RSI_API_KEY=<your-key>
-MAX_DAILY_REQUESTS=20
-MAX_HOURLY_REQUESTS=5
+DEVELOPMENT_MODE=<true|false>
 ```
 
 ---

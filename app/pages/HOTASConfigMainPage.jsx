@@ -662,7 +662,24 @@ export default function HOTASConfigMainPage() {
       setCaptureKeyboardProgress(0);
     };
 
+    // A press on app chrome (header, menus, tooltips, dialogs) is NOT a candidate binding:
+    // consuming it here used to bind a stray mouse button and swallow the click, so menu
+    // navigation silently did nothing for the whole 3s capture window. Cancel instead.
+    const isChromeTarget = (target) =>
+      target instanceof Element &&
+      Boolean(target.closest('[data-app-chrome], [role="menu"], [role="menuitem"], [role="dialog"], [role="tooltip"]'));
+
+    const cancelKeyboardCapture = () => {
+      setCaptureKeyboardBindingId(null);
+      setCaptureKeyboardProgress(0);
+    };
+
     const handleKeyDown = (event) => {
+      if (isChromeTarget(event.target)) {
+        cancelKeyboardCapture();
+        return;
+      }
+
       const elapsed = Date.now() - keyboardCaptureStartedAtRef.current;
       if (elapsed > CAPTURE_WINDOW_MS || elapsed < 120 || event.repeat) return;
 
@@ -675,6 +692,11 @@ export default function HOTASConfigMainPage() {
     };
 
     const handleMouseDown = (event) => {
+      if (isChromeTarget(event.target)) {
+        cancelKeyboardCapture();
+        return;
+      }
+
       const elapsed = Date.now() - keyboardCaptureStartedAtRef.current;
       if (elapsed > CAPTURE_WINDOW_MS || elapsed < 120) return;
 
@@ -1222,13 +1244,13 @@ export default function HOTASConfigMainPage() {
   const colors = {
     headerBg: 'rgba(0, 217, 255, 0.08)',
     headerBorder: 'rgba(0, 217, 255, 0.2)',
-    headerText: '#6a8898',
+    headerText: '#00d9ff',
     headerTextShadow: undefined,
     featureText: '#e0eaf4',
     featureTextShadow: undefined,
     tableBg: 'rgba(0, 0, 0, 0.4)',
     tableBoxShadow: '0 0 15px rgba(0, 217, 255, 0.05)',
-    primaryKeyHeaderColor: '#6a8898',
+    primaryKeyHeaderColor: '#00d9ff',
     primaryKeyBorder: '1px solid rgba(0, 217, 255, 0.2)',
     primaryKeyHeaderShadow: undefined,
     primaryKeyBadgeBg: 'rgba(0, 217, 255, 0.1)',
@@ -1240,9 +1262,12 @@ export default function HOTASConfigMainPage() {
     alternativeBadgeBg: 'rgba(156, 39, 176, 0.1)',
     alternativeBadgeColor: '#ce93d8',
     alternativeBadgeBorder: '1px solid rgba(156, 39, 176, 0.3)',
-    categoryText: '#6a8898',
+    categoryText: '#00d9ff',
     categoryTextShadow: undefined,
-    statusHeaderColor: '#6a8898',
+    // Light alert rows (changed / pending apply) need a darker blue: the theme
+    // cyan is ~1.5:1 against #fff3cd, so it would be unreadable there.
+    categoryTextOnLight: '#0b4f6c',
+    statusHeaderColor: '#00d9ff',
     statusBorder: undefined,
     statusHeaderShadow: undefined,
     rowBg: 'transparent',

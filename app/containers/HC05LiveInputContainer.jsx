@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState, useCallback, useMemo } from 'react';
+import React, { useRef, useEffect, useState, useCallback, useMemo, useLayoutEffect } from 'react';
 import { Box, Title, Text, Tooltip } from '@mantine/core';
 import Moveable from 'react-moveable';
 import HOTASInputView from '../components/HOTASInputView.jsx';
@@ -260,6 +260,40 @@ export default function HC05LiveInputContainer({ overlays, onOverlayChange, keyb
   const [lastSavedAt, setLastSavedAt] = useState(null);
   const [saveErrorMessage, setSaveErrorMessage] = useState('');
   const [focusedInput, setFocusedInput] = useState(null);
+  const [hoveredInput, setHoveredInput] = useState(null);
+
+  // The assignment table is capped so its bottom lines up with the bottom of the HOTAS
+  // photo beside it, which means measuring rather than a fixed height: the photo's
+  // top edge moves when the text above it re-wraps or the dev toolbar appears.
+  const leftColumnRef = useRef(null);
+  const imageBoxRef = useRef(null);
+  const rightColumnRef = useRef(null);
+  const [tableAreaHeight, setTableAreaHeight] = useState(null);
+
+  useLayoutEffect(() => {
+    const leftColumn = leftColumnRef.current;
+    const imageBox = imageBoxRef.current;
+    const rightColumn = rightColumnRef.current;
+    if (!leftColumn || !imageBox || !rightColumn) return undefined;
+
+    const measure = () => {
+      const imageBottom = imageBox.getBoundingClientRect().bottom;
+      const rightTop = rightColumn.getBoundingClientRect().top;
+      const next = Math.round(imageBottom - rightTop);
+      // Below this the header/toolbar alone would overflow the box, so keep it usable.
+      setTableAreaHeight(next > 260 ? next : 260);
+    };
+
+    measure();
+    const observer = new ResizeObserver(measure);
+    observer.observe(leftColumn);
+    window.addEventListener('resize', measure);
+
+    return () => {
+      observer.disconnect();
+      window.removeEventListener('resize', measure);
+    };
+  }, []);
   const containerWidth = 700;
   const containerHeight = 700;
 
@@ -289,6 +323,29 @@ export default function HC05LiveInputContainer({ overlays, onOverlayChange, keyb
       };
     });
   }, []);
+
+  /**
+   * Map of `type:index` → overlay ids, so a table row can light up its hotspot.
+   *
+   * This is the inverse of buildOverlayInputMeta. Built as a Map rather than searched per
+   * hover, because hover fires on every row the pointer crosses.
+   */
+  const overlayIdsByInput = useMemo(() => {
+    const map = new Map();
+    for (const overlay of overlays || []) {
+      const meta = buildOverlayInputMeta(overlay);
+      if (!meta) continue;
+      const key = `${meta.type}:${meta.index}`;
+      if (!map.has(key)) map.set(key, new Set());
+      map.get(key).add(overlay.id);
+    }
+    return map;
+  }, [overlays]);
+
+  const hoveredOverlayIds = useMemo(() => {
+    if (!hoveredInput) return null;
+    return overlayIdsByInput.get(`${hoveredInput.type}:${hoveredInput.index}`) || null;
+  }, [hoveredInput, overlayIdsByInput]);
   // Convert percent to px for draggable default position
   const percentToPx = (percent, base) => (parseFloat(percent) / 100) * base;
   const pxToPercent = (px, base) => `${((px / base) * 100).toFixed(2)}%`;
@@ -415,11 +472,12 @@ export default function HC05LiveInputContainer({ overlays, onOverlayChange, keyb
   return (
     <div style={{ display: 'flex', gap: 32, alignItems: 'flex-start', width: '100%' }}>
       {/* HOTAS Overlay Demo (from /hotas-overlay) */}
-      <div style={{ flex: '0 0 740px', position: 'relative' }}>
+      <div ref={leftColumnRef} style={{ flex: '0 0 740px', position: 'relative' }}>
         <Box p="lg">
           <Title order={3} mb="md">X52 HOTAS Overlay Demo</Title>
           <Text mb="md">This demo uses your HOTAS photo as a background with clickable overlay regions. All overlays are now resizable circles.</Text>
           <div
+            ref={imageBoxRef}
             style={{
               position: 'relative',
               width: 700,
@@ -441,6 +499,8 @@ export default function HC05LiveInputContainer({ overlays, onOverlayChange, keyb
               const topPx = percentToPx(overlay.style.top, containerHeight);
               const sizePx = percentToPx(overlay.style.size, containerWidth);
               const isActive = isOverlayInputActive(overlay, activeInputs, axisValues, lastHotasInput);
+              const isRowHovered = Boolean(hoveredOverlayIds?.has(overlay.id));
+              const isFocused = focusedInput?.overlayId === overlay.id;
               const activeModeKey = bindingLayout === 'modes' ? MODE_INDEX_TO_KEY[Number(currentMode)] : null;
               const tooltipLabel = buildOverlayTooltip(overlay, keybindings, hotasOverrides, activeModeKey);
 
@@ -476,7 +536,7 @@ export default function HC05LiveInputContainer({ overlays, onOverlayChange, keyb
                     }}
                   >
                     <div
-                      ref={el => overlayRefs.current[idx] = el}
+                      ref={(el) => { overlayRefs.current[idx] = el; }}
                       role="button"
                       tabIndex={0}
                       aria-label={`${overlay.label} — show this input in the assignment table`}
@@ -494,20 +554,45 @@ export default function HC05LiveInputContainer({ overlays, onOverlayChange, keyb
                         top: topPx,
                         width: sizePx,
                         height: sizePx,
-                        background: isActive ? 'rgba(255, 149, 0, 0.30)' : 'rgba(0,200,255,0.18)',
+                        background: isActive
+                          ? 'rgba(255, 149, 0, 0.30)'
+                          : (isRowHovered ? 'rgba(0, 220, 255, 0.55)' : 'rgba(0,200,255,0.18)'),
                         border: isActive ? '2px solid #ff9500' : '2px solid #00d9ff',
                         cursor: isDevMode && devEditMode ? 'move' : 'pointer',
-                        transition: 'background 0.2s',
+                        transition: 'background 0.15s ease, box-shadow 0.15s ease',
                         borderRadius: '50%',
-                        zIndex: dragged === overlay.id ? 2 : 1,
+                        zIndex: dragged === overlay.id ? 2 : (isRowHovered ? 3 : 1),
                         boxSizing: 'border-box',
-                        outline: focusedInput?.overlayId === overlay.id
-                          ? '2px solid #9fe8ff'
+                        // Hovering the row on the right lights the matching hotspot here.
+                        boxShadow: isRowHovered
+                          ? '0 0 0 3px rgba(0, 217, 255, 0.45), 0 0 18px rgba(0, 217, 255, 0.95)'
                           : 'none',
+                        outline: isFocused ? '2px solid #9fe8ff' : 'none',
                         outlineOffset: '2px',
                       }}
                     />
                   </Tooltip>
+                  {/* Ring lives OUTSIDE <Tooltip>: Mantine's Tooltip accepts exactly one child,
+                      and a second one makes it return null on the next render, which React
+                      reports as "rendered fewer hooks than expected". */}
+                  {isRowHovered ? (
+                    <div
+                      aria-hidden="true"
+                      style={{
+                        position: 'absolute',
+                        left: leftPx,
+                        top: topPx,
+                        width: sizePx,
+                        height: sizePx,
+                        borderRadius: '50%',
+                        border: '1px solid rgba(159, 232, 255, 0.9)',
+                        transform: 'scale(1.35)',
+                        pointerEvents: 'none',
+                        zIndex: 2,
+                        transition: 'transform 0.12s ease',
+                      }}
+                    />
+                  ) : null}
                   {isDevMode && devEditMode && (
                     <Moveable
                       target={overlayRefs.current[idx]}
@@ -603,11 +688,20 @@ export default function HC05LiveInputContainer({ overlays, onOverlayChange, keyb
         </Box>
       </div>
       {/* Live Input Table/Mapping */}
-      <div style={{ flex: 1, minWidth: 0 }}>
+      <div
+        ref={rightColumnRef}
+        style={{
+          flex: 1,
+          minWidth: 0,
+          display: 'flex',
+          flexDirection: 'column',
+          ...(tableAreaHeight ? { height: tableAreaHeight, minHeight: 0 } : null),
+        }}
+      >
         <Title order={4} mb={4}>X52 Input Assignment Table</Title>
         <Text size="sm" c="dimmed" mb="sm">
           Physical X52 inputs mapped to assigned Star Citizen features for the selected mode view.
-          Click a circle on the overlay to jump to that input.
+          Hover a row to light its hotspot; click a circle on the overlay to jump to that input.
         </Text>
         <HOTASInputView
           bindings={keybindings}
@@ -621,6 +715,9 @@ export default function HC05LiveInputContainer({ overlays, onOverlayChange, keyb
           onAssign={onAssignFeature}
           onClear={onClearFeature}
           focusInput={focusedInput}
+          fillAvailableHeight={Boolean(tableAreaHeight)}
+          onRowHover={(row) => setHoveredInput({ type: row.type, index: row.index })}
+          onRowLeave={() => setHoveredInput(null)}
         />
       </div>
     </div>

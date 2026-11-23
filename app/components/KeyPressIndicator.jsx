@@ -312,7 +312,7 @@ export function KeyPressIndicator({
   const showInputDiagnostics = Boolean(gamepadInfo || activeInputs || hasAxisValues || rawInput);
 
   // ─── shared card content ──────────────────────────────────────────────────
-  const cardContent = ({ pinned, onToggleDock, inWindow = false }) => (
+  const cardContent = ({ pinned, onToggleDock, inWindow = false, includeChildren = true }) => (
     <Box
       style={{
         position: 'relative',
@@ -320,7 +320,7 @@ export function KeyPressIndicator({
         border: '2px solid #00d9ff',
         borderRadius: '12px',
         padding: inWindow ? '0.6rem' : '0.75rem',
-        width: '100%',
+        width: includeChildren ? '100%' : 'auto',
         backdropFilter: 'blur(10px)',
         boxShadow: '0 0 20px rgba(0, 217, 255, 0.3)',
       }}
@@ -653,8 +653,12 @@ export function KeyPressIndicator({
             </>
           )}
 
-          {/* Overlay demo or other children go here */}
-          {children}
+          {/* Overlay demo or other children go here.
+              ⚠️ Children are the CALLER's page content (e.g. the X52 overlay + assignment
+              table on /hotas-config). They are rendered in page flow only — never inside the
+              floating card or the pop-out window, which would hoist a thousand nodes into a
+              fixed full-viewport layer and break both layout and click routing. */}
+          {includeChildren && children}
         </>
       )}
     </Box>
@@ -690,7 +694,11 @@ export function KeyPressIndicator({
             </Group>
           </Box>
         </Tooltip>
-        {createPortal(cardContent({ pinned: false, onToggleDock: () => {}, inWindow: true }), windowContainer)}
+        {children}
+        {createPortal(
+          cardContent({ pinned: false, onToggleDock: () => {}, inWindow: true, includeChildren: false }),
+          windowContainer
+        )}
       </>
     );
   }
@@ -730,9 +738,26 @@ export function KeyPressIndicator({
         </Box>
       </Tooltip>
 
-      {/* Fixed floating overlay — clamped below sticky header */}
-      <Box style={{ position: 'fixed', top: '120px', right: '1.5rem', zIndex: 1000 }}>
-        {cardContent({ pinned: false, onToggleDock: () => setIsDocked(true) })}
+      {/* Children stay in page flow — only the readout card floats */}
+      {children}
+
+      {/* Fixed floating card. Width is explicit: the card is `width: auto` here, and a
+          `width: 100%` child inside a shrink-to-fit fixed box resolves against the viewport
+          (that is how this once became a 1896px-wide invisible click-blocker). The wrapper
+          is pointer-transparent so its empty area cannot swallow page clicks. */}
+      <Box
+        style={{
+          position: 'fixed',
+          top: '120px',
+          right: '1.5rem',
+          zIndex: 90,
+          width: 'min(360px, calc(100vw - 2rem))',
+          pointerEvents: 'none',
+        }}
+      >
+        <Box style={{ pointerEvents: 'auto' }}>
+          {cardContent({ pinned: false, onToggleDock: () => setIsDocked(true), includeChildren: false })}
+        </Box>
       </Box>
     </>
   );

@@ -18,10 +18,8 @@ export default function ChangesPage() {
               <Text size="sm">• Dashboard placeholder with Phase 1-2 feature cards</Text>
               <Text size="sm">• About page with project info and CIG disclaimer</Text>
               <Text size="sm" mt="xs"><strong>Retained Infrastructure:</strong></Text>
-              <Text size="sm">• Express backend with Gemini + AWS Bedrock integration</Text>
-              <Text size="sm">• Rate limiting, cost tracking, analytics</Text>
-              <Text size="sm">• Claude and Gemini chat interfaces (admin tools)</Text>
-              <Text size="sm">• AI Rules configuration</Text>
+              <Text size="sm">• Express backend with Star Citizen API integration</Text>
+              <Text size="sm">• Rate limiting, analytics</Text>
               <Text size="sm">• Dev mode with activity monitor</Text>
               <Text size="sm">• Theme customizer, error logging, field history</Text>
               <Text size="sm">• PWA manifest rebranded for UNI-HOTAS</Text>

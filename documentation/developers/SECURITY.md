@@ -12,11 +12,11 @@
 ## Security Rules for Developers
 
 ### Never Do
-- ❌ Use `dangerouslySetInnerHTML` with AI responses or user content
+- ❌ Use `dangerouslySetInnerHTML` with user content
 - ❌ Pass user input to file paths, shell commands, or `eval()`
 - ❌ Commit `.env` files or API keys to git
-- ❌ Log full AI responses in production (token cost + privacy)
-- ❌ Trust AI responses as safe HTML — always treat as untrusted text
+- ❌ Log full user content in production (privacy)
+- ❌ Trust external API responses as safe HTML — always treat as untrusted text
 - ❌ Use `cors()` with no origin restriction
 - ❌ Create unauthenticated endpoints that modify server state
 

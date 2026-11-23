@@ -2,13 +2,15 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import path from 'path'
 
-export default defineConfig(({ command }) => ({
+export default defineConfig(() => ({
   root: 'app',
   // Public directory is at project root (not under app/)
   publicDir: '../public',
-  // Use subdirectory base only for production builds (GitHub Pages)
-  // Local dev server uses root path for easier testing
-  base: command === 'build' ? '/Uni-HOTAS/' : '/',
+  // Root base by default, so `dist/` is always servable by the local Express server and
+  // packagable by Electron. The GitHub Pages build is the one exception and passes its own
+  // base on the command line (`npm run build:pages`), because a Pages build left in `dist/`
+  // makes `localhost:3111` load no JavaScript at all and show a blank white page.
+  base: '/',
   plugins: [react()],
   resolve: {
     alias: {

@@ -7,6 +7,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "build:pages": "vite build --base=/Uni-HOTAS/",
     "check:bundle": "node scripts/check-bundle-budget.mjs",
     "check:hotas:mapping": "node scripts/check-hotas-mapping-integrity.mjs",
     "check:hotas:mapping:strict": "node scripts/check-hotas-mapping-integrity.mjs --strict",
@@ -28,8 +29,6 @@
     "server:3111": "set PORT=3111&& nodemon --watch server --ext js,mjs,cjs --ignore server/data/*.json server/index.js"
   },
   "dependencies": {
-    "@aws-sdk/client-bedrock-runtime": "^3.1034.0",
-    "@google/generative-ai": "^0.24.1",
     "cors": "^2.8.5",
     "dotenv": "^17.2.3",
     "express": "^5.2.1",
@@ -56,7 +55,6 @@
     "@arwes/react-text": "1.0.0-next.25020502",
     "@arwes/text": "1.0.0-next.25020502",
     "@arwes/theme": "1.0.0-next.25020502",
-    "@aws-sdk/client-qbusiness": "^3.1034.0",
     "@mantine/core": "^8.3.13",
     "@mantine/dates": "^8.3.13",
     "@mantine/form": "^8.3.14",

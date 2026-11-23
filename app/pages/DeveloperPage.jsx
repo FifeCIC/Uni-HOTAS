@@ -6,7 +6,7 @@ export default function DeveloperPage() {
   const navigate = useNavigate();
 
   const adminTools = [
-    { label: 'API Test', desc: 'Test Citizen, Gemini, and Rate Limit APIs', path: '/developer/api-test' },
+    { label: 'API Test', desc: 'Test the Citizen API and inspect server endpoints', path: '/developer/api-test' },
     { label: 'HOTAS Data Flow', desc: 'Interactive diagram tracing feature data through the mapping pipeline', path: '/developer/hotas-data-flow' },
     { label: 'Developer Context', desc: 'View all page contexts and tasks', path: '/developer/context' },
     { label: 'Error Log', desc: 'View application errors', path: '/developer/errors' },

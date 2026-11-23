@@ -4,6 +4,57 @@ All notable changes to Uni-HOTAS will be documented in this file.
 
 ---
 
+## [Unreleased] — menu navigation on Peripheral Config
+
+### Fixed
+
+- **Menu items now navigate even from `/hotas-config`.** Two page-specific causes were removed:
+  - Detaching the Live Input panel hoisted the **whole overlay and assignment table** into a
+    `position: fixed`, full-viewport layer (the panel card accepts the page as children, and the
+    floating/window branches rendered them inside it). Detached mode is persisted in
+    `localStorage`, so it came back on every visit. Children now always stay in page flow; only
+    the compact readout card floats, is pointer-transparent outside its own box, and sits below
+    app chrome.
+  - Arming a keyboard binding installs a capture-phase `mousedown` listener on `window` that
+    consumed the press for the 3-second capture window, so a click on app chrome bound a stray
+    mouse button and never reached the menu. A press on chrome (header, menu, dialog, tooltip) now
+    **cancels** the capture instead.
+
+### Changed
+
+- Header menu items are real anchors (`<Link>`), so navigation survives a disturbed event path and
+  middle-click / open-in-new-tab work.
+
+---
+
+## [Unreleased] — AI support removed
+
+### Removed
+
+- **All AI features are gone.** UNI-HOTAS does not use an AI provider, so the Gemini and AWS
+  Bedrock integrations, the chat endpoints and their admin surfaces have been deleted rather than
+  left switched off.
+  - Settings loses the **AWS & Costs** tab (cost alert threshold and Bedrock pricing calculator)
+    and the **AI Provider** selector.
+  - The shell loses the AI status pill, the Claude/Gemini chat links, and the usage/cost and
+    rate-limit panels in the admin sidebar.
+  - The developer API test page loses the Gemini and Rate Limits tabs.
+  - Server routes `POST /api/gemini`, `GET /api/gemini/models`, `POST /api/chat`, `POST /api/model`,
+    `GET /api/usage`, `GET /api/rate-limits`, `GET /api/pricing` and `POST /api/pricing/calculate`
+    are removed, along with the AI request counters they reported.
+- **Dependencies removed:** `@aws-sdk/client-bedrock-runtime`, `@aws-sdk/client-qbusiness` and
+  `@google/generative-ai` (89 packages pruned).
+- **Env keys removed:** `AWS_REGION`, `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`,
+  `QBUSINESS_APPLICATION_ID`, `GEMINI_API_KEY`, `MAX_DAILY_REQUESTS`, `MAX_HOURLY_REQUESTS` and
+  `COST_ALERT_THRESHOLD`.
+- `GET /api/version` no longer reports `projectHours`/`lastActive`, which were derived from AI
+  requests.
+
+The Star Citizen profile lookup, RSI starmap proxy, HOTAS profile/mappings endpoints, backup sync,
+error logging and app analytics are unchanged.
+
+---
+
 ## [Unreleased] — multi-game shell & HOTAS config layout
 
 ### Changed
@@ -33,12 +84,29 @@ All notable changes to Uni-HOTAS will be documented in this file.
 
 ### Fixed
 
+- **A blank white page no longer happens silently, and can no longer be caused locally.**
+  `dist/` is shared by the local server, Electron and the Pages deploy, but the Pages build uses a
+  `/Uni-HOTAS/` base — leaving one in `dist/` made `localhost:3111` load no JavaScript and show a
+  blank page with no error. Two changes:
+  - **`npm run build` is now the root-base build** (servable locally and packagable by Electron).
+    The Pages base moved to **`npm run build:pages`**, which is what `.github/workflows/deploy-pages.yml`
+    now runs. `vite.config.js` no longer switches base on `command === 'build'`.
+  - the server verifies that the entry `<script src>` in `dist/index.html` exists on disk and, when
+    it does not, answers with a page naming the offending path and the fix instead of serving an
+    index.html that cannot boot. The check is generic, so a renamed repo or any other base is caught.
 - Dropped the hard-coded "Star Citizen mappings folder" wording from the API error and first-run
   panel.
 - **Hotspot clicks now do something.** Clicking a circle on the HOTAS overlay highlights that
   physical input in the assignment table, jumps to the page holding it and scrolls it into view;
   clicking the same circle again clears it. Before, the circles were decorative — the only handler
   was an `alert()` on the un-routed dev overlay page.
+- **Hovering a row lights its hotspot.** Rows in the X52 Input Assignment Table now tint on hover and
+  light the matching circle on the HOTAS overlay (glow + outer ring), the reverse of the click
+  behaviour. Matching uses the same resolved `type + index`, so Short and Long rows light the same
+  physical button.
+- **Assignment table scrolls inside its own frame, with a sticky header.** The table area is capped
+  so its bottom lines up with the bottom of the HOTAS photo beside it (measured, not hard-coded),
+  and the column headers stay pinned while the rows scroll.
 
 ---
 

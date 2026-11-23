@@ -87,7 +87,6 @@ docs/
 - Troubleshooting guide
 
 ### 4. **api-sdk/endpoints/README.md** (Extending with APIs)
-- Available endpoints (Star Citizen, Gemini, future)
 - Creating new endpoints (5-step walkthrough)
 - Configuration options
 - Error codes by endpoint

@@ -1,7 +1,7 @@
 /**
  * Settings Store — user preferences with localStorage persistence.
  *
- * Replaces: manual localStorage for costThreshold, defaultAI, custom theme.
+ * Replaces: manual localStorage for the custom theme.
  */
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
@@ -9,15 +9,14 @@ import { persist } from 'zustand/middleware';
 const useSettingsStore = create(
   persist(
     (set) => ({
-      costThreshold: 10.0,
-      defaultAI: 'gemini',
       customTheme: null,
+      /** HOTAS device the user picked in Settings (a catalogue value, not a capability). */
+      selectedHotasDevice: null,
 
-      setCostThreshold: (value) => set({ costThreshold: value }),
-      setDefaultAI: (provider) => set({ defaultAI: provider }),
       setCustomTheme: (theme) => set({ customTheme: theme }),
       resetCustomTheme: () => set({ customTheme: null }),
-      resetSettings: () => set({ costThreshold: 10.0, defaultAI: 'gemini', customTheme: null }),
+      setSelectedHotasDevice: (device) => set({ selectedHotasDevice: device }),
+      resetSettings: () => set({ customTheme: null, selectedHotasDevice: null }),
     }),
     { name: 'uni-hotas-settings' }
   )

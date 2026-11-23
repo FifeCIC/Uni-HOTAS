@@ -205,44 +205,7 @@ try {
 
 ---
 
-### 2. Google Gemini API
-
-**Purpose**: AI-powered content generation and chat
-
-**Status**: ✅ Currently implemented
-
-**Configuration**: 
-- Backend endpoint: `POST /api/gemini`
-- Model: `gemini-2.0-flash`
-- Key stored in `.env` as `GOOGLE_API_KEY`
-
-**Usage Example**:
-```javascript
-const response = await fetch('/api/gemini', {
-  method: 'POST',
-  headers: { 'Content-Type': 'application/json' },
-  body: JSON.stringify({
-    message: 'How should I tune my HOTAS axis curves for smooth flight?'
-  })
-});
-```
-
----
-
-### 3. AWS Bedrock (Claude AI)
-
-**Purpose**: Alternative AI for content generation
-
-**Status**: Currently disabled (free tier uses Gemini only)
-
-**Configuration**:
-- Region: `us-east-1`
-- Model: Claude 3 Sonnet
-- Requires AWS credentials
-
----
-
-### 1. Backend API Test Endpoint
+### 2. Backend API Test Endpoint
 
 **Endpoint**: `GET /api/citizen/:handle`
 
@@ -256,14 +219,12 @@ curl -X GET "http://localhost:3111/api/citizen/LOLinDark"
 2. Headers: None required (proxy passes API key server-side)
 3. Body: None
 
-### 2. Frontend Test Page
+### 3. Frontend Test Page
 
 **Route**: `/developer/api-test`
 
 **Available Tests**:
 - ✅ Star Citizen API (citizen profile lookup)
-- ✅ Gemini AI (chat/content generation)
-- ✅ Rate limits & analytics
 - ✅ Cache validation
 - ✅ Error handling
 
@@ -330,7 +291,6 @@ function setCached(key, data) {
 - **Citizen profiles**: 1 hour (unlikely to change frequently)
 - **Organization data**: 24 hours (rarely changes)
 - **Commodity prices**: 15 minutes (highly volatile)
-- **AI responses**: Don't cache (user-specific)
 
 ---
 
@@ -339,19 +299,7 @@ function setCached(key, data) {
 ### Backend Limits
 
 - **Global**: 100 requests per 15 minutes
-- **AI endpoints**: 5 requests/hour, 20 requests/day
 - **Citizen lookup**: 10 requests/hour (no daily limit)
-
-### Monitoring
-
-**Endpoint**: `GET /api/rate-limits`
-
-```javascript
-{
-  "hourly": { "current": 3, "limit": 5, "percent": 60 },
-  "daily": { "current": 8, "limit": 20, "percent": 40 }
-}
-```
 
 ---
 
@@ -418,13 +366,11 @@ src/libraries/
 │   │   └── indexeddb.js       # Phase 3 ⏳
 │   └── endpoints/             # API implementations
 │       ├── base-endpoint.js   # Template
-│       ├── star-citizen.js    # Phase 1 ✅
-│       └── gemini.js          # Phase 1 ✅
+│       └── star-citizen.js    # Phase 1 ✅
 │
 ├── api-admin/                 # Admin & monitoring
 │   ├── cache-viewer.jsx       # Inspect cache (Phase 2)
-│   ├── keys-manager.js        # Manage API keys (Phase 2)
-│   └── usage-monitor.js       # Track costs/usage (Phase 2)
+│   └── keys-manager.js        # Manage API keys (Phase 2)
 │
 └── api-dev/                   # Developer tools
     ├── mock-server.js         # Mock APIs for testing (Phase 2)
@@ -442,7 +388,6 @@ src/libraries/
 - ✅ Base client with retry logic
 - ✅ Memory cache adapter (fast, session-only)
 - ✅ Star Citizen API endpoint implementation
-- ✅ Gemini AI endpoint
 - ✅ Error normalization
 - ✅ Comprehensive documentation
 
@@ -463,7 +408,6 @@ const citizen = await client.getUser('LOLinDark')
 **Deliverables**:
 - Admin cache viewer UI
 - API key management dashboard
-- Usage monitoring & cost tracking
 - Mock API server for testing
 - Developer examples and patterns
 
@@ -581,10 +525,9 @@ npm install @unihotas/api-sdk
 ```
 
 ```javascript
-import { createStarCitizenClient, createGeminiClient } from '@unihotas/api-sdk'
+import { createStarCitizenClient } from '@unihotas/api-sdk'
 
 const sc = createStarCitizenClient({ apiKey: '...' })
-const gemini = createGeminiClient({ apiKey: '...' })
 
 // Use exactly same way as in Uni-HOTAS
 const citizen = await sc.getUser('LOLinDark')

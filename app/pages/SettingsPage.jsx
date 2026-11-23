@@ -1,59 +1,53 @@
-import { Container, Stack, Text, Tabs, Card, NumberInput, Button, Alert, Select, TextInput } from '@mantine/core';
+import { Container, Stack, Text, Tabs, Card, Button, Alert, TextInput, Select, Group } from '@mantine/core';
+import { IconBrandGithub, IconCheck, IconHelp } from '@tabler/icons-react';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { apiGet, apiPost, appendErrorLog, clearUniHotasStorage, useSettingsStore } from '../platform-core';
+import { apiGet, apiPost, clearUniHotasStorage, useSettingsStore } from '../platform-core';
 import MappingsFolderPanel from '../components/MappingsFolderPanel';
 import { SciFiFrame } from '../components/ui';
 import DevTag from '../components/DevTag';
+import {
+  HOTAS_DEVICE_OPTIONS,
+  HOTAS_NOT_LISTED_VALUE,
+  buildHotasRequestUrl,
+} from '../data/hotasDevices';
+
+const HOTAS_SELECT_DATA = [
+  {
+    group: 'Supported device',
+    items: HOTAS_DEVICE_OPTIONS.filter((d) => d.supported)
+      .map((d) => ({ value: d.value, label: d.label })),
+  },
+  {
+    group: 'Popular devices — not yet supported',
+    items: HOTAS_DEVICE_OPTIONS.filter((d) => !d.supported)
+      .map((d) => ({ value: d.value, label: d.label })),
+  },
+  {
+    group: 'Not listed',
+    items: [{ value: HOTAS_NOT_LISTED_VALUE, label: "Can't find my HOTAS" }],
+  },
+];
 
 export default function SettingsPage() {
   const navigate = useNavigate();
-  const costThreshold = useSettingsStore((s) => s.costThreshold);
-  const setCostThreshold = useSettingsStore((s) => s.setCostThreshold);
-  const defaultAI = useSettingsStore((s) => s.defaultAI);
-  const setDefaultAI = useSettingsStore((s) => s.setDefaultAI);
   const resetSettings = useSettingsStore((s) => s.resetSettings);
+  const selectedHotasDevice = useSettingsStore((s) => s.selectedHotasDevice);
+  const setSelectedHotasDevice = useSettingsStore((s) => s.setSelectedHotasDevice);
 
-  const [pricing, setPricing] = useState(null);
-  const [calcModel, setCalcModel] = useState('sonnet-3.5');
-  const [calcInput, setCalcInput] = useState(1000);
-  const [calcOutput, setCalcOutput] = useState(1000);
-  const [calcResult, setCalcResult] = useState(null);
+  const selectedDevice = HOTAS_DEVICE_OPTIONS.find((d) => d.value === selectedHotasDevice);
+  const wantsDeviceNotListed = selectedHotasDevice === HOTAS_NOT_LISTED_VALUE;
+
   const [backupPath, setBackupPath] = useState('');
   const [backupStatus, setBackupStatus] = useState(null);
   const [backupSaving, setBackupSaving] = useState(false);
   const [syncResult, setSyncResult] = useState(null);
 
   useEffect(() => {
-    apiGet('/api/pricing')
-      .then((data) => setPricing(data))
-      .catch((error) => {
-        appendErrorLog({
-          page: '/settings',
-          button: 'loadPricing',
-          error: error.message,
-          stack: error.stack,
-          timestamp: new Date().toISOString()
-        });
-      });
     apiGet('/api/backup/status')
       .then((data) => { setBackupStatus(data); setBackupPath(data.folderPath || ''); })
       .catch(() => {});
   }, []);
-
-  const calculateCost = async () => {
-    try {
-      setCalcResult(await apiPost('/api/pricing/calculate', { model: calcModel, inputTokens: calcInput, outputTokens: calcOutput }));
-    } catch (error) {
-      appendErrorLog({
-        page: '/settings',
-        button: 'calculateCost',
-        error: error.message,
-        stack: error.stack,
-        timestamp: new Date().toISOString()
-      });
-    }
-  };
 
   return (
     <Container size="xl" py="xl">
@@ -71,33 +65,10 @@ export default function SettingsPage() {
         <Tabs.List style={{ borderBottom: '1px solid rgba(0, 217, 255, 0.2)' }}>
           <Tabs.Tab value="general">General</Tabs.Tab>
           <Tabs.Tab value="backup">Backup</Tabs.Tab>
-          <Tabs.Tab value="aws">AWS & Costs</Tabs.Tab>
         </Tabs.List>
 
         <Tabs.Panel value="general" pt="xl">
           <Stack gap="lg">
-            <SciFiFrame variant="corners" cornerLength={12} strokeWidth={1.5} padding={0}>
-              <div style={{ padding: '1.5rem' }}>
-                <h2 style={{ color: '#00d9ff', marginTop: 0, marginBottom: '1rem', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-                  AI Provider
-                </h2>
-                <Text size="sm" c="dimmed" mb="md">
-                  Select the default AI provider for UNI-HOTAS
-                </Text>
-                <Select
-                  label="Provider"
-                  value={defaultAI}
-                  onChange={(value) => value && setDefaultAI(value)}
-                  data={[
-                    { value: 'gemini', label: 'Google Gemini (Free Tier)' },
-                    { value: 'claude', label: 'AWS Claude (Requires Config)' }
-                  ]}
-                  placeholder="Select a provider"
-                  searchable
-                />
-              </div>
-            </SciFiFrame>
-
             <SciFiFrame variant="corners" cornerLength={12} strokeWidth={1.5} padding={0}>
               <div style={{ padding: '1.5rem' }}>
                 <h2 style={{ color: '#00d9ff', marginTop: 0, marginBottom: '1rem', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
@@ -106,7 +77,102 @@ export default function SettingsPage() {
                 <Text size="sm" c="dimmed" mb="md">
                   Configure your flight controls and input devices.
                 </Text>
-                <Button color="cyan" variant="light" onClick={() => navigate('/settings/hotas')}>
+                <Select
+                  label="My HOTAS"
+                  description="Pick the stick and throttle you fly with. This tells us which devices to support next."
+                  placeholder="Select your HOTAS"
+                  data={HOTAS_SELECT_DATA}
+                  value={selectedHotasDevice}
+                  onChange={(value) => setSelectedHotasDevice(value)}
+                  checkIconPosition="right"
+                  comboboxProps={{ withinPortal: true }}
+                  maw={420}
+                />
+
+                {selectedDevice?.supported && (
+                  <Alert
+                    role="status"
+                    color="cyan"
+                    variant="light"
+                    mt="md"
+                    icon={<IconCheck size={18} />}
+                    title={`${selectedDevice.label} — supported`}
+                  >
+                    {selectedDevice.note} Multi-mode switch profiles and XML sync are built for this device.
+                  </Alert>
+                )}
+
+                {selectedDevice && !selectedDevice.supported && (
+                  <Alert
+                    role="status"
+                    color="yellow"
+                    variant="light"
+                    mt="md"
+                    icon={<IconHelp size={18} />}
+                    title={`${selectedDevice.label} — not supported yet`}
+                  >
+                    <Text size="sm" mb="sm">
+                      Device support is per-model work, so each HOTAS needs its own mapping. A request from
+                      someone who owns the hardware is the best kind — it tells us exactly what to build next.
+                    </Text>
+                    <Button
+                      component="a"
+                      href={buildHotasRequestUrl(selectedDevice.label)}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      color="yellow"
+                      variant="light"
+                      size="xs"
+                      leftSection={<IconBrandGithub size={16} />}
+                    >
+                      Request support on GitHub
+                    </Button>
+                  </Alert>
+                )}
+
+                {wantsDeviceNotListed && (
+                  <Alert
+                    role="status"
+                    color="cyan"
+                    variant="light"
+                    mt="md"
+                    icon={<IconHelp size={18} />}
+                    title="Let's get your HOTAS supported"
+                  >
+                    <Text size="sm" mb="sm">
+                      Don&apos;t worry — you are not stuck. Tell us which HOTAS you fly with and it becomes
+                      a real candidate for the next device we add. It takes about a minute, and a
+                      well-described request is genuinely the fastest route to support.
+                    </Text>
+                    <Group gap="sm">
+                      <Button
+                        component="a"
+                        href={buildHotasRequestUrl('')}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        color="cyan"
+                        variant="light"
+                        size="xs"
+                        leftSection={<IconBrandGithub size={16} />}
+                      >
+                        Raise a support request
+                      </Button>
+                      <Button
+                        component="a"
+                        href="https://github.com/FifeCIC/Uni-HOTAS/issues"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        variant="subtle"
+                        color="gray"
+                        size="xs"
+                      >
+                        See existing requests
+                      </Button>
+                    </Group>
+                  </Alert>
+                )}
+
+                <Button color="cyan" variant="light" mt="md" onClick={() => navigate('/settings/hotas')}>
                   Open HOTAS Settings
                 </Button>
                 <div style={{ marginTop: '1rem' }}>
@@ -218,85 +284,6 @@ export default function SettingsPage() {
                     </Alert>
                   )}
                 </Stack>
-              </div>
-            </SciFiFrame>
-          </Stack>
-        </Tabs.Panel>
-
-        <Tabs.Panel value="aws" pt="xl">
-          <Stack gap="lg">
-            <SciFiFrame variant="corners" cornerLength={12} strokeWidth={1.5} padding={0}>
-              <div style={{ padding: '1.5rem' }}>
-                <h2 style={{ color: '#b300ff', marginTop: 0, marginBottom: '1rem', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-                  Cost Alert Threshold
-                </h2>
-                <Text size="sm" c="dimmed" mb="md">
-                  Get notified when total costs exceed this amount
-                </Text>
-                <NumberInput
-                  value={costThreshold}
-                  onChange={setCostThreshold}
-                  prefix="$"
-                  decimalScale={2}
-                  min={0}
-                  step={5}
-                  style={{ maxWidth: 200 }}
-                />
-              </div>
-            </SciFiFrame>
-
-            <SciFiFrame variant="corners" cornerLength={12} strokeWidth={1.5} padding={0}>
-              <div style={{ padding: '1.5rem' }}>
-                <h2 style={{ color: '#b300ff', marginTop: 0, marginBottom: '1rem', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-                  Pricing Calculator
-                </h2>
-                <Text size="sm" c="dimmed" mb="md">
-                  Estimate costs for AWS Bedrock Claude models
-                </Text>
-                {pricing ? (
-                  <Stack gap="md">
-                    <Select
-                      label="Model"
-                      value={calcModel}
-                      onChange={(value) => value && setCalcModel(value)}
-                      data={Object.keys(pricing.pricing).map(m => ({ value: m, label: m }))}
-                      placeholder="Select a model"
-                      searchable
-                    />
-                    <NumberInput
-                      label="Input Tokens"
-                      value={calcInput}
-                      onChange={(val) => setCalcInput(val || 0)}
-                      min={0}
-                    />
-                    <NumberInput
-                      label="Output Tokens"
-                      value={calcOutput}
-                      onChange={(val) => setCalcOutput(val || 0)}
-                      min={0}
-                    />
-                    <Button onClick={calculateCost} color="cyan" variant="light">
-                      Calculate Cost
-                    </Button>
-                    {calcResult && (
-                      <Alert color="cyan" title="Estimated Cost" variant="light">
-                        ${calcResult.cost} for {calcResult.inputTokens} input + {calcResult.outputTokens} output tokens
-                      </Alert>
-                    )}
-                    <Card withBorder style={{ background: 'rgba(0, 217, 255, 0.05)', borderColor: 'rgba(0, 217, 255, 0.2)' }} p="sm">
-                      <Text size="xs" fw={600} mb="xs" style={{ color: '#00d9ff', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-                        Current Pricing (per 1K tokens)
-                      </Text>
-                      {Object.entries(pricing.pricing).map(([model, price]) => (
-                        <Text key={model} size="xs" c="dimmed">
-                          {model}: ${price.input} input / ${price.output} output
-                        </Text>
-                      ))}
-                    </Card>
-                  </Stack>
-                ) : (
-                  <Text size="sm" c="dimmed">Loading pricing data...</Text>
-                )}
               </div>
             </SciFiFrame>
           </Stack>

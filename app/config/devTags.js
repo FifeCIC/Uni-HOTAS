@@ -26,8 +26,6 @@ const devTags = {
 
   // ── Admin & Tools ─────────────────────────────
   ADM01:     { label: 'Settings',                path: '/settings',              file: 'pages/SettingsPage.jsx' },
-  ADM02:     { label: 'Gemini Chat',             path: '/admin/chat/gemini',     file: 'pages/GeminiPage.jsx' },
-  ADM04:     { label: 'Analytics Dashboard',     path: '/admin/analytics',       file: 'pages/AnalyticsPage.jsx' },
   ADM05:     { label: 'About',                   path: '/about',                 file: 'pages/AboutPage.jsx' },
 
   // ── Main App ──────────────────────────────────
@@ -35,9 +33,7 @@ const devTags = {
   APP03:     { label: 'Onboarding Checklist',    path: '/onboarding',            file: 'pages/OnboardingChecklistPage.jsx' },
   GAME01:    { label: 'Games & Extra Support',    path: '/games',                file: 'pages/GamesPage.jsx' },
 
-  // ── Admin Chat ─────────────────────────────────
-  ADM06:     { label: 'Claude Chat',             path: '/admin/chat/claude',          file: 'pages/AmazonQPage.jsx' },
-  ADM07:     { label: 'Rate Limit Monitor',      path: '/admin/rate-limits',          file: 'pages/RateLimitPage.jsx' },
+  // ── Admin History ─────────────────────────────
   ADM08:     { label: 'Field History',            path: '/admin/history',              file: 'pages/HistoryPage.jsx' },
 
   // ── HOTAS / Theme Lab ─────────────────────────

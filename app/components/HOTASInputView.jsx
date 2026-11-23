@@ -270,10 +270,11 @@ const MODE_SEGMENTS = [
 
 const ROWS_PER_PAGE = 120;
 
-export default function HOTASInputView({ bindings, allBindings = [], hotasOverrides, bindingFilter, deviceFilter, searchQuery, onAssign, onClear, activeInputs, axisValues, lastHotasInput, currentMode, disableAssignmentMenuFiltering = false, hideStickFeatures = true, showHideStickToggle = true, onHideStickFeaturesChange, focusInput = null, fillAvailableHeight = false }) {
+export default function HOTASInputView({ bindings, allBindings = [], hotasOverrides, bindingFilter, deviceFilter, searchQuery, onAssign, onClear, activeInputs, axisValues, lastHotasInput, currentMode, disableAssignmentMenuFiltering = false, hideStickFeatures = true, showHideStickToggle = true, onHideStickFeaturesChange, focusInput = null, fillAvailableHeight = false, onRowHover, onRowLeave }) {
   const [modeFilter, setModeFilter] = useState('none');
   const [modeOverride, setModeOverride] = useState(false);
   const [editingRowId, setEditingRowId] = useState(null);
+  const [hoveredRowId, setHoveredRowId] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [sortColumn, setSortColumn] = useState(null);
   const [sortDirection, setSortDirection] = useState('asc');
@@ -620,18 +621,32 @@ export default function HOTASInputView({ bindings, allBindings = [], hotasOverri
             ) : (
               pageRows.map((row) => {
                 const focused = isFocusedRow(row);
+                const hovered = hoveredRowId === row.id;
                 return (
                 <tr
                   key={row.id}
                   data-focus-row={focused ? 'true' : undefined}
+                  data-hover-row={hovered ? 'true' : undefined}
                   aria-current={focused ? 'true' : undefined}
+                  onMouseEnter={() => {
+                    setHoveredRowId(row.id);
+                    onRowHover?.(row);
+                  }}
+                  onMouseLeave={() => {
+                    setHoveredRowId(null);
+                    onRowLeave?.(row);
+                  }}
                   style={{
                     borderBottom: '1px solid rgba(255,255,255,0.04)',
                     background: focused
                       ? 'rgba(0, 217, 255, 0.18)'
-                      : (row.assignedBinding ? 'rgba(34, 209, 123, 0.04)' : 'transparent'),
-                    boxShadow: focused ? 'inset 3px 0 0 #00d9ff' : undefined,
-                    transition: 'background 0.15s ease',
+                      : hovered
+                        ? 'rgba(0, 217, 255, 0.11)'
+                        : (row.assignedBinding ? 'rgba(34, 209, 123, 0.04)' : 'transparent'),
+                    boxShadow: focused
+                      ? 'inset 3px 0 0 #00d9ff'
+                      : (hovered ? 'inset 3px 0 0 rgba(0, 217, 255, 0.55)' : undefined),
+                    transition: 'background 0.12s ease',
                   }}
                 >
                   {modeFilter !== 'none' && (
@@ -752,7 +767,7 @@ function SortableTh({ label, column, sortColumn, sortDirection, onSort, style })
 
   return (
     <th
-      style={{ ...thStyle, ...style }}
+      style={{ ...thStickyStyle, ...style }}
       aria-sort={active ? (sortDirection === 'asc' ? 'ascending' : 'descending') : 'none'}
     >
       <button
