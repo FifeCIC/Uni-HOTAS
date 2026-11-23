@@ -5,6 +5,7 @@ import MappingsFolderPanel from '../components/MappingsFolderPanel';
 import HOTASNotesSection from '../components/HOTASNotesSection';
 import HOTASFilterControls from '../components/HOTASFilterControls';
 import { useHotasOverlayState } from '../hooks/useHotasOverlayState';
+import { useDevMode } from '../utils/devMode';
 import { formatKeyboardInputForXml, formatMouseInputForXml } from '../utils/hotasKeyboardMouseFormatters';
 import React, { useState, useEffect, useMemo, useCallback, useRef } from 'react';
 import {
@@ -203,6 +204,7 @@ export default function HOTASConfigMainPage() {
       // Always load overlays from the overlays JSONC file for X52
       // Use custom hook for overlays and devEditMode state
       const { overlays, setOverlays, devEditMode, setDevEditMode } = useHotasOverlayState(BUNDLED_OVERLAY_POSITIONS);
+      const isDevMode = useDevMode();
       const { isChecking: serverChecking, serverAvailable } = useServerStatus();
       const [dragged, setDragged] = React.useState(null);
       // Load overlays from the API (saved layout) on mount.
@@ -1698,7 +1700,7 @@ export default function HOTASConfigMainPage() {
                   deviceMap={LogitechX52Device}
                   devEditMode={devEditMode}
                   setDevEditMode={setDevEditMode}
-                  isDevMode={import.meta.env.DEVELOPMENT_MODE === 'true' || import.meta.env.MODE === 'development' || import.meta.env.NODE_ENV === 'development'}
+                  isDevMode={isDevMode}
                   dragged={dragged}
                   setDragged={setDragged}
                   disableAssignmentMenuFiltering={TEMP_ASSIGNMENT_MENU_FILTER_BYPASS}

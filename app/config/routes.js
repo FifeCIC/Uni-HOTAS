@@ -15,12 +15,6 @@ export const routeConfig = {
       color: 'cyan',
     },
     {
-      label: '/onboarding',
-      path: '/onboarding',
-      category: 'Main App',
-      color: 'cyan',
-    },
-    {
       label: '/settings',
       path: '/settings',
       category: 'Main App',
@@ -50,45 +44,6 @@ export const routeConfig = {
       category: 'Main App',
       color: 'cyan',
     },
-    {
-      label: '/academy/feature-library',
-      path: '/academy/feature-library',
-      category: 'Main App',
-      color: 'cyan',
-    },
-  ],
-
-  themeLab: [
-    {
-      label: '/theme (Landing)',
-      path: '/theme',
-      category: 'Theme Lab',
-      color: 'orange',
-    },
-    {
-      label: '/theme/star-citizen',
-      path: '/theme/star-citizen',
-      category: 'Theme Lab',
-      color: 'orange',
-    },
-    {
-      label: '/theme/squadron-42',
-      path: '/theme/squadron-42',
-      category: 'Theme Lab',
-      color: 'orange',
-    },
-    {
-      label: '📐 /theme/placeholder-samples',
-      path: '/theme/placeholder-samples',
-      category: 'Theme Lab',
-      color: 'orange',
-    },
-    {
-      label: '[LEGACY] /theme/hotas-test -> /settings/hotas',
-      path: '/theme/hotas-test',
-      category: 'Theme Lab',
-      color: 'yellow',
-    },
   ],
 
   admin: [
@@ -98,15 +53,15 @@ export const routeConfig = {
       category: 'Admin & Tools',
       color: 'grape',
     },
+    {
+      label: '/developer/hotas-data-flow',
+      path: '/developer/hotas-data-flow',
+      category: 'Admin & Tools',
+      color: 'grape',
+    },
   ],
 
   testPages: [
-    {
-      label: '[DEV03] /developer/api-test',
-      path: '/developer/api-test',
-      category: 'Test Pages',
-      color: 'teal',
-    },
     {
       label: '[HC-TEST] /settings/hotas',
       path: '/settings/hotas',
@@ -129,7 +84,7 @@ export const getAllRoutesByCategory = () => {
  * @returns {Array} All routes in a single array
  */
 export const getAllRoutes = () => {
-  return [...routeConfig.main, ...routeConfig.themeLab, ...routeConfig.admin, ...routeConfig.testPages];
+  return [...routeConfig.main, ...routeConfig.admin, ...routeConfig.testPages];
 };
 
 /**

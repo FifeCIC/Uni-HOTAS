@@ -50,7 +50,7 @@ Supporting a new sim is real work — a profile-format adapter plus a per-sim da
 
 This repository began life as **OmniCore**, a broader Star Citizen companion app. It has been forked here to become **Uni-HOTAS**, a focused HOTAS tool.
 
-The non-HOTAS surfaces inherited from OmniCore — ship database, game settings, economy tracker, nav charts and the training academy — have been removed. The HOTAS feature library remains as the bind reference.
+The non-HOTAS surfaces inherited from OmniCore — ship database, game settings, economy tracker, nav charts, the training academy and the Theme Lab — have been removed, along with the onboarding checklist and the developer API test page. What remains is the HOTAS tooling, the games list, and the developer documentation pages (`/developer`, `/developer/hotas-data-flow`).
 
 ---
 
@@ -177,7 +177,9 @@ CI runs the strict mapping check and the XML rebind regression on every push and
 | `/settings/hotas` | Live input test lab |
 | `/hotas-diagram` | Visual stick/throttle diagram |
 | `/hotas-testing-routine` | Guided testing pass |
-| `/academy/feature-library` | Mode vs action bind explainers |
+| `/games` | Games with extra built-in support |
+| `/developer` | Developer tools and the Dev Mode switch |
+| `/developer/hotas-data-flow` | Early technical documentation — how a bind travels through the pipeline |
 
 ### API surfaces (companion server)
 

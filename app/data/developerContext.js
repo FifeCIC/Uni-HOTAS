@@ -45,25 +45,6 @@ export const developerContext = {
     ],
     reminder: 'This is a core feature. Refer to HOTAS feasibility & implementation docs. Test with real joysticks.',
   },
-
-  // Developer API Test
-  '/developer/api-test': {
-    title: 'API Testing Suite',
-    status: '✅ Citizen API Working',
-    docs: [
-      { title: 'API Integration Guide', path: 'docs/API-INTEGRATION.md' },
-      { title: 'Star Citizen API Docs', path: 'https://starcitizen-api.com/api.php' },
-      { title: 'Security Standards', path: 'docs/SECURITY.md' },
-    ],
-    tasks: [
-      '✅ Star Citizen citizen lookup (live)',
-      '⏳ Cache validation UI',
-      '⏳ Batch API testing',
-      '⏳ Response timing analysis',
-    ],
-    reminder: 'Star Citizen API endpoint: /{apikey}/v1/live/user/{handle} on api.starcitizen-api.com. Get key from Discord.',
-  },
-
   // Developer Page
   '/developer': {
     title: 'Developer Hub',
@@ -143,22 +124,6 @@ export const developerContext = {
       '⏳ Export/import config',
     ],
     reminder: 'Use Zustand with localStorage persistence for settings.',
-  },
-
-  // Settings -> Theme
-  '/settings/theme': {
-    title: 'Theme Customization',
-    status: '✅ Working',
-    docs: [
-      { title: 'Theme Lab Guide', path: 'g:\\My Drive\\Project Management\\Live\\OmniCore-Documentation\\START.md' },
-    ],
-    tasks: [
-      '✅ Light/dark toggle',
-      '✅ Color presets',
-      '⏳ Custom color picker',
-      '⏳ CSS variable export',
-    ],
-    reminder: 'Built with CSS variables. Test across all pages for consistency.',
   },
 };
 

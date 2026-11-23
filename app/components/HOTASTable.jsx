@@ -1,4 +1,4 @@
-import { Table, Badge, Text, Tooltip, Anchor } from '@mantine/core';
+import { Table, Badge, Text, Tooltip } from '@mantine/core';
 import { SciFiFrame } from './ui';
 import { StateIndicator } from './StateIndicator';
 
@@ -347,15 +347,6 @@ export const HOTASTable = ({
                         {binding.feature}
                       </Text>
                     </Tooltip>
-                    <Anchor
-                      size="xs"
-                      href={`/academy/feature-library?feature=${encodeURIComponent(binding.id)}`}
-                      c="cyan"
-                      underline="hover"
-                      title="Open detailed feature guide"
-                    >
-                      Details
-                    </Anchor>
                     {!showStatusColumn && rowIsLive && (
                       <Badge color="green" size="xs" variant="filled">
                         LIVE

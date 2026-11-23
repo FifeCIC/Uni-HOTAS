@@ -97,7 +97,7 @@ const ToolCard = ({ tool }) => {
           UNI-HOTAS
         </h1>
         <Text c="dimmed" size="sm" style={{ letterSpacing: '0.15em', textTransform: 'uppercase' }}>
-          Citizen Operations &amp; Intelligence Network
+          Universal HOTAS configuration for every sim
         </Text>
         <Text c="dimmed" size="xs" style={{ marginTop: '1rem', opacity: 0.6 }}>
           Select a tool to begin

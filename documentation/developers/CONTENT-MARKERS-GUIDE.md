@@ -156,7 +156,7 @@ const ContentMarker = ({ status, type }) => (
 
 ## Workflow
 
-### Phase 1: Theme Lab Development (NOW)
+### Phase 1: Layout Development (NOW)
 - Build layouts with markers
 - Use gradients, icons, placeholders for visual structure
 - **Goal**: Test responsive design and user flow
@@ -249,5 +249,7 @@ grep -r "\[NEEDED\]" src/
 ---
 
 **Created**: April 16, 2026  
-**Theme Lab Status**: In Development  
+**Status**: Theme Lab removed from the app; this guide is retained for the marker convention.  
 **Next Steps**: Generate content and replace markers
+
+

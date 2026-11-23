@@ -20,19 +20,14 @@ Tags are short IDs shown in page/section headers when **Dev Mode** is enabled. T
 | DEV01 | Developer Tools | /developer | pages/DeveloperPage.jsx |
 | DEV01.1 | Admin Tools (section) | /developer | pages/DeveloperPage.jsx |
 | DEV02 | Developer Context Index | /developer/context | pages/DeveloperContextIndexPage.jsx |
-| DEV03 | API Test Suite | /developer/api-test | pages/APITestPage.jsx |
 | DEV04 | Error Log | /developer/errors | pages/ErrorLogPage.jsx |
 | DEV05 | Changes | /developer/changes | pages/ChangesPage.jsx |
+| DEV06 | HOTAS Data Flow | /developer/hotas-data-flow | pages/DeveloperHotasDataFlowPage.jsx |
 | ADM01 | Settings | /settings | pages/SettingsPage.jsx |
 | ADM05 | About | /about | pages/AboutPage.jsx |
 | APP01 | Main Dashboard | / | pages/DashboardPage.jsx |
-| APP03 | Onboarding Checklist | /onboarding | pages/OnboardingChecklistPage.jsx |
-| HC01 | HOTAS Config (Light) | /theme/hotas-config | pages/theme/HOTASConfigPage.jsx |
-| HC03 | HOTAS Config (Dark) | /theme/hotas-config-dark | pages/theme/HOTASConfigPageDark.jsx |
-| HC04 | HOTAS Config (Toggle) | /theme/hotas-config-toggle | pages/theme/HOTASConfigPageToggle.jsx |
 | HC05 | HOTAS Main | /hotas-config | pages/HOTASConfigMainPage.jsx |
 | GAME01 | Games & Extra Support | /games | pages/GamesPage.jsx |
-| TL01 | Theme Lab Landing | /theme | pages/ThemePage.jsx |
 
 ### How to Add a New Tag
 

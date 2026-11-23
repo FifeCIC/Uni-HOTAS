@@ -20,7 +20,7 @@ export default function WelcomePage({ onComplete }) {
               UNI-HOTAS
             </h1>
             <p style={{ color: 'var(--oc-text-dim)', letterSpacing: '0.3em', textTransform: 'uppercase', fontSize: '0.75rem', margin: 0 }}>
-              Citizen Operations &amp; Intelligence Network
+              Universal HOTAS configuration for every sim
             </p>
             {loading ? (
               <Loader color="cyan" type="dots" size="lg" />

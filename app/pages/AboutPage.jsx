@@ -19,7 +19,7 @@ export default function AboutPage() {
           <DevTag tag="ADM05" />About UNI-HOTAS
         </h1>
         <Text c="dimmed" size="sm" style={{ letterSpacing: '0.15em', textTransform: 'uppercase' }}>
-          Citizen Operations & Intelligence Network
+          Universal HOTAS configuration for every sim
         </Text>
       </div>
 
@@ -36,7 +36,37 @@ export default function AboutPage() {
               "One setup. Every stick."
             </Text>
             <Text size="sm" mb="md">
-              A Universal HOTAS Setup for Star Citizen and Squadron 42: visual binding editor, live input capture, mode profiles and device-aware XML write-back.
+              A universal HOTAS configuration tool: visual binding editor, live input capture, mode
+              profiles and device-aware XML write-back.
+            </Text>
+
+            <Text size="sm" fw={600} mb="xs" style={{ color: '#00d9ff' }}>
+              How it started
+            </Text>
+            <Text size="sm" mb="md">
+              UNI-HOTAS began as a Star Citizen fan project. Binding a HOTAS in-game was slow and
+              opaque, so it started as a way to edit the game&apos;s XML configuration directly,
+              back it up, and manage profiles in one place — with full support for the X52&apos;s
+              three-position mode switch.
+            </Text>
+
+            <Text size="sm" fw={600} mb="xs" style={{ color: '#22d17b' }}>
+              Where it became general
+            </Text>
+            <Text size="sm" mb="md">
+              None of that is unique to Star Citizen. The profile engine is deliberately
+              game-agnostic — live input capture, mode profiles, per-device button and axis maps and
+              the read/write of a sim&apos;s binding file are all driven by data rather than by the
+              game&apos;s name. Star Citizen and Squadron 42 share that binding format and are
+              wired up today; Elite Dangerous, DCS World, Microsoft Flight Simulator, X-Plane and
+              IL-2 Sturmovik are listed with adapters planned, with a catch-all entry for any other
+              game. In other words, the project stopped being a Star Citizen tool and became a
+              HOTAS tool.
+            </Text>
+
+            <Text size="sm" c="dimmed" mb="md">
+              Star Citizen is still where it started and still the best-tested path — it is the
+              first sim, not the only one.
             </Text>
             <Text size="sm">
               Source: <Anchor href="https://github.com/FifeCIC/Uni-HOTAS" target="_blank" rel="noreferrer">github.com/FifeCIC/Uni-HOTAS</Anchor>

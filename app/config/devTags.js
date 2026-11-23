@@ -20,7 +20,6 @@ const devTags = {
   DEV01:     { label: 'Developer Tools',        path: '/developer',             file: 'pages/DeveloperPage.jsx' },
   'DEV01.1': { label: 'Admin Tools (section)',   path: '/developer',             file: 'pages/DeveloperPage.jsx' },
   DEV02:     { label: 'Developer Context Index', path: '/developer/context',     file: 'pages/DeveloperContextIndexPage.jsx' },
-  DEV03:     { label: 'API Test Suite',          path: '/developer/api-test',    file: 'pages/APITestPage.jsx' },
   DEV04:     { label: 'Error Log',               path: '/developer/errors',      file: 'pages/ErrorLogPage.jsx' },
   DEV05:     { label: 'Changes',                 path: '/developer/changes',     file: 'pages/ChangesPage.jsx' },
 
@@ -30,7 +29,6 @@ const devTags = {
 
   // ── Main App ──────────────────────────────────
   APP01:     { label: 'Main Dashboard',          path: '/',                      file: 'pages/DashboardPage.jsx' },
-  APP03:     { label: 'Onboarding Checklist',    path: '/onboarding',            file: 'pages/OnboardingChecklistPage.jsx' },
   GAME01:    { label: 'Games & Extra Support',    path: '/games',                file: 'pages/GamesPage.jsx' },
 
   // ── Admin History ─────────────────────────────
@@ -43,7 +41,6 @@ const devTags = {
   HC09:      { label: 'Overlay Save Test',       path: '/hotas-overlay-save-test',    file: 'pages/HOTASOverlaySaveTestPage.jsx' },
   HC10:      { label: 'HOTAS Community Testing', path: '/hotas-testing-routine',      file: 'pages/HOTASCommunityTestingPage.jsx' },
   'HC-TEST': { label: 'HOTAS Input Test Lab',    path: '/settings/hotas',             file: 'pages/settings/HOTASTestPage.jsx' },
-  TL01:      { label: 'Theme Lab Landing',       path: '/theme',                      file: 'pages/ThemePage.jsx' },
 };
 
 export default devTags;

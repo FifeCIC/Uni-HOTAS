@@ -8,6 +8,7 @@ import Moveable from 'react-moveable';
 import { KeyPressIndicator } from '../components/KeyPressIndicator';
 import HOTASOverlayGroupBars from '../components/HOTASOverlayGroupBars';
 import { useHotasInput, LogitechX52Device } from '../libraries/hotas';
+import { useDevMode } from '../utils/devMode';
 
 // Path to the HOTAS image (place in public/assets or adjust as needed)
 import { getImagePath } from '../utils/pathUtils';
@@ -18,8 +19,8 @@ const initialOverlays = parseJsonc(overlaysDataRaw) ?? [];
 
 
 export default function HOTASOverlayPage() {
-  // Detect dev mode from .env (Vite exposes import.meta.env)
-  const isDevMode = import.meta.env.DEVELOPMENT_MODE === 'true' || import.meta.env.MODE === 'development' || import.meta.env.NODE_ENV === 'development';
+  // Dev mode: the build flag OR the user's Dev Mode switch in the Developer area
+  const isDevMode = useDevMode();
 
   // Load live HOTAS input
   const { lastInput: lastHotasInput, gamepadConnected, activeInputs, axisValues, gamepadInfo } = useHotasInput({

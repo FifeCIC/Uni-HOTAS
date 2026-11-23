@@ -68,7 +68,6 @@ function useBackupStatus() {
 
 export default function AppHeader() {
   const navigate = useNavigate();
-  const rsiHandle = localStorage.getItem('rsiHandle') || 'Citizen';
   const network = useNetworkStatus();
   const backup = useBackupStatus();
   const [feedbackOpen, setFeedbackOpen] = useState(false);
@@ -197,14 +196,12 @@ export default function AppHeader() {
             <Menu.Item component={Link} to="/settings">Settings</Menu.Item>
             <Menu.Divider />
             <Menu.Item component={Link} to="/about">About</Menu.Item>
-            {rsiHandle === 'LOLinDark' && (
-              <>
-                <Menu.Divider />
-                <Menu.Item component={Link} to="/developer" style={{ color: '#ff9e44' }}>
-                  ⚙ Admin Panel
-                </Menu.Item>
-              </>
-            )}
+            <Menu.Divider />
+            {/* Early technical documentation, kept reachable from the main menu. The Developer
+                page also hosts the Dev Mode switch (which unlocks HOTAS hotspot editing). */}
+            <Menu.Label>Technical documentation</Menu.Label>
+            <Menu.Item component={Link} to="/developer">📘 Developer Docs &amp; Tools</Menu.Item>
+            <Menu.Item component={Link} to="/developer/hotas-data-flow">🔀 HOTAS Data Flow</Menu.Item>
           </Menu.Dropdown>
         </Menu>
       </Group>

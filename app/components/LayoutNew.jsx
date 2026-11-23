@@ -80,7 +80,6 @@ export default function Layout() {
           <NavLink label="Field History" active={isActive('/admin/history')} component={Link} to="/admin/history" />
           <Divider my="xs" label="Config" labelPosition="center" />
           <NavLink label="Settings" active={path === '/settings'} component={Link} to="/settings" />
-          <NavLink label="Theme" active={isActive('/settings/theme')} component={Link} to="/settings/theme" />
           <NavLink label="HOTAS" active={isActive('/settings/hotas')} component={Link} to="/settings/hotas" />
           <NavLink label="Error Log" active={isActive('/developer/errors')} component={Link} to="/developer/errors" />
           <NavLink label="Changes" active={isActive('/developer/changes')} component={Link} to="/developer/changes" />
@@ -104,6 +103,10 @@ export default function Layout() {
             <Title order={5}>Dev Mode</Title>
             <Switch checked={devMode} onChange={toggleDevMode} onLabel="ON" offLabel="OFF" />
           </Group>
+          <Text size="xs" c="dimmed">
+            Shows developer tags, and turns on HOTAS hotspot editing (the Resize/Drag + Save
+            button above the overlay on Peripheral Config).
+          </Text>
           <Divider />
           <Title order={5}>Server Status</Title>
 

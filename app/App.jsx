@@ -45,17 +45,13 @@ function lazyWithRetry(factory) {
 const HistoryPage = lazyWithRetry(() => import('./pages/HistoryPage'));
 const DashboardPage = lazyWithRetry(() => import('./pages/DashboardPage'));
 const MainDashboardPage = lazyWithRetry(() => import('./pages/MainDashboardPage'));
-const OnboardingChecklistPage = lazyWithRetry(() => import('./pages/OnboardingChecklistPage'));
 const SettingsPage = lazyWithRetry(() => import('./pages/SettingsPage'));
-const ThemePage = lazyWithRetry(() => import('./pages/ThemePage'));
 const DeveloperPage = lazyWithRetry(() => import('./pages/DeveloperPage'));
 const ChangesPage = lazyWithRetry(() => import('./pages/ChangesPage'));
 const ErrorLogPage = lazyWithRetry(() => import('./pages/ErrorLogPage'));
 const AboutPage = lazyWithRetry(() => import('./pages/AboutPage'));
 const GamesPage = lazyWithRetry(() => import('./pages/GamesPage'));
 const ScreenshotsPage = lazyWithRetry(() => import('./pages/ScreenshotsPage'));
-const APITestPage = lazyWithRetry(() => import('./pages/APITestPage'));
-const AcademyFeatureLibraryPage = lazyWithRetry(() => import('./pages/AcademyFeatureLibraryPage'));
 const HOTASConfigMainPage = lazyWithRetry(() => import('./pages/HOTASConfigMainPage'));
 const DeveloperContextIndexPage = lazyWithRetry(() => import('./pages/DeveloperContextIndexPage'));
 const HOTASDiagramPage = lazyWithRetry(() => import('./pages/HOTASDiagramPage'));
@@ -64,12 +60,6 @@ const HOTASOverlaySaveTestPage = lazyWithRetry(() => import('./pages/HOTASOverla
 const HOTASCommunityTestingPage = lazyWithRetry(() => import('./pages/HOTASCommunityTestingPage'));
 const DeveloperHotasDataFlowPage = lazyWithRetry(() => import('./pages/DeveloperHotasDataFlowPage'));
 
-
-// Theme Lab Pages
-const WelcomeOnline = lazyWithRetry(() => import('./pages/theme/WelcomeOnline'));
-const StarCitizenDetail = lazyWithRetry(() => import('./pages/theme/StarCitizenDetail'));
-const Squadron42Detail = lazyWithRetry(() => import('./pages/theme/Squadron42Detail'));
-const PlaceholderSamplesPage = lazyWithRetry(() => import('./pages/theme/PlaceholderSamplesPage'));
 const HOTASTestPage = lazyWithRetry(() => import('./pages/settings/HOTASTestPage'));
 
 function LazyFallback() {
@@ -104,22 +94,13 @@ function App() {
       <DevPanel />
       <RuntimeObservers />
       <Routes>
-        {/* Theme Lab Routes - Public */}
-        <Route path="/theme" element={<Lazy Component={WelcomeOnline} />} />
-        <Route path="/theme/star-citizen" element={<Lazy Component={StarCitizenDetail} />} />
-        <Route path="/theme/squadron-42" element={<Lazy Component={Squadron42Detail} />} />
-        <Route path="/theme/placeholder-samples" element={<Lazy Component={PlaceholderSamplesPage} />} />
-        <Route path="/theme/hotas-test" element={<Navigate to="/settings/hotas" replace />} />
-        
         {/* Main User-Facing Dashboard & Feature Pages (with MainLayout) */}
         <Route element={<MainLayout />}>
           <Route index element={<Lazy Component={MainDashboardPage} />} />
-          <Route path="academy/feature-library" element={<Lazy Component={AcademyFeatureLibraryPage} />} />
           <Route path="hotas-config" element={<Lazy Component={HOTASConfigMainPage} />} />
           <Route path="hotas-testing-routine" element={<Lazy Component={HOTASCommunityTestingPage} />} />
           <Route path="settings" element={<Lazy Component={SettingsPage} />} />
           <Route path="settings/hotas" element={<Lazy Component={HOTASTestPage} />} />
-          <Route path="settings/theme" element={<Lazy Component={ThemePage} />} />
           <Route path="about" element={<Lazy Component={AboutPage} />} />
           <Route path="games" element={<Lazy Component={GamesPage} />} />
           <Route path="screenshots" element={<Lazy Component={ScreenshotsPage} />} />
@@ -132,23 +113,24 @@ function App() {
           <Route path="location-guide" element={<Navigate to="/" replace />} />
           <Route path="aerobook" element={<Navigate to="/" replace />} />
           <Route path="loadout-builder" element={<Navigate to="/" replace />} />
-          <Route path="new-player-guide" element={<Navigate to="/academy/feature-library" replace />} />
-          <Route path="academy" element={<Navigate to="/academy/feature-library" replace />} />
-          <Route path="academy/:track" element={<Navigate to="/academy/feature-library" replace />} />
-          <Route path="academy/:track/:shipId" element={<Navigate to="/academy/feature-library" replace />} />
+          <Route path="new-player-guide" element={<Navigate to="/" replace />} />
+          {/* Academy and Theme Lab are deleted; old links land on the dashboard. */}
+          <Route path="academy" element={<Navigate to="/" replace />} />
+          <Route path="academy/*" element={<Navigate to="/" replace />} />
+          <Route path="theme" element={<Navigate to="/" replace />} />
+          <Route path="theme/*" element={<Navigate to="/" replace />} />
+          <Route path="onboarding" element={<Navigate to="/" replace />} />
         </Route>
 
         {/* Admin/Backend/Developer Area (with AdminLayout - Sidebar layout) */}
         <Route element={<AdminLayout />}>
           <Route path="dashboard-old" element={<Lazy Component={DashboardPage} />} />
-          <Route path="onboarding" element={<Lazy Component={OnboardingChecklistPage} />} />
 
           <Route path="admin/history" element={<Lazy Component={HistoryPage} />} />
           <Route path="developer" element={<Lazy Component={DeveloperPage} />} />
           <Route path="developer/context" element={<Lazy Component={DeveloperContextIndexPage} />} />
           <Route path="developer/errors" element={<Lazy Component={ErrorLogPage} />} />
           <Route path="developer/changes" element={<Lazy Component={ChangesPage} />} />
-          <Route path="developer/api-test" element={<Lazy Component={APITestPage} />} />
           <Route path="developer/hotas-overlay-save-test" element={<Lazy Component={HOTASOverlaySaveTestPage} />} />
           <Route path="developer/hotas-data-flow" element={<Lazy Component={DeveloperHotasDataFlowPage} />} />
         </Route>

@@ -4,6 +4,53 @@ All notable changes to Uni-HOTAS will be documented in this file.
 
 ---
 
+## [Unreleased] — retired pages
+
+### Removed
+
+- **Onboarding checklist** (`/onboarding`) — page, `useOnboardingStore`, `onboardingChecklist` data and
+  the `ChecklistSection` component it was the only user of.
+- **Academy** (`/academy`, `/academy/feature-library`, `/academy/:track`) — page and data-driven
+  feature library. The "Details" link on every bind row pointed at it and is gone; the bind data
+  itself (`trainingAcademyFeatureNotes`) stays because the config page shows its training notes.
+- **Theme Lab** — `/theme`, `/theme/star-citizen`, `/theme/squadron-42`,
+  `/theme/placeholder-samples`, `/theme/hotas-test`, plus the `/settings/theme` token editor,
+  `app/pages/theme/`, `app/theme/themeLabStandard.js`, the sidebar link and the `customTheme`
+  settings fields.
+- **API test page** (`/developer/api-test`) — page, dev tag `DEV03`, context entry and its card on
+  `/developer`.
+- **Analytics card** on `/developer` ("View usage statistics"), which pointed at a route
+  (`/admin/analytics`) that does not exist.
+
+Old links redirect to `/` rather than 404.
+
+### Changed
+
+- **Technical documentation is now in the main menu.** `☰ Menu` carries a *Technical documentation*
+  section: **📘 Developer Docs & Tools** (`/developer`) and **🔀 HOTAS Data Flow**
+  (`/developer/hotas-data-flow`) — the early docs the project is keeping.
+
+---
+
+## [Unreleased] — hotspot editing is reachable
+
+### Fixed
+
+- **Hotspot editing could not be enabled in the shipped app.** The overlay card gates its
+  `Enable Resize/Drag` / `Disable Resize/Drag + Save` controls on "dev mode", and that flag was
+  read from Vite's build-time `import.meta.env` — which is always `production` for the bundle
+  Express serves on `:3111`, and `DEVELOPMENT_MODE` is never defined for Vite (it is not
+  `VITE_`-prefixed, and `.env` sits outside Vite's `app/` root). So the controls existed but no
+  switch could ever reveal them.
+  - Dev mode is now `isDevBuild || <the Dev Mode switch>`, resolved once in
+    `app/utils/devMode.js`. Enable it at **`/developer` → sidebar → Dev Mode**, and the overlay
+    on **Peripheral Config** becomes draggable/resizable.
+  - The Admin Panel menu item is no longer hidden behind `rsiHandle === 'LOLinDark'` (that gate
+    outlived the login page it belonged to), so `/developer` is reachable from the header menu.
+  - The Dev Mode switch now says what it unlocks.
+
+---
+
 ## [Unreleased] — menu navigation on Peripheral Config
 
 ### Fixed

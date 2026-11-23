@@ -221,9 +221,10 @@ curl -X GET "http://localhost:3111/api/citizen/LOLinDark"
 
 ### 3. Frontend Test Page
 
-**Route**: `/developer/api-test`
+> ⚠️ The `/developer/api-test` page was removed from the app. Call the endpoints directly with
+> `curl`, or from the browser console, when checking the Citizen proxy.
 
-**Available Tests**:
+**Endpoints**:
 - ✅ Star Citizen API (citizen profile lookup)
 - ✅ Cache validation
 - ✅ Error handling
@@ -550,7 +551,7 @@ Start here based on your role:
 
 ## Support & Debugging
 
-**Test Page**: http://localhost:5175/developer/api-test
+**Endpoints**: `http://localhost:3111/api/citizen/{handle}` (the `/developer/api-test` page was removed)
 
 **Logs**: Check browser console + server output
 

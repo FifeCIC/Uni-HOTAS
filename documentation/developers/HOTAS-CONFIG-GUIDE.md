@@ -60,7 +60,7 @@ src/
 server/
 └── index.js                           # HOTAS profile APIs
 ├── config/
-│   └── routes.js                      # Routes configuration (already includes /theme/hotas-config)
+│   └── routes.js                      # Routes configuration
 └── docs/
     └── HOTAS-CONFIG-GUIDE.md          # This file
 ```
@@ -272,7 +272,7 @@ Use these category IDs from `shipControlsCategories`:
 
 1. Save the file
 2. Vite hot-reload triggers
-3. Navigate to `/theme/hotas-config`
+3. Navigate to `/hotas-config`
 4. New binding appears in the table
 
 ---
@@ -379,3 +379,5 @@ To improve the HOTAS Config system:
 **Last Updated**: April 16, 2026  
 **Maintained By**: Uni-HOTAS Development Team  
 **License**: Project license (see LICENSE file)
+
+

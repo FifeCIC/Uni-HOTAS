@@ -92,7 +92,7 @@ export default function DemoModeBanner() {
             {' '}and request it — community funding directly shapes what gets built next.
           </Text>
           <Text size="xs" style={{ color: 'rgba(255,182,0,0.55)', fontStyle: 'italic' }}>
-            Features available right now without a server: Academy Feature Library, Training Guide, and most reference content.
+            Features available right now without a server: HOTAS Live Input, the Games &amp; Support list, and most reference content.
           </Text>
         </Stack>
       </Collapse>
