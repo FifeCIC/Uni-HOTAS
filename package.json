@@ -2,6 +2,7 @@
   "name": "uni-hotas",
   "private": true,
   "version": "0.1.0",
+  "license": "AGPL-3.0-only",
   "description": "Uni-HOTAS - Universal HOTAS App. Map, test and manage HOTAS, HOSAS, yoke and pedal bindings for Star Citizen and Squadron 42, writing straight back to the game XML profiles.",
   "type": "module",
   "scripts": {

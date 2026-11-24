@@ -68,8 +68,13 @@ export default function AboutPage() {
               Star Citizen is still where it started and still the best-tested path — it is the
               first sim, not the only one.
             </Text>
-            <Text size="sm">
+            <Text size="sm" mb="xs">
               Source: <Anchor href="https://github.com/FifeCIC/Uni-HOTAS" target="_blank" rel="noreferrer">github.com/FifeCIC/Uni-HOTAS</Anchor>
+            </Text>
+            <Text size="sm">
+              Licence: <Anchor href="https://github.com/FifeCIC/Uni-HOTAS/blob/main/LICENSE" target="_blank" rel="noreferrer">GNU AGPL v3.0</Anchor>
+              {' '}— free to use, study, share and modify; a modified version offered to others over a
+              network must also offer them its source.
             </Text>
           </div>
         </SciFiFrame>

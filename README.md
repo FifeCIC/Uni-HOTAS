@@ -1,7 +1,7 @@
 # Uni-HOTAS — Universal HOTAS App
 
 ![Status](https://img.shields.io/badge/status-alpha%200.1.0-orange)
-![License](https://img.shields.io/badge/license-MIT-green)
+![License](https://img.shields.io/badge/license-AGPL--3.0-blue)
 
 > **One setup. Every stick.**
 
@@ -208,6 +208,28 @@ Uni-HOTAS/
 ```
 
 **→ Documentation hub: [documentation/README.md](documentation/README.md)**
+
+---
+
+## Licence
+
+Uni-HOTAS is free software: you can redistribute it and/or modify it under the terms of the
+**GNU Affero General Public License, version 3** as published by the Free Software Foundation — see
+[LICENSE](LICENSE) for the full text.
+
+Copyright (C) 2026 FifeCIC.
+
+The AGPL is a strong copyleft licence and it is deliberately chosen here, because Uni-HOTAS has a
+server component: **if you run a modified version of it and let other people use that version over a
+network, you must offer them the complete corresponding source.** Running it for yourself carries no
+such obligation.
+
+It comes with **no warranty**, to the extent permitted by law. It is distributed in the hope that it
+will be useful, but without even the implied warranty of merchantability or fitness for a particular
+purpose.
+
+Releases published before this licence change remain available under the terms they were published
+with (MIT).
 
 ---
 

@@ -16,6 +16,8 @@ files:
   - server/**/*
   - desktop/**/*
   - package.json
+  # AGPL-3.0 requires the licence to travel with the program, so it ships in the installer.
+  - LICENSE
   - '!**/*.map'
   - '!**/*.md'
 

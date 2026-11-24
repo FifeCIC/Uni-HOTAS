@@ -4,6 +4,25 @@ All notable changes to Uni-HOTAS will be documented in this file.
 
 ---
 
+## [Unreleased] — licence changed to AGPL-3.0
+
+### Changed
+
+- **The project is now licensed under the GNU Affero General Public License, version 3** (was MIT).
+  `LICENSE` contains the unmodified AGPL-3.0 text, so GitHub reports the repository as
+  `AGPL-3.0`.
+- `package.json` declares `"license": "AGPL-3.0-only"`, and the same field is set on the root package
+  in `package-lock.json`.
+- README badge is AGPL-3.0, and a **Licence** section states the copyright holder, what the network
+  clause means in practice, and that it carries no warranty.
+- The About page shows the project licence instead of only third-party credits.
+- `electron-builder.yml` now ships `LICENSE` inside the Windows installer — the licence has to travel
+  with the program.
+
+⚠️ **Releases published before this change were MIT and stay MIT** for anyone who received them.
+
+---
+
 ## [Unreleased] — retired pages
 
 ### Removed
