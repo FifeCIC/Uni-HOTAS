@@ -3,6 +3,18 @@
 ![Status](https://img.shields.io/badge/status-alpha%200.1.0-orange)
 ![License](https://img.shields.io/badge/license-AGPL--3.0-blue)
 
+> ## 🚧 Alpha — looking for its first users
+>
+> This is **alpha 0.1.0**. The HOTAS editor works end to end for **Star Citizen** and
+> **Squadron 42**, and it has been used on one person's setup and hardware. That is the honest
+> extent of the testing.
+>
+> **If you fly with a HOTAS, your feedback is the most useful thing you can give right now.**
+> Bug reports, "this didn't work with my stick", a screenshot of something that looks wrong, or a
+> note that an instruction made no sense — all of it is wanted, and all of it changes what gets
+> built next. → **[Open an issue](https://github.com/FifeCIC/Uni-HOTAS/issues)** or use the
+> **✉ Feedback** button in the app.
+
 > **One setup. Every stick.**
 
 **Uni-HOTAS** is a **Universal HOTAS Config** tool for PC flight sims. Load your game's control profile, map every axis, button and hat in a visual editor, capture real input from your hardware, and write the result straight back to the game's own mapping files — with backups and conflict detection.
@@ -43,6 +55,22 @@ These are the titles with a built-in adapter today — **not a limit.** The peri
 The engine reads and writes bindings through a profile format, so any title with editable binding files is a candidate: **DCS World**, **Elite Dangerous**, **Microsoft Flight Simulator**, **X-Plane**, **IL-2 Sturmovik**.
 
 Supporting a new sim is real work — a profile-format adapter plus a per-sim data set, not a config flag. Interest decides what is built next: open an issue and say what you fly.
+
+---
+
+## What to expect from an alpha
+
+Being straight about it, because a version number is not much of a warning on its own:
+
+| | |
+|---|---|
+| **Works** | Reading a Star Citizen / Squadron 42 profile, browsing and sorting every binding, live input capture, rebinding and writing back to the XML, conflict detection, backups |
+| **Rough** | One hardware overlay (the X52, 41 hand-positioned hotspots). Adapters for other sims are listed but not built. Layout and settings screens still get passes. |
+| **Untested by anyone else** | Other sticks, throttles, pedals and yokes. If yours misbehaves, that is a bug report worth having rather than something you did wrong. |
+| **Where bugs go** | [Issues](https://github.com/FifeCIC/Uni-HOTAS/issues) with what you did, what happened, and what you expected. A sample of your binding file helps enormously for anything profile-related. |
+
+Nothing here is hidden inside the app either: a game without an adapter says so, and a build that
+cannot reach the local server explains itself instead of showing an empty table.
 
 ---
 

@@ -1,8 +1,12 @@
 import { Anchor, Badge, Box, Group, Stack, Text, Title } from '@mantine/core';
 import { IconDownload, IconTerminal2 } from '@tabler/icons-react';
 
-const RELEASES_URL = 'https://github.com/FifeCIC/Uni-HOTAS/releases/latest';
+// Points at the releases LIST, not /releases/latest: the alpha is published as a pre-release, and
+// GitHub's "latest" explicitly excludes pre-releases, so /releases/latest would 404 and the main
+// download CTA would silently break.
+const RELEASES_URL = 'https://github.com/FifeCIC/Uni-HOTAS/releases';
 const REPO_URL = 'https://github.com/FifeCIC/Uni-HOTAS';
+const ISSUES_URL = 'https://github.com/FifeCIC/Uni-HOTAS/issues';
 
 function Code({ children, color = '#00d9ff', bg = 'rgba(0,217,255,0.08)' }) {
   return (
@@ -57,6 +61,9 @@ export default function ServerRequiredOverlay({ featureName = 'This feature', re
     >
       <Stack gap="md">
         <Group gap="sm">
+          <Badge size="md" variant="filled" style={{ background: '#ff6b00', color: '#12060a', fontWeight: 800 }}>
+            ALPHA
+          </Badge>
           <Badge size="md" variant="outline" style={{ borderColor: '#ffb600', color: '#ffb600', fontWeight: 700 }}>
             SERVER REQUIRED
           </Badge>
@@ -172,6 +179,25 @@ export default function ServerRequiredOverlay({ featureName = 'This feature', re
             </Stack>
           </Box>
         </Group>
+
+        <Box
+          p="sm"
+          style={{
+            borderRadius: 6,
+            border: '1px solid rgba(255,107,0,0.25)',
+            background: 'rgba(255,107,0,0.05)',
+          }}
+        >
+          <Text size="xs" style={{ color: 'rgba(255,182,0,0.9)', lineHeight: 1.6 }}>
+            <strong>This is an early alpha.</strong> It works end to end for Star Citizen and
+            Squadron 42, and it has been used on one person&apos;s hardware — so if something breaks
+            for you, that is worth reporting rather than something you did wrong.{' '}
+            <Anchor href={ISSUES_URL} target="_blank" rel="noopener noreferrer" style={{ color: '#22d17b' }}>
+              Tell us what happened
+            </Anchor>{' '}
+            and it shapes what gets built next.
+          </Text>
+        </Box>
 
         <Box
           p="sm"

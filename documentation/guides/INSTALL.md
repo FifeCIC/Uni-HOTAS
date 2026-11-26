@@ -2,6 +2,11 @@
 
 Uni-HOTAS is a browser app with a small local server that reads and writes the game's control files. That split is what makes installation worth a page.
 
+> **🚧 Alpha 0.1.0.** These steps are known to work on one person's machine. If a step does not
+> match what you see — a button in a different place, a folder that is not there, an installer that
+> will not run — that is worth reporting rather than working around silently:
+> [open an issue](https://github.com/FifeCIC/Uni-HOTAS/issues).
+
 ---
 
 ## 1. What you need

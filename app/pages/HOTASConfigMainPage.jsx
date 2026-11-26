@@ -1,4 +1,4 @@
-﻿import HOTASViewSwitcher from '../components/HOTASViewSwitcher';
+import HOTASViewSwitcher from '../components/HOTASViewSwitcher';
 import HOTASInfoBar from '../components/HOTASInfoBar';
 import HOTASErrorDisplay from '../components/HOTASErrorDisplay';
 import MappingsFolderPanel from '../components/MappingsFolderPanel';
@@ -1677,11 +1677,19 @@ export default function HOTASConfigMainPage() {
 
         {hc05View === 'live' ? (
           <Box mb="xl">
+            {/* The panel renders a full diagnostics grid — every button, plus axis bars — but only
+                when it is given live data. Without these four props it shows a one-line readout,
+                which is why the "all inputs laid out" view looked missing: the only page passing
+                them was HOTASOverlayPage, and that page is not routed. */}
             <KeyPressIndicator
               title="Live Input"
               inputLabel={liveInputLabel}
               assignmentLabel={inputAssignmentLabel}
               connected={gamepadConnected}
+              rawInput={lastHotasInput}
+              activeInputs={activeInputs}
+              axisValues={axisValues}
+              gamepadInfo={gamepadInfo}
             >
               <Box mt="md">
                 <HC05LiveInputContainer

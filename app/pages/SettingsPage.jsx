@@ -173,7 +173,7 @@ export default function SettingsPage() {
                 )}
 
                 <Button color="cyan" variant="light" mt="md" onClick={() => navigate('/settings/hotas')}>
-                  Open HOTAS Settings
+                  Test inputs live (buttons, hats, axes)
                 </Button>
                 <div style={{ marginTop: '1rem' }}>
                   <MappingsFolderPanel />

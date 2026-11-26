@@ -2,6 +2,13 @@
 
 Everything needed to install, use and extend **Uni-HOTAS** — a Universal HOTAS App for Star Citizen and Squadron 42.
 
+> **🚧 Alpha 0.1.0 — looking for its first users.** The HOTAS editor works end to end for Star
+> Citizen and Squadron 42, and it has been used on one person's hardware; that is the honest extent
+> of the testing. Guides here describe what the app does today, but expect rough edges, and expect
+> the answer to "it did not work for me" to be a bug worth fixing rather than a mistake you made.
+> Reports and corrections to these docs are wanted:
+> [open an issue](https://github.com/FifeCIC/Uni-HOTAS/issues).
+
 ---
 
 ## Start here

@@ -187,7 +187,7 @@ const HybridPlaceholder = ({ tool }) => (
           textShadow: `0 0 8px ${tool.color}80`,
         }}
       >
-        {tool.id === 'hotas-config' ? 'HOTAS.CONFIG' : 'VERSE.DB'}
+        {tool.id === 'hotas-config' ? 'HOTAS.CONFIG' : tool.id === 'hotas-reference' ? 'HOTAS.INPUTS' : 'HOTAS.ROUTINE'}
       </div>
     </div>
   </div>
@@ -207,20 +207,23 @@ const getToolsArray = () => [
   },
   {
     id: 'hotas-test-lab',
-    title: 'HOTAS Test Lab',
-    desc: 'Run the community HOTAS testing routine and report structured pass/fault feedback',
+    title: 'Testing Routine',
+    desc: 'Walk the guided community pass and report structured pass/fault feedback',
     image: null,
-    alt: 'HOTAS Test Lab - Community testing routine and validation workflow',
+    alt: 'Testing Routine - Community testing pass and validation workflow',
     color: '#00d9ff',
     path: '/hotas-testing-routine',
     enabled: true,
   },
   {
+    // Named for what it does: this page tests live buttons, hats and axes. Called "HOTAS Reference"
+    // it read like documentation, while the card above was called "HOTAS Test Lab" — so the card
+    // above stole the click and this page looked missing.
     id: 'hotas-reference',
-    title: 'HOTAS Reference',
-    desc: 'Check live inputs, axis telemetry, and button reference details for compatibility diagnostics',
+    title: 'Input Test Lab',
+    desc: 'Test every button, hat and axis live, with raw telemetry and the button reference table',
     image: null,
-    alt: 'HOTAS Reference - Live diagnostics and input reference',
+    alt: 'Input Test Lab - Live button, hat and axis testing with telemetry',
     color: '#22d17b',
     path: '/settings/hotas',
     enabled: true,

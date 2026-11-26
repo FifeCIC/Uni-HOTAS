@@ -1,5 +1,10 @@
 # Uni-HOTAS Roadmap
 
+**Alpha 0.1.0.** What is ticked below is what works today; what is open is what is honestly not
+built yet. Priorities are set by what people report — if something missing matters to you,
+[say so in an issue](https://github.com/FifeCIC/Uni-HOTAS/issues) rather than assuming it is
+already planned.
+
 ## Installation & packaging — next priority
 
 - [x] **Step 0 — same-origin serving**: Express serves the built `dist/`; `npm run serve` runs the whole app at `http://localhost:3111`

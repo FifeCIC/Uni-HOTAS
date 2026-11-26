@@ -1,4 +1,4 @@
-import { Container, Stack, Text, Anchor, Table } from '@mantine/core';
+import { Alert, Container, Stack, Text, Anchor, Table } from '@mantine/core';
 import { SciFiFrame } from '../components/ui';
 import DevTag from '../components/DevTag';
 
@@ -39,6 +39,34 @@ export default function AboutPage() {
               A universal HOTAS configuration tool: visual binding editor, live input capture, mode
               profiles and device-aware XML write-back.
             </Text>
+
+            <Alert
+              color="orange"
+              variant="light"
+              mb="md"
+              title="Alpha 0.1.0 — looking for its first users"
+              icon={<span aria-hidden="true">🚧</span>}
+            >
+              <Text size="sm" mb="xs">
+                The editor works end to end for Star Citizen and Squadron 42, and it has been used on
+                one person&apos;s hardware — that is the honest extent of the testing. Other sticks,
+                throttles and pedals are much less proven.
+              </Text>
+              <Text size="sm">
+                If something breaks for you, that is a bug report worth having rather than something
+                you did wrong.{' '}
+                <Anchor
+                  href="https://github.com/FifeCIC/Uni-HOTAS/issues"
+                  target="_blank"
+                  rel="noreferrer"
+                  size="sm"
+                >
+                  Open an issue
+                </Anchor>
+                {' '}or use the <strong>✉ Feedback</strong> button in the header — what gets reported
+                decides what gets built next.
+              </Text>
+            </Alert>
 
             <Text size="sm" fw={600} mb="xs" style={{ color: '#00d9ff' }}>
               How it started

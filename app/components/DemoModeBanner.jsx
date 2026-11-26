@@ -25,13 +25,21 @@ export default function DemoModeBanner() {
         <Group gap="sm" wrap="wrap">
           <Badge
             size="sm"
+            variant="filled"
+            style={{ background: '#ff6b00', color: '#12060a', fontWeight: 800, letterSpacing: '0.07em' }}
+          >
+            ALPHA
+          </Badge>
+          <Badge
+            size="sm"
             variant="outline"
             style={{ borderColor: '#ffb600', color: '#ffb600', fontWeight: 700, letterSpacing: '0.07em' }}
           >
             DEMO MODE
           </Badge>
           <Text size="xs" style={{ color: 'rgba(255,210,100,0.9)' }}>
-            You're viewing Uni-HOTAS online. Most tools require the local desktop server to function.
+            You&apos;re viewing Uni-HOTAS online. Most tools need the local desktop server — this is an
+            early alpha, and feedback is what shapes it next.
           </Text>
         </Group>
 
@@ -47,6 +55,23 @@ export default function DemoModeBanner() {
       <Collapse in={expanded}>
         <Stack gap="xs" mt="sm" style={{ maxWidth: 780 }}>
           <Text size="xs" c="dimmed" style={{ lineHeight: 1.6 }}>
+            <strong style={{ color: '#ffb600' }}>This is an early alpha looking for its first users.</strong>{' '}
+            The editor works end to end for Star Citizen and Squadron 42, and it has been used on one
+            person&apos;s hardware — so anything that breaks for you is worth reporting rather than
+            assumed to be your fault. Bug reports, &quot;this didn&apos;t work with my stick&quot;, and
+            notes that an instruction made no sense are all wanted.{' '}
+            <Anchor
+              href="https://github.com/FifeCIC/Uni-HOTAS/issues"
+              target="_blank"
+              rel="noopener noreferrer"
+              size="xs"
+              style={{ color: '#22d17b' }}
+            >
+              Open an issue
+            </Anchor>
+            {' '}or use the ✉ Feedback button in the header.
+          </Text>
+          <Text size="xs" c="dimmed" style={{ lineHeight: 1.6 }}>
             Uni-HOTAS is built primarily as a <strong style={{ color: 'rgba(255,255,255,0.75)' }}>local desktop application</strong> — it runs
             alongside your game on your own machine, where it can read and write your control profile files,
             manage HOTAS bindings, and sync data with your local drive. The GitHub Pages version is a
@@ -56,7 +81,7 @@ export default function DemoModeBanner() {
             <strong style={{ color: 'rgba(255,255,255,0.75)' }}>Want to run it fully?</strong>{' '}
             Download the{' '}
             <Anchor
-              href="https://github.com/FifeCIC/Uni-HOTAS/releases/latest"
+              href="https://github.com/FifeCIC/Uni-HOTAS/releases"
               target="_blank"
               rel="noopener noreferrer"
               size="xs"
@@ -64,7 +89,7 @@ export default function DemoModeBanner() {
             >
               Windows installer
             </Anchor>
-            {' '}— no Node.js needed — or clone it from{' '}
+            {' '}— an unsigned alpha build, no Node.js needed — or clone it from{' '}
             <Anchor
               href="https://github.com/FifeCIC/Uni-HOTAS"
               target="_blank"
@@ -92,7 +117,8 @@ export default function DemoModeBanner() {
             {' '}and request it — community funding directly shapes what gets built next.
           </Text>
           <Text size="xs" style={{ color: 'rgba(255,182,0,0.55)', fontStyle: 'italic' }}>
-            Features available right now without a server: HOTAS Live Input, the Games &amp; Support list, and most reference content.
+            Works without a server right now: HOTAS Live Input, the Games &amp; Support list, and most
+            reference content. Everything that reads or writes a profile needs the desktop app.
           </Text>
         </Stack>
       </Collapse>
